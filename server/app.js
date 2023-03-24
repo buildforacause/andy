@@ -36,6 +36,8 @@ const pincodeRouter = require("./routes/pincode");
 const usersRouter = require("./routes/users");
 const customizeRouter = require("./routes/customize");
 const adminRouter = require("./routes/admin");
+const frontendRouter = require("./routes/frontend");
+const sponsorRouter = require("./routes/sponsor");
 
 // Import Auth middleware for check user login or not~
 const { loginCheck } = require("./middleware/auth");
@@ -71,11 +73,13 @@ app.use("/admin", adminRouter);
 app.use("/api", authRouter);
 app.use("/api/user", usersRouter);
 app.use("/api/category", categoryRouter);
+app.use("/api/sponsor", sponsorRouter);
 app.use("/api/product", productRouter);
 app.use("/api/pincode", pincodeRouter);
 app.use("/api", brainTreeRouter);
 app.use("/api/order", orderRouter);
 app.use("/api/customize", customizeRouter);
+app.use("/", frontendRouter);
 
 // Run Server
 const PORT = process.env.PORT || 8000;

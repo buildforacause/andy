@@ -4,6 +4,7 @@ const { toTitleCase } = require("../config/function");
 const categoryModel = require("../models/categories");
 const productModel = require("../models/products");
 const pincodeModel = require("../models/pincode");
+const sponsorModel = require("../models/sponsor");
 // const ordersController = require("../controller/orders");
 
 router.get('/',async (req,res) => {
@@ -60,6 +61,21 @@ router.get('/pincode-edit/:id',async(req,res)=>{
     let id = req.params.id
     let pincode = await pincodeModel.findById(id);
     res.render("pincode/pincode-edit.ejs", {pincode: pincode });
+})
+
+router.get("/sponsor-view", async(req,res)=>{
+    let sponsor = await sponsorModel.find({}).sort({ _id: -1 });
+    res.render("sponsor/sponsor-view.ejs", {sponsors: sponsor });
+})
+
+router.get('/sponsor-add',async(req,res)=>{
+    res.render("sponsor/sponsor-add.ejs");
+})
+
+router.get('/sponsor-edit/:id',async(req,res)=>{
+    let id = req.params.id
+    let sponsor = await sponsorModel.findById(id);
+    res.render("sponsor/sponsor-edit.ejs", {sponsor: sponsor });
 })
 
 module.exports = router;
