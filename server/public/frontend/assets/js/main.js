@@ -30,6 +30,10 @@ $(document).ready(function () {
 		e.stopPropagation();
 	});
 
+    //add to cart
+
+    
+
 	// Sticky header 
     var catDropdown = $('.category-dropdown'),
         catInitVal = catDropdown.data('visible');
