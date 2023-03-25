@@ -26,7 +26,8 @@ router.get("/view/:id",async (req,res) => {
     let Product = await productModel
     .find({_id: id})
     .populate("category", "_id cName")
-    res.render("frontend/single-product.ejs", {product: Product[0]});
+    let allProds = await productModel.find({'_id': {$ne : id}}).populate("category", "_id cName")
+    res.render("frontend/single-product.ejs", {product: Product[0], allProds: allProds});
 })
 
 module.exports = router;
