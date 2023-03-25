@@ -17,7 +17,8 @@ router.get('/',async (req,res) => {
         .sort({"createdAt":-1})
         .limit(10);
     let Sponsors = await sponsorModel.find({}).sort({ _id: -1 });
-    res.render("frontend/index.ejs", {products: Products, categories: Categories,recentproducts:RecentProducts, sponsors:Sponsors});
+    let user = req.cookies.autOken
+    res.render("frontend/index.ejs", {products: Products, categories: Categories,recentproducts:RecentProducts, sponsors:Sponsors, user:user});
 })
 
 router.get("/view/:id",async (req,res) => {

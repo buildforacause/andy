@@ -80,6 +80,16 @@ app.use("/api", brainTreeRouter);
 app.use("/api/order", orderRouter);
 app.use("/api/customize", customizeRouter);
 app.use("/", frontendRouter);
+app.get('/logout', function(req, res){
+  cookie = req.cookies;
+  for (var prop in cookie) {
+      if (!cookie.hasOwnProperty(prop)) {
+          continue;
+      }    
+      res.cookie(prop, '', {expires: new Date(0)});
+  }
+  res.redirect('/');
+});
 
 // Run Server
 const PORT = process.env.PORT || 8000;

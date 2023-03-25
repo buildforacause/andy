@@ -32,20 +32,19 @@ class Auth {
 
   /* User Registration/Signup controller  */
   async postSignup(req, res) {
-    let { name, email, password, cPassword } = req.body;
+    let { name, email, password } = req.body;
     let error = {};
-    if (!name || !email || !password || !cPassword) {
+    if (!name || !email || !password) {
       error = {
         ...error,
-        name: "Filed must not be empty",
-        email: "Filed must not be empty",
-        password: "Filed must not be empty",
-        cPassword: "Filed must not be empty",
+        name: "Field must not be empty",
+        email: "Field must not be empty",
+        password: "Field must not be empty",
       };
       return res.json({ error });
     }
     if (name.length < 3 || name.length > 25) {
-      error = { ...error, name: "Name must be 3-25 charecter" };
+      error = { ...error, name: "Name must be 3-25 characters long" };
       return res.json({ error });
     } else {
       if (validateEmail(email)) {
@@ -53,7 +52,7 @@ class Auth {
         if ((password.length > 255) | (password.length < 8)) {
           error = {
             ...error,
-            password: "Password must be 8 charecter",
+            password: "Password must be 8 characters long",
             name: "",
             email: "",
           };
@@ -76,14 +75,13 @@ class Auth {
                 name,
                 email,
                 password,
-                // ========= Here role 1 for admin signup role 0 for customer signup =========
-                userRole: 1, // Field Name change to userRole from role
+                userRole: 0, // role = 0 customer , role = 1 admin
               });
               newUser
                 .save()
                 .then((data) => {
                   return res.json({
-                    success: "Account create successfully. Please login",
+                    success: "Account created successfully. Please login",
                   });
                 })
                 .catch((err) => {
