@@ -11,7 +11,6 @@ router.get('/',async (req,res) => {
         .sort({ _id: -1 })
         .limit(5);
     let Categories = await categoryModel.find({}).sort({ _id: -1 });
-    console.log(Categories);
     let RecentProducts= await productModel
         .find({})
         .populate("category")
