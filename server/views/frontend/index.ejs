@@ -64,7 +64,7 @@
                                                 <div class="menu-col">
                                                     <div class="row">
                                                         <div class="col-md-6">
-                                                            <div class="menu-title">Shop with sidebar</div><!-- End .menu-title -->
+                                                            <div class="menu-title">Categories</div><!-- End .menu-title -->
                                                             <ul>
                                                                 <li><a href="category-list.html">Shop List</a></li>
                                                                 <li><a href="category-2cols.html">Shop Grid 2 Columns</a></li>
@@ -132,25 +132,7 @@
 
                             <div class="dropdown-menu dropdown-menu-right">
                                 <div class="dropdown-cart-products">
-                                    <div class="product">
-                                        <div class="product-cart-details">
-                                            <h4 class="product-title">
-                                                <a href="product.html">Beige knitted elastic runner shoes</a>
-                                            </h4>
-
-                                            <span class="cart-product-info">
-                                                <span class="cart-product-qty">1</span>
-                                                x $84.00
-                                            </span>
-                                        </div><!-- End .product-cart-details -->
-
-                                        <figure class="product-image-container">
-                                            <a href="product.html" class="product-image">
-                                                <img src="frontend/assets/images/products/cart/product-1.jpg" alt="product">
-                                            </a>
-                                        </figure>
-                                        <a href="#" class="btn-remove" title="Remove Product"><i class="icon-close"></i></a>
-                                    </div><!-- End .product -->
+                                    
 
                                     <div class="product">
                                         <div class="product-cart-details">
@@ -374,7 +356,7 @@
                                     </a>
                                     
                                     <div class="product-action ">
-                                        <a type="button" class="btn-product btn-cart"><span>add to cart</span></a>
+                                        <a type="button" productid="<%= prod._id %>" productprice="<%= prod.price %>" productname="<%= prod.name %>" productimage="<%= prod.image[0] %>" class="btn-product btn-cart"><span>add to cart</span></a>
                                     </div><!-- End .product-action -->
                                 </figure><!-- End .product-media -->
 
@@ -493,7 +475,8 @@
                                                 <img src="<%= recentprod.image[1] %>" alt="Product image" class="product-image-hover">
                                             </a>
                                             <div class="product-action">
-                                                <a href="#" productid="<%= recentprod._id %>" class="btn-product btn-cart"><span>add to cart</span></a>
+                                                <a href="#" productid="<%= recentprod._id %>" productprice="<%= recentprod.price %>" productname="<%= recentprod.name %>" productimage="<%= recentprod.image[0] %>" class="btn-product btn-cart"><span>add to cart</span></a>
+                                                <!-- <a href="#" productid="<%= recentprod._id %>" class="btn-product btn-cart"><span>add to cart</span></a> -->
                                             </div><!-- End .product-action -->
                                         </figure><!-- End .product-media -->
 
@@ -537,7 +520,8 @@
                                             <img src="<%= recentprod.image[1] %>" alt="Product image" class="product-image-hover">
                                         </a>
                                         <div class="product-action">
-                                            <a href="#" productid="<%= recentprod._id %>" class="btn-product btn-cart"><span>add to cart</span></a>
+                                            <a href="#" productid="<%= recentprod._id %>" productprice="<%= recentprod.price %>" productname="<%= recentprod.name %>" productimage="<%= recentprod.image[0] %>" class="btn-product btn-cart"><span>add to cart</span></a>
+                                            <!-- <a href="#" productid="<%= recentprod._id %>" class="btn-product btn-cart"><span>add to cart</span></a> -->
                                         </div><!-- End .product-action -->
                                     </figure><!-- End .product-media -->
 
@@ -580,7 +564,8 @@
                                                         <img src="<%= recentprod.image[1] %>" alt="Product image" class="product-image-hover">
                                                     </a>
                                                     <div class="product-action">
-                                                        <a href="#" productid="<%= recentprod._id %>" class="btn-product btn-cart"><span>add to cart</span></a>
+                                                        <a href="#" productid="<%= recentprod._id %>" productprice="<%= recentprod.price %>" productname="<%= recentprod.name %>" productimage="<%= recentprod.image[0] %>" class="btn-product btn-cart"><span>add to cart</span></a>
+                                                        <!-- <a href="#" productid="<%= recentprod._id %>" class="btn-product btn-cart"><span>add to cart</span></a> -->
                                                     </div><!-- End .product-action -->
                                                 </figure><!-- End .product-media -->
         
@@ -619,12 +604,12 @@
                                                     <% if (recentprod.offer != 0) { %>
                                                         <span class="product-label label-sale">-<%= recentprod.offer %>%</span>
                                                     <% } %>
-                                                    <a href="product.html">
+                                                    <a class="productimagurl" href="product.html">
                                                         <img src="<%= recentprod.image[0] %>" alt="Product image" class="product-image">
                                                         <img src="<%= recentprod.image[1] %>" alt="Product image" class="product-image-hover">
                                                     </a>
                                                     <div class="product-action">
-                                                        <a href="#" productid="<%= recentprod._id %>" class="btn-product btn-cart"><span>add to cart</span></a>
+                                                        <a href="#" productid="<%= recentprod._id %>" productprice="<%= recentprod.price %>" productname="<%= recentprod.name %>" productimage="<%= recentprod.image[0] %>" class="btn-product btn-cart"><span>add to cart</span></a>
                                                     </div><!-- End .product-action -->
                                                 </figure><!-- End .product-media -->
         

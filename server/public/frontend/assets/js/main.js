@@ -1,7 +1,7 @@
 // Main Js File
 $(document).ready(function () {
     'use strict';
-
+    updateCart();
     owlCarousels();
     quantityInputs();
 
@@ -30,7 +30,75 @@ $(document).ready(function () {
 		e.stopPropagation();
 	});
 
- 
+    //add to cart
+    
+    function updateCart(){
+
+        let products=JSON.parse(localStorage.getItem('products'));
+        const cart=document.getElementsByClassName("dropdown-cart-products")[0];
+        alert(cart);
+        cart.innerHTML='';
+        products.forEach(function (item) {
+            // copy.push(item + item+2);
+            cart.innerHTML+=` <div class="product">
+            <div class="product-cart-details">
+                <h4 class="product-title">
+                    <a href="product.html">${item.productName}</a>
+                </h4>
+
+                <span class="cart-product-info">
+                    ₹${item.productPrice}                    
+                </span>
+            </div><!-- End .product-cart-details -->
+
+            <figure class="product-image-container">
+                <a href="product.html" class="product-image">
+                    <img src="${item.productImage}" alt="product">
+                </a>
+            </figure>
+            <a href="#" productid="${item.productId}" class="btn-remove" title="Remove Product"><i class="icon-close"></i></a>
+        </div>`;
+        });
+    }
+
+    function addProduct(productId, productName, productImage, productPrice) {
+        let products = [];
+      
+        if (localStorage.getItem('products')) {
+          products = JSON.parse(localStorage.getItem('products'));
+        }
+      
+        let filteredProducts = products.filter(function(product) {
+          return product.productId !== productId;
+        });
+      
+        filteredProducts.push({ 'productId': productId, 'productName': productName, 'productImage': productImage, 'productPrice':productPrice });
+      
+        localStorage.setItem('products', JSON.stringify(filteredProducts));
+        updateCart();
+        alert(localStorage.getItem('products'));
+      }
+
+    function removeProduct(productId){
+        alert("here");
+        // Your logic for your app.
+    
+        // strore products in local storage
+    
+        let storageProducts = JSON.parse(localStorage.getItem('products'));
+        let products = storageProducts.filter(product => product.productId !== productId);
+        localStorage.setItem('products', JSON.stringify(products));
+        updateCart();
+    }
+
+    $(".btn-cart").on('click',function(){
+        addProduct($(this).attr("productid"), $(this).attr("productname"), $(this).attr("productimage"), $(this).attr("productprice"));
+    });
+
+    $(document).on('click', '.btn-remove', function(){
+        removeProduct($(this).attr("productid"));
+    });
+
 
 	// Sticky header 
     var catDropdown = $('.category-dropdown'),
