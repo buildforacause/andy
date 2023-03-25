@@ -6,10 +6,11 @@ class Sponsor {
   // Delete Image from uploads -> products folder
   static deleteImages(images, mode) {
     var basePath =
-      path.resolve(__dirname + "../../") + "/public/uploads/products/";
+      path.resolve(__dirname + "../../") + "/public";
       let filePath = "";
       if (mode == "file") {
-        filePath = basePath + `${images[0].filename}`;
+        filePath = basePath + `${images}`;
+        console.log(filePath);
       fs.unlink(filePath, (err) => {
         if (err) {
           return err;
@@ -50,14 +51,14 @@ class Sponsor {
     // Validate Images
     else {
       try {
-        let i = "http://localhost:8000/uploads/products/" +images[0].filename;
+        let i = "/uploads/products/" +images[0].filename;
         let newSponsor = new sponsorModel({
           image: i,
           name: name,
         });
         let save = await newSponsor.save();
         if (save) {
-          return res.redirect("/admin/sponsor-add")
+          return res.redirect("/admin/sponsor-view")
           // return res.json({ success: "Sponsor created successfully" });
         }
       } catch (err) {
@@ -92,9 +93,9 @@ class Sponsor {
       let editData = {
         name: name,
       };
-        let i = "http://localhost:8000/uploads/Sponsors/" +editImages[0].filename;
+        let i = "/uploads/products/" +editImages[0].filename;
         editData = { ...editData, image: i };
-        Sponsor.deleteImages(previmage, "string");
+        Sponsor.deleteImages(previmage, "file");
       try {
         let editSponsor = sponsorModel.findByIdAndUpdate(_id, editData);
         editSponsor.exec((err) => {
@@ -116,8 +117,8 @@ class Sponsor {
         let deleteSponsorObj = await sponsorModel.findById(_id);
         let deleteSponsor = await sponsorModel.findByIdAndDelete(_id);
         if (deleteSponsor) {
-          // Delete Image from uploads -> Sponsors folder
-          Sponsor.deleteImages(deleteSponsorObj.image, "string");
+          // Delete Image from uploads -> products folder
+          Sponsor.deleteImages(deleteSponsorObj.image, "file");
           return res.redirect("/admin/sponsor-view");
         }
       } catch (err) {
