@@ -134,12 +134,14 @@
                         </div>
                         <div class="row mb-3">
                             <div class="mb-3 form-check col-md-6">
-                                <input name="featured" type="checkbox" class="form-check-input" id="exampleCheck1">
+                                <input name="featured" value=0 type="hidden">
+                                <input name="featured" value=1 type="checkbox" class="form-check-input" id="exampleCheck1" <%= prod.featured == true ? "checked" : "" %>>
                                 <label class="form-check-label" for="exampleCheck1">Featured</label>
                               </div>
                               <div class="mb-3 form-check col-md-6">
-                                <input type="checkbox" name="shipping" class="form-check-input" id="exampleCheck1">
-                                <label class="form-check-label" for="exampleCheck1">Free Shipping</label>
+                                <input name="shipping" value=0 type="hidden">
+                                <input type="checkbox" value=1 name="shipping" class="form-check-input" id="exampleCheck2" <%= prod.shipping == true ? "checked" : "" %>>
+                                <label class="form-check-label" for="exampleCheck2">Free Shipping</label>
                               </div>
                         </div>
                         <div class="text-center">

@@ -6,7 +6,7 @@ class Product {
   // Delete Image from uploads -> products folder
   static deleteImages(images, mode) {
     var basePath =
-      path.resolve(__dirname + "../../") + "/public/uploads/products/";
+      path.resolve(__dirname + "../../") + "/public";
     console.log(basePath);
     for (var i = 0; i < images.length; i++) {
       let filePath = "";
@@ -42,7 +42,7 @@ class Product {
   }
 
   async postAddProduct(req, res) {
-    let { name, description, price, quantity, category, offer, status, colors, company } =
+    let { name, description, price, quantity, category, offer, status, colors, company, featured, shipping } =
       req.body;
     let images = req.files;
     // Validation
@@ -68,15 +68,17 @@ class Product {
       });
     }
     // Validate Images
-    else if (images.length !== 2) {
+    else if (images.length < 2) {
       Product.deleteImages(images, "file");
       return res.json({ error: "Must need to provide 2 images" });
     } else {
       try {
         let allImages = [];
         for (const img of images) {
-          allImages.push("http://localhost:8000/uploads/products/" +img.filename);
+          allImages.push("/uploads/products/" +img.filename);
         }
+        let featured_n = (featured == 0 ? false : true);
+        let shipping_n = (shipping == 0 ? false : true);
         let newProduct = new productModel({
           image: allImages,
           name: name,
@@ -88,8 +90,8 @@ class Product {
           status: status,
           colors: colors,
           company: company,
-          featured: false,
-          shipping: true
+          featured: featured_n,
+          shipping: shipping_n
         });
         let save = await newProduct.save();
         if (save) {
@@ -114,7 +116,7 @@ class Product {
       status,
       images,
       company,
-      colors
+      colors, featured, shipping
     } = req.body;
     let editImages = req.files;
 
@@ -139,11 +141,11 @@ class Product {
         error: "Name 255 & Description must not be 3000 charecter long",
       });
     }
+    
     // Validate Update Images
-    else if (editImages && editImages.length == 1) {
-      Product.deleteImages(editImages, "file");
-      return res.json({ error: "Must need to provide 2 images" });
-    } else {
+    else {
+      let featured_n = (featured == 0 ? false : true);
+      let shipping_n = (shipping == 0 ? false : true);
       let editData = {
         name: name,
         description: description,
@@ -153,14 +155,15 @@ class Product {
         offer: offer,
         status: status,
         company: company,
-        colors: colors
-
+        colors: colors,
+        featured: featured_n,
+        shipping: shipping_n
       };
       images = images.join(",")
-      if (editImages.length == 2) {
+      if (editImages.length >= 2) {
         let allEditImages = [];
         for (const img of editImages) {
-          allEditImages.push("http://localhost:8000/uploads/products/" +img.filename);
+          allEditImages.push("/uploads/products/" +img.filename);
         }
         editData = { ...editData, image: allEditImages };
         Product.deleteImages(images.split(","), "string");
