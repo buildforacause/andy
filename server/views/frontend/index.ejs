@@ -368,7 +368,7 @@
                                     <% if (prod.offer != 0) { %>
                                         <span class="product-label label-sale">-<%= prod.offer %>%</span>
                                     <% } %>
-                                    <a href="product.html">
+                                    <a href="/view/<%= prod._id %>">
                                         <img src="<%= prod.image[0] %>" alt="Product image" class="product-image">
                                         <img src="<%= prod.image[1] %>" alt="Product image" class="product-image-hover">
                                     </a>

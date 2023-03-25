@@ -21,8 +21,12 @@ router.get('/',async (req,res) => {
     res.render("frontend/index.ejs", {products: Products, categories: Categories,recentproducts:RecentProducts, sponsors:Sponsors});
 })
 
-router.get("/single",async (req,res) => {
-    res.render("frontend/single-product.ejs");
+router.get("/view/:id",async (req,res) => {
+    let id = req.params.id;
+    let Product = await productModel
+    .find({_id: id})
+    .populate("category", "_id cName")
+    res.render("frontend/single-product.ejs", {product: Product[0]});
 })
 
 module.exports = router;
