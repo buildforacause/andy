@@ -33,32 +33,34 @@ $(document).ready(function () {
     //add to cart
     
     function updateCart(){
+        let products = [];
+        if(localStorage.getItem('products')){
+            products=JSON.parse(localStorage.getItem('products'));
+            const cart=document.getElementsByClassName("dropdown-cart-products")[0];
+            cart.innerHTML='';
+            products.forEach(function (item) {
+                // copy.push(item + item+2);
+                cart.innerHTML+=` <div class="product">
+                <div class="product-cart-details">
+                    <h4 class="product-title">
+                        <a href="product.html">${item.productName}</a>
+                    </h4>
 
-        let products=JSON.parse(localStorage.getItem('products'));
-        const cart=document.getElementsByClassName("dropdown-cart-products")[0];
-        alert(cart);
-        cart.innerHTML='';
-        products.forEach(function (item) {
-            // copy.push(item + item+2);
-            cart.innerHTML+=` <div class="product">
-            <div class="product-cart-details">
-                <h4 class="product-title">
-                    <a href="product.html">${item.productName}</a>
-                </h4>
+                    <span class="cart-product-info">
+                        ₹${item.productPrice}                    
+                    </span>
+                </div><!-- End .product-cart-details -->
 
-                <span class="cart-product-info">
-                    ₹${item.productPrice}                    
-                </span>
-            </div><!-- End .product-cart-details -->
-
-            <figure class="product-image-container">
-                <a href="product.html" class="product-image">
-                    <img src="${item.productImage}" alt="product">
-                </a>
-            </figure>
-            <a href="#" productid="${item.productId}" class="btn-remove" title="Remove Product"><i class="icon-close"></i></a>
-        </div>`;
-        });
+                <figure class="product-image-container">
+                    <a href="product.html" class="product-image">
+                        <img src="${item.productImage}" alt="product">
+                    </a>
+                </figure>
+                <a href="#" productid="${item.productId}" class="btn-remove" title="Remove Product"><i class="icon-close"></i></a>
+            </div>`;
+            });
+        }
+        
     }
 
     function addProduct(productId, productName, productImage, productPrice) {
