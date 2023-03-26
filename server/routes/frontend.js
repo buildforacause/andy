@@ -32,7 +32,34 @@ router.get("/checkout",async (req,res)=>{
 
 router.post("/checkout",async (req,res)=>{
     let user=req.cookies.aut0ken
-    res.render("frontend/checkout.ejs",{user:user})
+    let ids = req.body.productids
+    let quantity = req.body.quantity
+    let cartProducts = await productModel.find({
+        _id: { $in: ids },
+    });
+    if(cartProducts.length === 1){
+        for(let i=0; i<cartProducts.length; i++){
+            if(cartProducts[i].quantity < quantity[i]){
+                res.redirect("/cart")
+            }else{
+            cartProducts[i].quantity = quantity[i]
+            }
+        }
+    }else{
+        if(cartProducts.length !== ids.length){
+            res.redirect("/cart")
+        }else{
+            for(let i=0; i<cartProducts.length; i++){
+                if(cartProducts[i].quantity < quantity[i]){
+                    res.redirect("/cart")
+                }else{
+                cartProducts[i].quantity = quantity[i]
+                }
+            }
+        }
+    }
+    console.log(cartProducts)
+    res.render("frontend/checkout.ejs",{user:user, products: cartProducts})
 })
 
 router.get("/view/:id",async (req,res) => {
@@ -50,6 +77,13 @@ router.get("/shop",async (req,res) => {
     let Categories = await categoryModel.find({}).sort({ _id: -1 });
     let user = req.cookies.autOken
     res.render("frontend/results.ejs", {allProds: allProds, cats: Categories, user:user});
+})
+
+router.get("/check-quantity/:id",async (req,res) => {
+    let id = req.params.id
+    let prod = await productModel.find({_id: id});
+    let quantity = prod[0].quantity;
+    res.json({quantity: quantity});
 })
 
 module.exports = router;

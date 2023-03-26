@@ -87,6 +87,7 @@
             <div class="container">
               <div class="row">
                 <div class="col-lg-9">
+                  <form id="form-checkout" action="/checkout" method="POST">
                   <table class="table table-cart table-mobile">
                     <thead>
                       <tr>
@@ -97,10 +98,11 @@
                         <th></th>
                       </tr>
                     </thead>
-                    <form>
+                    
                       <tbody id="cartproductcontainer"></tbody>
-                    </form>
+                    
                   </table>
+                </form>
                   <!-- End .table table-wishlist -->
 
                   <!-- End .cart-bottom -->
@@ -148,10 +150,11 @@
                     </table>
                     <!-- End .table table-summary -->
 
-                    <a
-                      href="/checkout"
+                    <button
+                      form="form-checkout"
+                      id="checkout-btn"
                       class="btn btn-outline-primary-2 btn-order btn-block"
-                      >PROCEED TO CHECKOUT</a
+                      >PROCEED TO CHECKOUT</button
                     >
                   </div>
                   <!-- End .summary -->
@@ -209,7 +212,8 @@
                 <td class="price-col">₹${item.productPrice}</td>
                 <td class="quantity-col">
                     <div class="cart-product-quantity">
-                        <input type="number" class="form-control" value="1" min="1" max="10" step="1" data-decimals="0" required>
+                        <input type="hidden" name="productids" value="${item.productId}">
+                        <input type="number" name="quantity" class="form-control" value="1" min="1" max="${item.productPrice}" step="1" data-decimals="0" required>
                     </div><!-- End .cart-product-quantity -->                                 
                 </td>
                 <td class="total-col">₹${totalprice}</td>
@@ -221,6 +225,7 @@
         }
         else{
             cartcontainer.innerHTML += `<center><span>No items in the cart yet</span></center>`;
+            $("#checkout-btn").hide();
         }
         document.getElementById("subtotalcart").innerText=`₹${total}`;
         document.getElementById("totalofferprice").innerText=`₹${totaloffer}`;
@@ -291,8 +296,6 @@
         removeProduct($(this).attr("productid"));
         cartpageupdate();
     });
-
-
     </script>
   </body>
 </html>

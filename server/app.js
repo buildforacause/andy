@@ -24,6 +24,7 @@ const mongoose = require("mongoose");
 const morgan = require("morgan");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
+const bodyParser = require('body-parser');
 
 
 // Import Router
@@ -59,6 +60,7 @@ mongoose
     )
   )
   .catch((err) => console.log("Database Not Connected !!!" + err));
+
 
 // Middleware
 app.use(morgan("dev"));
