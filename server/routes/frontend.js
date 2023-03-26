@@ -27,6 +27,10 @@ router.get("/cart",async (req,res)=>{
 })
 
 router.get("/checkout",async (req,res)=>{
+    res.redirect("/cart");
+})
+
+router.post("/checkout",async (req,res)=>{
     let user=req.cookies.aut0ken
     res.render("frontend/checkout.ejs",{user:user})
 })
