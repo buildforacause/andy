@@ -24,17 +24,17 @@ router.get('/',async (req,res) => {
 
 router.get("/cart",async (req,res)=>{
     let user=req.cookies.aut0ken
-    res.render("frontend/cart.ejs")
+    res.render("frontend/cart.ejs",{user:user})
 })
 
 router.get("/checkout",async (req,res)=>{
     let user=req.cookies.aut0ken
-    res.redirect("/cart")
+    res.redirect("/cart",{user:user})
 })
 
 router.post("/checkout",async (req,res)=>{
     let user=req.cookies.aut0ken
-    res.render("frontend/checkout.ejs")
+    res.render("frontend/checkout.ejs",{user:user})
 })
 
 router.get("/view/:id",async (req,res) => {
