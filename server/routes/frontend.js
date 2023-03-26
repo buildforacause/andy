@@ -22,6 +22,21 @@ router.get('/',async (req,res) => {
     res.render("frontend/index.ejs", {products: Products, categories: Categories,recentproducts:RecentProducts, sponsors:Sponsors, user:user});
 })
 
+router.get("/cart",async (req,res)=>{
+    let user=req.cookies.aut0ken
+    res.render("frontend/cart.ejs")
+})
+
+router.get("/checkout",async (req,res)=>{
+    let user=req.cookies.aut0ken
+    res.redirect("/cart")
+})
+
+router.post("/checkout",async (req,res)=>{
+    let user=req.cookies.aut0ken
+    res.render("frontend/checkout.ejs")
+})
+
 router.get("/view/:id",async (req,res) => {
     let id = req.params.id;
     let Product = await productModel

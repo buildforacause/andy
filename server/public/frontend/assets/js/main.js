@@ -83,6 +83,41 @@ $(document).ready(function () {
         
     }
 
+    function cartpageupdate(){
+        let cartcontainer=document.getElementById("cartproductcontainer");
+        cartcontainer.innerHTML="";
+        if(localStorage.getItem('products')){
+            let products=JSON.parse(localStorage.getItem('products'));
+            // alert(products);
+            products.forEach(function (item) {
+                cartcontainer.innerHTML+=`<tr>
+                <td class="product-col">
+                    <div class="product">
+                        <figure class="product-media">
+                            <a href="#">
+                                <img src="${item.productImage}" alt="Product image">
+                            </a>
+                        </figure>
+
+                        <h3 class="product-title">
+                            <a href="#">${item.productName}</a>
+                        </h3><!-- End .product-title -->
+                    </div><!-- End .product -->
+                </td>
+                <td class="price-col">₹${item.productPrice}</td>
+                <td class="quantity-col">
+                    <div class="cart-product-quantity">
+                        <input type="number" class="form-control" value="1" min="1" max="10" step="1" data-decimals="0" required>
+                    </div><!-- End .cart-product-quantity -->                                 
+                </td>
+                <td class="total-col">$76.00</td>
+                <td class="remove-col"><button class="btn-remove"><i class="icon-close"></i></button></td>
+            </tr>`
+        })
+    }
+    }
+    cartpageupdate();
+
     function addProduct(productId, productName, productImage, productPrice) {
         let products = [];
       
