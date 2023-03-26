@@ -34,6 +34,7 @@ $(document).ready(function () {
     
     function updateCart(){
         let products = [];
+        let total = 0.00;
         if(localStorage.getItem('products')){
             products=JSON.parse(localStorage.getItem('products'));
             const cart=document.getElementsByClassName("dropdown-cart-products")[0];
@@ -59,7 +60,26 @@ $(document).ready(function () {
                 <a href="#" productid="${item.productId}" class="btn-remove" title="Remove Product"><i class="icon-close"></i></a>
             </div>`;
             });
+
+            if(products.length > 0){
+            total = products.map(prod => Number(prod.productPrice)).reduce((acc, amount) => Number(acc) + Number(amount));
+            cart.innerHTML += `<div class="dropdown-cart-total">
+                                    <span>Total</span>
+                                    <span id="cart-total-price-u" class="cart-total-price">₹ ${total}</span>
+                                </div>
+
+                                <div class="dropdown-cart-action">
+                                    <a href="cart.html" class="btn btn-primary">View Cart</a>
+                                    <a href="checkout.html" class="btn btn-outline-primary-2"><span>Checkout</span><i class="icon-long-arrow-right"></i></a>
+                                </div>`;
+            
+            }else{
+                cart.innerHTML += `<center><span>No items in the cart yet</span></center>`;
+            }
+
         }
+        $("#cart-count").text(products.length);
+        $("#cart-total-text").text("₹" + total);
         
     }
 
@@ -74,19 +94,13 @@ $(document).ready(function () {
           return product.productId !== productId;
         });
       
-        filteredProducts.push({ 'productId': productId, 'productName': productName, 'productImage': productImage, 'productPrice':productPrice });
+        filteredProducts.push({ 'productId': productId, 'productName': productName, 'productImage': productImage, 'productPrice':productPrice});
       
         localStorage.setItem('products', JSON.stringify(filteredProducts));
         updateCart();
-        alert(localStorage.getItem('products'));
       }
 
     function removeProduct(productId){
-        alert("here");
-        // Your logic for your app.
-    
-        // strore products in local storage
-    
         let storageProducts = JSON.parse(localStorage.getItem('products'));
         let products = storageProducts.filter(product => product.productId !== productId);
         localStorage.setItem('products', JSON.stringify(products));

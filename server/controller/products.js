@@ -133,7 +133,7 @@ class Product {
       !company |
       !colors
     ) {
-      return res.json({ error: "All filled must be required" });
+      return res.json({ error: "All fields must be required" });
     }
     // Validate Name and description
     else if (name.length > 255 || description.length > 3000) {
@@ -183,7 +183,7 @@ class Product {
   async getDeleteProduct(req, res) {
     let { _id } = req.body;
     if (!_id) {
-      return res.json({ error: "All filled must be required" });
+      return res.json({ error: "All fields must be required" });
     } else {
       try {
         let deleteProductObj = await productModel.findById(_id);
@@ -221,7 +221,7 @@ class Product {
   async getProductByCategory(req, res) {
     let { catId } = req.body;
     if (!catId) {
-      return res.json({ error: "All filled must be required" });
+      return res.json({ error: "All fields must be required" });
     } else {
       try {
         let products = await productModel
@@ -239,7 +239,7 @@ class Product {
   async getProductByPrice(req, res) {
     let { price } = req.body;
     if (!price) {
-      return res.json({ error: "All filled must be required" });
+      return res.json({ error: "All fields must be required" });
     } else {
       try {
         let products = await productModel
@@ -258,7 +258,7 @@ class Product {
   async getWishProduct(req, res) {
     let { productArray } = req.body;
     if (!productArray) {
-      return res.json({ error: "All filled must be required" });
+      return res.json({ error: "All fields must be required" });
     } else {
       try {
         let wishProducts = await productModel.find({
@@ -276,7 +276,7 @@ class Product {
   async getCartProduct(req, res) {
     let { productArray } = req.body;
     if (!productArray) {
-      return res.json({ error: "All filled must be required" });
+      return res.json({ error: "All fields must be required" });
     } else {
       try {
         let cartProducts = await productModel.find({
@@ -294,7 +294,7 @@ class Product {
   async postAddReview(req, res) {
     let { _id, uId, rating, review } = req.body;
     if (!_id || !rating || !review || !uId) {
-      return res.json({ error: "All filled must be required" });
+      return res.json({ error: "All fields must be required" });
     } else {
       let checkReviewRatingExists = await productModel.findOne({ _id: _id });
       if (checkReviewRatingExists.pRatingsReviews.length > 0) {

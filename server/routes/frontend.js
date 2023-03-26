@@ -3,6 +3,7 @@ const router = express.Router();
 const categoryModel = require("../models/categories");
 const productModel = require("../models/products");
 const sponsorModel = require("../models/sponsor");
+const productController = require("../controller/products");
 
 router.get('/',async (req,res) => {
     let Products = await productModel
@@ -27,7 +28,15 @@ router.get("/view/:id",async (req,res) => {
     .find({_id: id})
     .populate("category", "_id cName")
     let allProds = await productModel.find({'_id': {$ne : id}}).populate("category", "_id cName")
-    res.render("frontend/single-product.ejs", {product: Product[0], allProds: allProds});
+    let user = req.cookies.autOken
+    res.render("frontend/single-product.ejs", {product: Product[0], allProds: allProds, user:user});
+})
+
+router.get("/shop",async (req,res) => {
+    let allProds = await productModel.find({}).populate("category", "_id cName");
+    let Categories = await categoryModel.find({}).sort({ _id: -1 });
+    let user = req.cookies.autOken
+    res.render("frontend/results.ejs", {allProds: allProds, cats: Categories, user:user});
 })
 
 module.exports = router;
