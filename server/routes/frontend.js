@@ -3,7 +3,6 @@ const router = express.Router();
 const categoryModel = require("../models/categories");
 const productModel = require("../models/products");
 const sponsorModel = require("../models/sponsor");
-const productController = require("../controller/products");
 
 router.get('/',async (req,res) => {
     let Products = await productModel
@@ -28,11 +27,6 @@ router.get("/cart",async (req,res)=>{
 })
 
 router.get("/checkout",async (req,res)=>{
-    let user=req.cookies.aut0ken
-    res.redirect("/cart",{user:user})
-})
-
-router.post("/checkout",async (req,res)=>{
     let user=req.cookies.aut0ken
     res.render("frontend/checkout.ejs",{user:user})
 })
