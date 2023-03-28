@@ -14,11 +14,11 @@ const orderSchema = new mongoose.Schema(
       ref: "users",
       required: true,
     },
-    amount: {
-      type: Number,
+    transactionId: {
+      type: String,
       required: true,
     },
-    transactionId: {
+    name: {
       type: String,
       required: true,
     },
@@ -27,6 +27,18 @@ const orderSchema = new mongoose.Schema(
       required: true,
     },
     phone: {
+      type: Number,
+      required: true,
+    },
+    email: {
+      type: String,
+      required: true,
+    },
+    notes: {
+      type: String,
+      required: true,
+    },
+    amount: {
       type: Number,
       required: true,
     },

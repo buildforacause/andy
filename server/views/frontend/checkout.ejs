@@ -24,6 +24,39 @@
     <link rel="stylesheet" href="/frontend/assets/css/bootstrap.min.css">
     <!-- Main CSS File -->
     <link rel="stylesheet" href="/frontend/assets/css/style.css">
+	<style>
+		.btn{
+			display: block!important;
+		}
+		.saved-address{
+			display: grid;
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+			column-gap: 20px;
+		}
+		.address-card{
+			margin-bottom:1.3rem;
+			background-color: #f9f9f9;
+			border:.1rem dashed #d7d7d7;
+			
+			padding: 0.85rem 2rem;	
+		}
+		.address-text{
+			color: #666;
+			font-weight: 300;
+			font-size: 1.4rem;
+			margin: 0 0 0.2rem;
+		}
+		.address-action{
+			margin-top: 1.3rem;
+			display: flex;
+			gap:20px;
+		}
+		@media screen and (max-width:460px) {
+			.saved-address{
+				grid-template-columns: repeat(1, minmax(0, 1fr));
+			}
+		}
+	</style>
 </head>
 
 <body>
@@ -48,77 +81,81 @@
             <div class="page-content">
             	<div class="checkout">
 	                <div class="container">
-            			<div class="checkout-discount">
-            				<form action="#">
-        						<input type="text" class="form-control" required id="checkout-discount-input">
-            					<label for="checkout-discount-input" class="text-truncate">Have a coupon? <span>Click here to enter your code</span></label>
-            				</form>
-            			</div><!-- End .checkout-discount -->
-            			<form action="#">
+            			
+            			<form action="#" id="myform">
 		                	<div class="row">
 		                		<div class="col-lg-9">
+									<div class="saved-address">
+										<div class="address-card">
+											<div class="address-text">
+												<p>Siddharth Singh</p>
+												<p>9372642011, sidsinghcs@gmail.com</p>
+												<p>701/3, Shreeji Splendor, Brahmand</p>
+											</div>
+											<div class="address-action">
+												<button type="button" class="btn btn-outline-primary-2 btn-order btn-block">Use this address</button>
+											</div>
+										</div>
+										<div class="address-card">
+											<div class="address-text">
+												<p>Siddharth Singh</p>
+												<p>9372642011, sidsinghcs@gmail.com</p>
+												<p>701/3, Shreeji Splendor, Brahmand</p>
+											</div>
+											<div class="address-action">
+												<button type="button" class="btn btn-outline-primary-2 btn-order btn-block">Use this address</button>
+											</div>
+										</div>
+									</div>
 		                			<h2 class="checkout-title">Billing Details</h2><!-- End .checkout-title -->
+									
 		                				<div class="row">
 		                					<div class="col-sm-6">
 		                						<label>First Name *</label>
-		                						<input type="text" class="form-control" required>
+		                						<input type="text" name="fname" id="fname" class="form-control" required>
 		                					</div><!-- End .col-sm-6 -->
 
 		                					<div class="col-sm-6">
 		                						<label>Last Name *</label>
-		                						<input type="text" class="form-control" required>
+		                						<input type="text" name="lname" id="lname" class="form-control" required>
 		                					</div><!-- End .col-sm-6 -->
 		                				</div><!-- End .row -->
 
-	            						<label>Company Name (Optional)</label>
-	            						<input type="text" class="form-control">
-
-	            						<label>Country *</label>
-	            						<input type="text" class="form-control" required>
-
 	            						<label>Street address *</label>
-	            						<input type="text" class="form-control" placeholder="House number and Street name" required>
-	            						<input type="text" class="form-control" placeholder="Appartments, suite, unit etc ..." required>
+	            						<input type="text" name="address1" id="address1" class="form-control" placeholder="House number and Street name" required>
+	            						<input type="text" name="address2" id="address2" class="form-control" placeholder="Appartments, suite, unit etc ..." required>
 
 	            						<div class="row">
 		                					<div class="col-sm-6">
 		                						<label>Town / City *</label>
-		                						<input type="text" class="form-control" required>
+		                						<input type="text" name="city" id="city" class="form-control" required>
 		                					</div><!-- End .col-sm-6 -->
 
 		                					<div class="col-sm-6">
 		                						<label>State / County *</label>
-		                						<input type="text" class="form-control" required>
+		                						<input type="text" name="state" id="state" id="district" class="form-control" disabled>
 		                					</div><!-- End .col-sm-6 -->
 		                				</div><!-- End .row -->
 
 		                				<div class="row">
 		                					<div class="col-sm-6">
 		                						<label>Postcode / ZIP *</label>
-		                						<input type="text" class="form-control" required>
+		                						<input type="text" name="pincode" id="pincode" class="form-control" required>
 		                					</div><!-- End .col-sm-6 -->
 
 		                					<div class="col-sm-6">
-		                						<label>Phone *</label>
-		                						<input type="tel" class="form-control" required>
+		                						<label>Reciever's Phone *</label>
+		                						<input type="tel" name="phone" id="phone" class="form-control" required>
 		                					</div><!-- End .col-sm-6 -->
 		                				</div><!-- End .row -->
 
-	                					<label>Email address *</label>
-	        							<input type="email" class="form-control" required>
-
-	        							<div class="custom-control custom-checkbox">
-											<input type="checkbox" class="custom-control-input" id="checkout-create-acc">
-											<label class="custom-control-label" for="checkout-create-acc">Create an account?</label>
-										</div><!-- End .custom-checkbox -->
-
-										<div class="custom-control custom-checkbox">
-											<input type="checkbox" class="custom-control-input" id="checkout-diff-address">
-											<label class="custom-control-label" for="checkout-diff-address">Ship to a different address?</label>
-										</div><!-- End .custom-checkbox -->
-
 	                					<label>Order notes (optional)</label>
-	        							<textarea class="form-control" cols="30" rows="4" placeholder="Notes about your order, e.g. special notes for delivery"></textarea>
+	        							<textarea class="form-control" name="notes" cols="30" rows="4" placeholder="Notes about your order, e.g. special notes for delivery"></textarea>
+										<div class="">
+											<a class="" href="/register">Create an account?</a>
+										</div><!-- End .custom-checkbox -->
+										<input name="address" value="" id="mainaddress" type="hidden">
+										<input name="name" value="" id="mainname" type="hidden">
 		                		</div><!-- End .col-lg-9 -->
 		                		<aside class="col-lg-3">
 		                			<div class="summary">
@@ -133,7 +170,6 @@
 		                					</thead>
 
 		                					<tbody>
-                                                
 		                						<tr>
 		                							<td><a href="#">Beige knitted elastic runner shoes</a></td>
 		                							<td>$84.00</td>
@@ -159,7 +195,7 @@
 										        <div class="card-header" id="heading-1">
 										            <h2 class="card-title">
 										                <a role="button" data-toggle="collapse" href="#collapse-1" aria-expanded="true" aria-controls="collapse-1">
-										                    Direct bank transfer
+										                    UPI
 										                </a>
 										            </h2>
 										        </div><!-- End .card-header -->
@@ -174,14 +210,14 @@
 										        <div class="card-header" id="heading-2">
 										            <h2 class="card-title">
 										                <a class="collapsed" role="button" data-toggle="collapse" href="#collapse-2" aria-expanded="false" aria-controls="collapse-2">
-										                    Check payments
+										                    Cash on delivery
 										                </a>
 										            </h2>
 										        </div><!-- End .card-header -->
 										        <div id="collapse-2" class="collapse" aria-labelledby="heading-2" data-parent="#accordion-payment">
 										            <div class="card-body">
-										                Ipsum dolor sit amet, consectetuer adipiscing elit. Donec odio. Quisque volutpat mattis eros. Nullam malesuada erat ut turpis. 
-										            </div><!-- End .card-body -->
+														Pay at your doorsteps when you recieve the order.
+													</div><!-- End .card-body -->
 										        </div><!-- End .collapse -->
 										    </div><!-- End .card -->
 
@@ -189,45 +225,16 @@
 										        <div class="card-header" id="heading-3">
 										            <h2 class="card-title">
 										                <a class="collapsed" role="button" data-toggle="collapse" href="#collapse-3" aria-expanded="false" aria-controls="collapse-3">
-										                    Cash on delivery
+										                    Debit Card/Credit Card
 										                </a>
 										            </h2>
 										        </div><!-- End .card-header -->
 										        <div id="collapse-3" class="collapse" aria-labelledby="heading-3" data-parent="#accordion-payment">
-										            <div class="card-body">Quisque volutpat mattis eros. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec odio. Quisque volutpat mattis eros. 
+										            <div class="card-body">Use Debit card or credit card 
 										            </div><!-- End .card-body -->
 										        </div><!-- End .collapse -->
 										    </div><!-- End .card -->
 
-										    <div class="card">
-										        <div class="card-header" id="heading-4">
-										            <h2 class="card-title">
-										                <a class="collapsed" role="button" data-toggle="collapse" href="#collapse-4" aria-expanded="false" aria-controls="collapse-4">
-										                    PayPal <small class="float-right paypal-link">What is PayPal?</small>
-										                </a>
-										            </h2>
-										        </div><!-- End .card-header -->
-										        <div id="collapse-4" class="collapse" aria-labelledby="heading-4" data-parent="#accordion-payment">
-										            <div class="card-body">
-										                Nullam malesuada erat ut turpis. Suspendisse urna nibh, viverra non, semper suscipit, posuere a, pede. Donec nec justo eget felis facilisis fermentum.
-										            </div><!-- End .card-body -->
-										        </div><!-- End .collapse -->
-										    </div><!-- End .card -->
-
-										    <div class="card">
-										        <div class="card-header" id="heading-5">
-										            <h2 class="card-title">
-										                <a class="collapsed" role="button" data-toggle="collapse" href="#collapse-5" aria-expanded="false" aria-controls="collapse-5">
-										                    Credit Card (Stripe)
-										                    <img src="/frontend/assets/images/payments-summary.png" alt="payments cards">
-										                </a>
-										            </h2>
-										        </div><!-- End .card-header -->
-										        <div id="collapse-5" class="collapse" aria-labelledby="heading-5" data-parent="#accordion-payment">
-										            <div class="card-body"> Donec nec justo eget felis facilisis fermentum.Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec odio. Quisque volutpat mattis eros. Lorem ipsum dolor sit ame.
-										            </div><!-- End .card-body -->
-										        </div><!-- End .collapse -->
-										    </div><!-- End .card -->
 										</div><!-- End .accordion -->
 
 		                				<button type="submit" class="btn btn-outline-primary-2 btn-order btn-block">
@@ -246,7 +253,32 @@
         <%- include("./footer.ejs") %>
         <script>
             $("#cart-dropdown").hide();
+			$("#pincode").on("input", function (event) {
+				// console.log(1);
+				var pincodeinput = $("#pincode").val();
+				// console.log(pincodeinput);
+				var pincodeurl = "https://api.postalpincode.in/pincode/" + pincodeinput;
+				// console.log(pincodeurl);
+				$.getJSON(pincodeurl, function (result) {
+				if (result[0].Status == "Error") {
+					// console.log("Please enter a valid pincode");
+					$("#state").val("Please enter a valid pincode");
+				} else {
+					$("#state").val(result[0].PostOffice[0].State);
+				}
+				});
+			});
+			$('#myform').on('submit', function(e) {
+				// e.preventDefault();
+				// alert("hue");
+				$('#mainaddress').val($('#address1').val()+', '+$('#address2').val()+', '+$('#city').val()+', '+$('#state').val()+', '+$('#pincode').val());
+				$('#mainname').val($('#fname').val()+' '+$('#lname').val());
+				//mainaddress.value	
+				// console.log($('#mainname').val());	
+				return true;	
+			});
         </script>
+
 </body>
 
 
