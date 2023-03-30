@@ -192,10 +192,10 @@ class Auth {
   //   app.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
 
   //   app.get('/auth/google/callback', 
-  //   passport.authenticate('google', { failureRedirect: '/login' }),
+  //   passport.authenticate('google', { failureRedirect: '/' }),
   //   function(req, res) {
   //   // redirect the user to the homepage or to dashboard
-  //   res.redirect('/home');
+  //   res.redirect('/');
   // });
 }
 

@@ -75,32 +75,22 @@
                             }
                         }
                     }'>
-                    <div class="intro-slide" style="background-image: url(frontend/assets/images/demos/demo-8/slider/slide-1.jpg);">
+                    <% sliders.forEach(slider => { %>
+                     
+                    <div class="intro-slide" style="background-image: url(<%= slider.slideImage %>);">
                         <div class="container intro-content text-left">
-                            <h3 class="intro-subtitle">Limited time only *</h3><!-- End .h3 intro-subtitle -->
-                            <h1 class="intro-title">Summer<br><strong>sale</strong></h1><!-- End .intro-title -->
-                            <h3 class="intro-subtitle">Up to 50% off</h3><!-- End .h3 intro-subtitle -->
+                            <!-- <h3 class="intro-subtitle">Limited time only *</h3> -->
+                            <!-- <h1 class="intro-title">Summer<br><strong>sale</strong></h1> -->
+                            <!-- <h3 class="intro-subtitle">Up to 50% off</h3> -->
 
-                            <a href="/shop" class="btn">
+                            <!-- <a href="/shop" class="btn">
                                 <span>SHOP NOW</span>
                                 <i class="icon-long-arrow-right"></i>
-                            </a>
+                            </a> -->
                         </div><!-- End .intro-content -->
-                        <img class="position-right" src="frontend/assets/images/demos/demo-8/slider/img-1.png">
+                        <!-- <img class="position-right" src="frontend/assets/images/demos/demo-8/slider/img-1.png"> -->
                     </div><!-- End .intro-slide -->
-
-                    <div class="intro-slide" style="background-image: url(frontend/assets/images/demos/demo-8/slider/slide-2.jpg);">
-                        <div class="container intro-content text-right">
-                            <h3 class="intro-subtitle">PREMIUM QUALITY</h3><!-- End .h3 intro-subtitle -->
-                            <h1 class="intro-title">coats <span class="highlight">&</span><br>jackets</h1><!-- End .intro-title -->
-
-                            <a href="/shop" class="btn">
-                                <span>SHOP NOW</span>
-                                <i class="icon-long-arrow-right"></i>
-                            </a>
-                        </div><!-- End .intro-content -->
-                        <img class="position-left" src="frontend/assets/images/demos/demo-8/slider/img-2.png">
-                    </div><!-- End .intro-slide -->
+                    <% }) %>
                 </div><!-- End .intro-slider owl-carousel owl-simple -->
 
                 <span class="slider-loader"></span><!-- End .slider-loader -->
@@ -108,51 +98,45 @@
 
             <div class="pt-2 pb-2">
                 <div class="container brands">
-                    <div class="banner-group">
-                        <div class="row">
-                            <div class="col-sm-6 col-lg-4">
-                                <div class="banner banner-overlay">
-                                    <a href="#">
-                                        <img src="frontend/assets/images/demos/demo-8/banners/banner-1.jpg" alt="Banner">
-                                    </a>
+					
+                    <div class="owl-carousel owl-simple" data-toggle="owl" 
+                        data-owl-options='{
+                            "nav": false, 
+                            "dots": true,
+                            "margin": 20,
+                            "loop": false,
+                            "responsive": {
+                                "0": {
+                                    "items":1
+                                },
+                                "480": {
+                                    "items":2
+                                },
+                                "768": {
+                                    "items":3
+                                },
+                                "992": {
+                                    "items":3
+                                },
+                                "1200": {
+                                    "items":3,
+                                    "nav": true,
+                                    "dots": false
+                                }
+                            }
+                        }'>
+                        <% categories.forEach(element => { %>
+                        
+            			<div class="banner banner-cat" >
+                			<a href="/shop?filterby=<%= element._id %>" class="banner-link"><div class="banner-content banner-content-static text-center">
+                				<h3 class="banner-title"><%= element.cName %></h3><!-- End .banner-title -->
+                				<!-- <h4 class="banner-subtitle">18 Products</h4> -->
+                				Shop Now
+                			</div></a><!-- End .banner-content -->
+            			</div><!-- End .banner -->
+                        <% }) %>
 
-                                    <div class="banner-content">
-                                        <h4 class="banner-subtitle"><a href="#">Final reduction</a></h4><!-- End .banner-subtitle -->
-                                        <h3 class="banner-title"><a href="#"><strong>Tracks & <br>Shorts</strong> <br>up to 60% off</a></h3><!-- End .banner-title -->
-                                        <a href="#" class="btn btn-outline-white banner-link">Shop Now <i class="icon-long-arrow-right"></i></a>
-                                    </div><!-- End .banner-content -->
-                                </div><!-- End .banner -->
-                            </div><!-- End .col-lg-4 -->
-
-                            <div class="col-sm-6 col-lg-4">
-                                <div class="banner banner-overlay">
-                                    <a href="#">
-                                        <img src="frontend/assets/images/demos/demo-8/banners/banner-2.jpg" alt="Banner">
-                                    </a>
-
-                                    <div class="banner-content">
-                                        <h4 class="banner-subtitle"><a href="#">Limited time only.</a></h4><!-- End .banner-subtitle -->
-                                        <h3 class="banner-title"><a href="#"><strong>Tshirts</strong> <br>40 -70% off</a></h3><!-- End .banner-title -->
-                                        <a href="#" class="btn btn-outline-white banner-link">Shop Now <i class="icon-long-arrow-right"></i></a>
-                                    </div><!-- End .banner-content -->
-                                </div><!-- End .banner -->
-                            </div><!-- End .col-lg-4 -->
-
-                            <div class="col-sm-6 col-lg-4 d-none d-lg-block">
-                                <div class="banner banner-overlay">
-                                    <a href="#">
-                                        <img src="frontend/assets/images/demos/demo-8/banners/banner-3.jpg" alt="Banner">
-                                    </a>
-
-                                    <div class="banner-content">
-                                        <h4 class="banner-subtitle"><a href="#">This week we love...</a></h4><!-- End .banner-subtitle -->
-                                        <h3 class="banner-title"><a href="#"><strong>Accessories </strong> <br>from $6.99</a></h3><!-- End .banner-title -->
-                                        <a href="#" class="btn btn-outline-white banner-link">Shop Now <i class="icon-long-arrow-right"></i></a>
-                                    </div><!-- End .banner-content -->
-                                </div><!-- End .banner -->
-                            </div><!-- End .col-lg-4 -->
-                        </div><!-- End .row -->
-                    </div><!-- End .banner-group -->
+        			</div><!-- End .banners-carousel owl-carousel owl-simple -->    
 
                     <div class="owl-carousel mt-3 mb-3 owl-simple" data-toggle="owl" 
                         data-owl-options='{
@@ -291,37 +275,7 @@
                     </div><!-- End .banner-content -->
                 </div><!-- End .banner -->
             </div>
-            <div class="container new-arrivals">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="banner banner-overlay">
-                            <a href="#">
-                                <img src="frontend/assets/images/demos/demo-8/banners/banner-5.jpg" alt="Banner">
-                            </a>
 
-                            <div class="banner-content">
-                                <h4 class="banner-subtitle d-none d-lg-block"><a href="#">New Arrivals</a></h4><!-- End .banner-subtitle -->
-                                <h3 class="banner-title"><a href="#">Tracks and Shorts</a></h3><!-- End .banner-title -->
-                                <a href="#" class="btn btn-outline-white banner-link">Shop Now <i class="icon-long-arrow-right"></i></a>
-                            </div><!-- End .banner-content -->
-                        </div><!-- End .banner -->
-                    </div><!-- End .col-md-6 -->
-
-                    <div class="col-md-6">
-                        <div class="banner banner-overlay">
-                            <a href="#">
-                                <img src="frontend/assets/images/demos/demo-8/banners/banner-6.jpg" alt="Banner">
-                            </a>
-
-                            <div class="banner-content">
-                                <h4 class="banner-subtitle d-none d-lg-block"><a href="#">New Arrivals</a></h4><!-- End .banner-subtitle -->
-                                <h3 class="banner-title "><a href="#">T-shirts</a></h3><!-- End .banner-title -->
-                                <a href="#" class="btn btn-outline-white banner-link">Shop Now <i class="icon-long-arrow-right"></i></a>
-                            </div><!-- End .banner-content -->
-                        </div><!-- End .banner -->
-                    </div><!-- End .col-md-6 -->
-                </div><!-- End .row -->
-            </div><!-- End .container -->
             
 
             <div class="mb-5"></div><!-- End .mb-5 -->

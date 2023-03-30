@@ -15,12 +15,8 @@ var storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 router.get("/get-slide-image", customizeController.getImages);
+
 router.post("/delete-slide-image", customizeController.deleteSlideImage);
-router.post(
-  "/upload-slide-image",
-  upload.single("image"),
-  customizeController.uploadSlideImage
-);
-router.post("/dashboard-data", customizeController.getAllData);
+router.post("/upload-slide-image",upload.single("image"),customizeController.uploadSlideImage);
 
 module.exports = router;

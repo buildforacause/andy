@@ -1,10 +1,10 @@
 const express = require("express");
 const router = express.Router();
-const { toTitleCase } = require("../config/function");
 const categoryModel = require("../models/categories");
 const productModel = require("../models/products");
 const pincodeModel = require("../models/pincode");
 const sponsorModel = require("../models/sponsor");
+const customizeModel = require("../models/customize");
 // const ordersController = require("../controller/orders");
 
 router.get('/',async (req,res) => {
@@ -16,6 +16,7 @@ router.get('/product-view',async(req,res)=>{
         .find({})
         .populate("category", "_id cName")
         .sort({ _id: -1 });
+    console.log(Products);
     res.render("product/product_view.ejs", {products: Products});
 })
 
@@ -76,6 +77,16 @@ router.get('/sponsor-edit/:id',async(req,res)=>{
     let id = req.params.id
     let sponsor = await sponsorModel.findById(id);
     res.render("sponsor/sponsor-edit.ejs", {sponsor: sponsor });
+})
+
+router.get("/slider-view", async(req,res)=>{
+    let sliders = await customizeModel.find({});
+    console.log(sliders);
+    res.render("slider/slider-view.ejs", {sliders: sliders });
+})
+
+router.get('/slider-add',async(req,res)=>{
+    res.render("slider/slider-add.ejs");
 })
 
 module.exports = router;

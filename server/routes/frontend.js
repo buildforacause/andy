@@ -4,6 +4,7 @@ const categoryModel = require("../models/categories");
 const productModel = require("../models/products");
 const sponsorModel = require("../models/sponsor");
 const addressModel = require("../models/address");
+const customizeModel = require("../models/customize");
 
 router.get('/',async (req,res) => {
     let Products = await productModel
@@ -18,8 +19,9 @@ router.get('/',async (req,res) => {
         .sort({"createdAt":-1})
         .limit(10);
     let Sponsors = await sponsorModel.find({}).sort({ _id: -1 });
+    let sliders = await customizeModel.find({});
     let user = req.cookies.autOken
-    res.render("frontend/index.ejs", {products: Products, categories: Categories,recentproducts:RecentProducts, sponsors:Sponsors, user:user});
+    res.render("frontend/index.ejs", {products: Products, categories: Categories,recentproducts:RecentProducts, sponsors:Sponsors, user:user, sliders:sliders});
 })
 
 router.get("/cart",async (req,res)=>{
@@ -76,10 +78,27 @@ router.get("/view/:id",async (req,res) => {
 })
 
 router.get("/shop",async (req,res) => {
-    let allProds = await productModel.find({}).populate("category", "_id cName");
+    let title = ""
+    let allProds = []
+    if(req.query.filterby){
+        try{
+            allProds = await productModel.find({category: req.query.filterby}).populate("category", "_id cName");
+            title = await categoryModel.find({_id: req.query.filterby});
+            if(title){
+                title = title[0].cName;
+            }else{
+                return res.redirect("/")
+            }
+        }catch(e){
+            return res.redirect("/")
+        }
+    }else{
+        allProds = await productModel.find({}).populate("category", "_id cName");
+        title = "All Products"
+    }
     let Categories = await categoryModel.find({}).sort({ _id: -1 });
     let user = req.cookies.autOken
-    res.render("frontend/results.ejs", {allProds: allProds, cats: Categories, user:user});
+    res.render("frontend/results.ejs", {allProds: allProds, cats: Categories, user:user, title: title});
 })
 
 router.get("/check-quantity/:id",async (req,res) => {
