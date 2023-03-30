@@ -56,6 +56,26 @@
 				grid-template-columns: repeat(1, minmax(0, 1fr));
 			}
 		}
+		.gold{
+			background-color: #cc9966;
+			color: white!important;
+		}
+		#hide-form{
+			display: none;
+		}
+		#address-expand{
+			-webkit-user-select: none; /* Safari */
+  			-ms-user-select: none; /* IE 10 and IE 11 */
+  			user-select: none;
+		}
+		.address-button{
+			cursor:pointer;
+		}
+		.address-selector{
+			margin-right: 0.5rem;
+    		transform: translateY(0.09em);
+			accent-color: #cc9966;
+		}
 	</style>
 </head>
 
@@ -86,49 +106,52 @@
 		                	<div class="row">
 		                		<div class="col-lg-9">
 									<div class="saved-address">
+
+										<div class="address-card">
+											<div class="address-text">
+												<p>Harmit Saini</p>
+												<p>9967775891</p>
+												<p>Taximen colony, Kurla</p>
+												<input type="radio" class="address-selector" id="123" buttonphone="9967775891" buttonaddress="Taximen colony, Kurla" buttonname="Harmit Saini"  name="address-selector" value="primary"><label for="123">Use this address.</label>
+											</div>
+										</div>
+										
 										<div class="address-card">
 											<div class="address-text">
 												<p>Siddharth Singh</p>
-												<p>9372642011, sidsinghcs@gmail.com</p>
+												<p>9372642011</p>
 												<p>701/3, Shreeji Splendor, Brahmand</p>
-											</div>
-											<div class="address-action">
-												<button type="button" class="btn btn-outline-primary-2 btn-order btn-block">Use this address</button>
+												<input type="radio" class="address-selector" id="234" buttonphone="9372642011" buttonaddress="701/3, Shreeji Splendor, Thane" buttonname="Siddharth Singh" name="address-selector" value="secondary"><label for="234">Use this address</label> 
 											</div>
 										</div>
-										<div class="address-card">
-											<div class="address-text">
-												<p>Siddharth Singh</p>
-												<p>9372642011, sidsinghcs@gmail.com</p>
-												<p>701/3, Shreeji Splendor, Brahmand</p>
-											</div>
-											<div class="address-action">
-												<button type="button" class="btn btn-outline-primary-2 btn-order btn-block">Use this address</button>
-											</div>
-										</div>
+
 									</div>
+									<div style="display:flex;align-items: center;">
 		                			<h2 class="checkout-title">Billing Details</h2><!-- End .checkout-title -->
-									
+									<div style="margin-left:auto;cursor:pointer;color: #cc9966;"><label style="margin-right: 0.5rem;" for="address-expand">Add a new address.</label><input type="radio" class="address-selector address-expand" id="address-expand" name="address-selector" ></div>
+									</div>
+								</form>
+									<div id="hide-form">
 		                				<div class="row">
 		                					<div class="col-sm-6">
 		                						<label>First Name *</label>
-		                						<input type="text" name="fname" id="fname" class="form-control" required>
+		                						<input type="text" name="fname" id="fname" class="form-control"  >
 		                					</div><!-- End .col-sm-6 -->
 
 		                					<div class="col-sm-6">
 		                						<label>Last Name *</label>
-		                						<input type="text" name="lname" id="lname" class="form-control" required>
+		                						<input type="text" name="lname" id="lname" class="form-control"  >
 		                					</div><!-- End .col-sm-6 -->
 		                				</div><!-- End .row -->
 
 	            						<label>Street address *</label>
-	            						<input type="text" name="address1" id="address1" class="form-control" placeholder="House number and Street name" required>
-	            						<input type="text" name="address2" id="address2" class="form-control" placeholder="Appartments, suite, unit etc ..." required>
+	            						<input type="text" name="address1" id="address1" class="form-control" placeholder="House number and Street name"  >
+	            						<input type="text" name="address2" id="address2" class="form-control" placeholder="Appartments, suite, unit etc ..."  >
 
 	            						<div class="row">
 		                					<div class="col-sm-6">
 		                						<label>Town / City *</label>
-		                						<input type="text" name="city" id="city" class="form-control" required>
+		                						<input type="text" name="city" id="city" class="form-control"  >
 		                					</div><!-- End .col-sm-6 -->
 
 		                					<div class="col-sm-6">
@@ -140,12 +163,12 @@
 		                				<div class="row">
 		                					<div class="col-sm-6">
 		                						<label>Postcode / ZIP *</label>
-		                						<input type="text" name="pincode" id="pincode" class="form-control" required>
+		                						<input type="text" name="pincode" id="pincode" class="form-control"  >
 		                					</div><!-- End .col-sm-6 -->
 
 		                					<div class="col-sm-6">
 		                						<label>Reciever's Phone *</label>
-		                						<input type="tel" name="phone" id="phone" class="form-control" required>
+		                						<input type="tel" name="phone" id="phone" class="form-control"  >
 		                					</div><!-- End .col-sm-6 -->
 		                				</div><!-- End .row -->
 
@@ -156,6 +179,8 @@
 										</div><!-- End .custom-checkbox -->
 										<input name="address" value="" id="mainaddress" type="hidden">
 										<input name="name" value="" id="mainname" type="hidden">
+										<input name="phone" value="" id="mainphone" type="hidden">
+									</div> <!--end of hide-->
 		                		</div><!-- End .col-lg-9 -->
 		                		<aside class="col-lg-3">
 		                			<div class="summary">
@@ -237,14 +262,14 @@
 
 										</div><!-- End .accordion -->
 
-		                				<button type="submit" class="btn btn-outline-primary-2 btn-order btn-block">
+		                				<button type="submit" form="myform" class="btn btn-outline-primary-2 btn-order btn-block">
 		                					<span class="btn-text">Place Order</span>
 		                					<span class="btn-hover-text">Proceed to Checkout</span>
 		                				</button>
 		                			</div><!-- End .summary -->
 		                		</aside><!-- End .col-lg-3 -->
 		                	</div><!-- End .row -->
-            			</form>
+            			
 	                </div><!-- End .container -->
                 </div><!-- End .checkout -->
             </div><!-- End .page-content -->
@@ -268,15 +293,57 @@
 				}
 				});
 			});
+			
+			function displayRadioValue() {
+				var ele = document.getElementsByName('address-selector');
+				
+				for(i = 0; i < ele.length; i++) {
+					if(ele[i].checked){
+						const buttonname=ele[i].getAttribute("buttonname");
+						const buttonaddress=ele[i].getAttribute("buttonaddress");
+						const buttonphone=ele[i].getAttribute("buttonphone");
+						return {name:buttonname,address:buttonaddress,phone:buttonphone}
+					}
+				}
+			}
 			$('#myform').on('submit', function(e) {
-				// e.preventDefault();
+				e.preventDefault();
 				// alert("hue");
-				$('#mainaddress').val($('#address1').val()+', '+$('#address2').val()+', '+$('#city').val()+', '+$('#state').val()+', '+$('#pincode').val());
-				$('#mainname').val($('#fname').val()+' '+$('#lname').val());
-				//mainaddress.value	
-				// console.log($('#mainname').val());	
-				return true;	
+				if ($('#hide-form').css("display") == "block"){
+					$('#mainaddress').val($('#address1').val()+', '+$('#address2').val()+', '+$('#city').val()+', '+$('#state').val()+', '+$('#pincode').val());
+					$('#mainname').val($('#fname').val()+' '+$('#lname').val());
+					$('#mainphone').val($('#phone').val());
+					alert($('#mainaddress').val());
+				}else{
+					const radiovalues=displayRadioValue();
+					// console.log(radiovalues.address);
+					$('#mainname').val(radiovalues.name);
+					$('#mainaddress').val(radiovalues.address);
+					$('#mainphone').val(radiovalues.phone);
+					
+					// const [buttonname, buttonaddress, buttonphone]=displayRadioValue();
+					// $('#mainname').val(buttonname);
+					// $('#mainaddress').val(buttonaddress);
+					// $('#mainphone').val(buttonphone);
+					// alert
+				}
+				
 			});
+			if($("input[type='radio'].address-selector").is(':checked')) {
+    			var card_type = $("input[type='radio'].address-selector:checked").val();
+    			alert(card_type);
+			}
+			// console.log($('input[type="radio"]:checked').val());	
+			$(".address-selector").change(function() {
+				if(this.checked) {
+					if($(this).hasClass('address-expand')){
+						$('#hide-form').show();
+					}else{
+						$('#hide-form').hide();
+					};
+				}
+			});
+			
         </script>
 
 </body>
