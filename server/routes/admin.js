@@ -5,10 +5,12 @@ const productModel = require("../models/products");
 const pincodeModel = require("../models/pincode");
 const sponsorModel = require("../models/sponsor");
 const customizeModel = require("../models/customize");
+const infoModel = require("../models/info");
 // const ordersController = require("../controller/orders");
 
 router.get('/',async (req,res) => {
-    res.render("admin.ejs");
+    const info = await infoModel.find({_id: "edit"});
+    res.render("admin.ejs", {info: info[0]});
 })
 
 router.get('/product-view',async(req,res)=>{
@@ -88,5 +90,6 @@ router.get("/slider-view", async(req,res)=>{
 router.get('/slider-add',async(req,res)=>{
     res.render("slider/slider-add.ejs");
 })
+
 
 module.exports = router;

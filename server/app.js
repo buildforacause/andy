@@ -39,7 +39,7 @@ const customizeRouter = require("./routes/customize");
 const adminRouter = require("./routes/admin");
 const frontendRouter = require("./routes/frontend");
 const sponsorRouter = require("./routes/sponsor");
-
+const infoRouter = require("./routes/info");
 // Import Auth middleware for check user login or not~
 const { loginCheck } = require("./middleware/auth");
 const CreateAllFolder = require("./config/uploadFolderCreateScript");
@@ -82,6 +82,7 @@ app.use("/api", brainTreeRouter);
 app.use("/api/order", orderRouter);
 app.use("/api/customize", customizeRouter);
 app.use("/", frontendRouter);
+app.use("/api/info", infoRouter);
 app.get('/logout', function(req, res){
   cookie = req.cookies;
   for (var prop in cookie) {
