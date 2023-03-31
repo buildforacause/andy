@@ -92,7 +92,27 @@ router.get("/shop",async (req,res) => {
         }catch(e){
             return res.redirect("/")
         }
-    }else{
+    }else if(req.query.s){
+        allProds = await productModel.find({
+            $or: 
+            [
+                {
+                    name: 
+                        { 
+                            $regex: req.query.s, $options: "i" 
+                        }
+                },
+                {
+                    description: 
+                        { 
+                            $regex: req.query.s, $options: "i" 
+                        }
+                },
+            ]
+        }).populate("category", "_id cName");
+        title = "Search Results For " + req.query.s;
+    }
+    else{
         allProds = await productModel.find({}).populate("category", "_id cName");
         title = "All Products"
     }
