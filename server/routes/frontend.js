@@ -29,6 +29,16 @@ router.get("/cart",async (req,res)=>{
     res.render("frontend/cart.ejs",{user:user})
 })
 
+router.get("/dashboard",async (req,res)=>{
+    let user=req.cookies.aut0ken
+    res.render("frontend/dashboard.ejs",{user:user})
+})
+
+router.get("/track",async (req,res)=>{
+    let user=req.cookies.aut0ken
+    res.render("frontend/track.ejs",{user:user})
+})
+
 router.get("/checkout",async (req,res)=>{
     // res.redirect("/cart");
     let user=req.cookies.aut0ken
