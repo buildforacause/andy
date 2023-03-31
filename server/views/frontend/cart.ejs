@@ -149,13 +149,22 @@
                       </tbody>
                     </table>
                     <!-- End .table table-summary -->
+                    
 
+                    <% if (user) { %>
                     <button
                       form="form-checkout"
                       id="checkout-btn"
                       class="btn btn-outline-primary-2 btn-order btn-block"
                       >PROCEED TO CHECKOUT</button
                     >
+                    <% } else { %>
+                      <button
+                      class="btn btn-outline-primary-2 btn-order btn-block"
+                      disabled
+                      >Login To Proceed</button
+                    >
+                    <% } %>
                   </div>
                   <!-- End .summary -->
 

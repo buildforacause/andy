@@ -269,7 +269,6 @@
         }).done(response => {
             response = JSON.stringify(response)
             response = JSON.parse(response)
-            console.log(response)
 
             if(response.error){
                 Object.keys(response.error).forEach(function(key) {
@@ -299,6 +298,7 @@
             }else{
                 $("#showloginerr").hide()
                 setCookie("autOken", response.token, '/')
+                setCookie("userid", response.userid, '/')
                 window.location = "/";
             }
         })

@@ -40,6 +40,7 @@ const adminRouter = require("./routes/admin");
 const frontendRouter = require("./routes/frontend");
 const sponsorRouter = require("./routes/sponsor");
 const infoRouter = require("./routes/info");
+const addressRouter = require("./routes/address");
 // Import Auth middleware for check user login or not~
 const { loginCheck } = require("./middleware/auth");
 const CreateAllFolder = require("./config/uploadFolderCreateScript");
@@ -74,6 +75,7 @@ app.use(express.json());
 app.use("/admin", adminRouter);
 app.use("/api", authRouter);
 app.use("/api/user", usersRouter);
+app.use("/api/address", addressRouter);
 app.use("/api/category", categoryRouter);
 app.use("/api/sponsor", sponsorRouter);
 app.use("/api/product", productRouter);

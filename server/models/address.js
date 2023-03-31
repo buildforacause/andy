@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { ObjectId } = mongoose.Schema.Types;
 
 const addressSchema = new mongoose.Schema(
   {
@@ -13,6 +14,10 @@ const addressSchema = new mongoose.Schema(
     aphone: {
         type: Number,
         required: true,
+    },
+    user: {
+      type: ObjectId,
+      ref: "users",
     }
   },
   { timestamps: true }

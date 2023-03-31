@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const { ObjectId } = mongoose.Schema.Types;
 
 const userSchema = new mongoose.Schema(
   {
@@ -42,10 +41,7 @@ const userSchema = new mongoose.Schema(
       type: Array,
       default: [],
     },
-    category: {
-      type: ObjectId,
-      ref: "address",
-    },
+
   },
   { timestamps: true }
 );

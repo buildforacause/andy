@@ -129,6 +129,7 @@ class Auth {
           return res.json({
             token: token,
             user: encode,
+            userid: data._id
           });
         } else {
           return res.json({

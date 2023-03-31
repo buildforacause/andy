@@ -107,23 +107,19 @@
 		                		<div class="col-lg-9">
 									<div class="saved-address">
 
-										<div class="address-card">
-											<div class="address-text">
-												<p>Harmit Saini</p>
-												<p>9967775891</p>
-												<p>Taximen colony, Kurla</p>
-												<input type="radio" class="address-selector" id="123" buttonphone="9967775891" buttonaddress="Taximen colony, Kurla" buttonname="Harmit Saini"  name="address-selector" value="primary"><label for="123">Use this address.</label>
-											</div>
-										</div>
+										<% addresses.forEach(a => { %>
+										 
 										
 										<div class="address-card">
 											<div class="address-text">
-												<p>Siddharth Singh</p>
-												<p>9372642011</p>
-												<p>701/3, Shreeji Splendor, Brahmand</p>
-												<input type="radio" class="address-selector" id="234" buttonphone="9372642011" buttonaddress="701/3, Shreeji Splendor, Thane" buttonname="Siddharth Singh" name="address-selector" value="secondary"><label for="234">Use this address</label> 
+												<p><%= a.aname %></p>
+												<p><%= a.aphone %></p>
+												<p><%= a.aadress %></p>
+												<input type="radio" class="address-selector" id="<%= a._id %>" buttonphone="<%= a.aphone %>" buttonaddress="<%= a.aadress %>" buttonname="<%= a.aname %>"  name="address-selector" value="primary"><label for="123">Use this address.</label>
 											</div>
 										</div>
+										<% }) %>
+									
 
 									</div>
 									<div style="display:flex;align-items: center;">

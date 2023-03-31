@@ -25,33 +25,37 @@ router.get('/',async (req,res) => {
 })
 
 router.get("/cart",async (req,res)=>{
-    let user=req.cookies.aut0ken
+    let user=req.cookies.autOken
     res.render("frontend/cart.ejs",{user:user})
 })
 
 router.get("/dashboard",async (req,res)=>{
-    let user=req.cookies.aut0ken
-    res.render("frontend/dashboard.ejs",{user:user})
+    let user=req.cookies.autOken
+    let userid = req.cookies.userid
+    let userAddress = await addressModel.find({user: userid})
+    res.render("frontend/dashboard.ejs",{user:user, addresses: userAddress, userid:userid})
 })
 
 router.get("/track",async (req,res)=>{
-    let user=req.cookies.aut0ken
+    let user=req.cookies.autOken
     res.render("frontend/track.ejs",{user:user})
 })
 
 router.get("/checkout",async (req,res)=>{
     // res.redirect("/cart");
-    let user=req.cookies.aut0ken
+    let user=req.cookies.autOken
     res.render("frontend/checkout.ejs",{user:user});
 })
 
 router.post("/checkout",async (req,res)=>{
-    let user=req.cookies.aut0ken
+    let user=req.cookies.autOken
     let ids = req.body.productids
     let quantity = req.body.quantity
+    let userid = req.cookies.userid
     let cartProducts = await productModel.find({
         _id: { $in: ids },
     });
+    let userAddress = await addressModel.find({user: userid})
     if(cartProducts.length === 1){
         for(let i=0; i<cartProducts.length; i++){
             if(cartProducts[i].quantity < quantity[i]){
@@ -73,8 +77,7 @@ router.post("/checkout",async (req,res)=>{
             }
         }
     }
-    console.log(cartProducts)
-    res.render("frontend/checkout.ejs",{user:user, products: cartProducts})
+    res.render("frontend/checkout.ejs",{user:user, products: cartProducts, addresses: userAddress})
 })
 
 router.get("/view/:id",async (req,res) => {
