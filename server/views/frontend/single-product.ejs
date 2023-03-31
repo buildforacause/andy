@@ -111,15 +111,6 @@
                                     </div><!-- End .product-content -->
 
                                     <div class="details-filter-row details-row-size">
-                                        <label>Color:</label>
-
-                                        <div class="product-nav product-nav-dots">
-                                            <a href="#" class="active" style="background: <%= product.colors[0] %>;"><span class="sr-only">Color name</span></a>
-                                            <a href="#" style="background: <%= product.colors[1] %>; border: 0.1px solid black"><span class="sr-only">Color name</span></a>
-                                        </div>
-                                    </div><!-- End .details-filter-row -->
-
-                                    <div class="details-filter-row details-row-size">
                                         <label for="size">Size:</label>
                                         <div class="select-custom">
                                             <select name="size" id="size" class="form-control">
@@ -132,13 +123,6 @@
                                         </div><!-- End .select-custom -->
 
                                         <a href="#" class="size-guide"><i class="icon-th-list"></i>size guide</a>
-                                    </div><!-- End .details-filter-row -->
-
-                                    <div class="details-filter-row details-row-size">
-                                        <label for="qty">Qty:</label>
-                                        <div class="product-details-quantity">
-                                            <input type="number" id="qty" class="form-control" value="1" min="1" max="10" step="1" data-decimals="0" required>
-                                        </div><!-- End .product-details-quantity -->
                                     </div><!-- End .details-filter-row -->
 
                                     <div class="product-details-action ">
@@ -352,41 +336,11 @@
             </div><!-- End .page-content -->
         </main><!-- End .main -->
 
-            <!-- Sticky Bar -->
-    <div class="sticky-bar">
-        <div class="container">
-            <div class="row">
-                <div class="col-6">
-                    <figure class="product-media">
-                        <a href="/view/<%= product._id %>">
-                            <img src="<%= product.image[0] %>" alt="Product image">
-                        </a>
-                    </figure><!-- End .product-media -->
-                    <h4 class="product-title"><a href="/view/<%= product._id %>"><%= product.name %></a></h4><!-- End .product-title -->
-                </div><!-- End .col-6 -->
-
-                <div class="col-6 justify-content-end">
-                    <div class="product-price">
-                        <% if (product.offer != 0) { %>
-                            <span class="new-price"> ₹<%= product.price - ((product.price/100)*product.offer).toFixed(2) %></span>
-                            <span class="old-price">₹<%= product.price.toFixed(2) %></span>
-                        <% } else { %>
-                            <span class="new-price">₹<%= product.price.toFixed(2) %></span>
-                        <% } %>
-                    </div><!-- End .product-price -->
-                    <div class="product-details-quantity">
-                        <input type="number" id="sticky-cart-qty" class="form-control" value="1" min="1" max="10" step="1" data-decimals="0" required>
-                    </div><!-- End .product-details-quantity -->
-
-                    <div class="product-details-action ">
-                        <a type="button" productid="<%= product._id %>" productoffer="<%=product.offer%>" productprice="<%= product.price %>" productname="<%= product.name %>" productimage="<%= product.image[0] %>" class="btn-product btn-cart"><span>add to cart</span></a>
-                    </div><!-- End .product-action -->
-                </div><!-- End .col-6 -->
-            </div><!-- End .row -->
-        </div><!-- End .container -->
-    </div><!-- End .sticky-bar -->
 
 <%- include("./footer.ejs") %>
+<script>
+	$("#cart-total-text").hide();
+</script>
 </body>
 
 

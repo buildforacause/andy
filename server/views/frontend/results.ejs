@@ -79,6 +79,9 @@
 
                             <div class="products mb-3">
                                 <div class="row justify-content-center">
+                                    <% if (allProds.length < 1) { %>
+                                     <center><h3>No Products Found</h3></center>
+                                    <% } %>
                                     <% allProds.forEach(prod => { %>
                                     
                                     <div class="col-6 col-md-4 col-lg-4">
