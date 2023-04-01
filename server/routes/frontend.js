@@ -5,6 +5,9 @@ const productModel = require("../models/products");
 const sponsorModel = require("../models/sponsor");
 const addressModel = require("../models/address");
 const customizeModel = require("../models/customize");
+const infoModel = require("../models/info");
+const userModel = require("../models/users");
+const orderModel = require("../models/orders");
 
 router.get('/',async (req,res) => {
     let Products = await productModel
@@ -12,7 +15,8 @@ router.get('/',async (req,res) => {
         .populate("category", "_id cName")
         .sort({ _id: -1 })
         .limit(5);
-    let Categories = await categoryModel.find({}).sort({ _id: -1 });
+    let Categories = await categoryModel.find({cStatus: "Active"}).sort({ _id: -1 });
+    let navCats = await categoryModel.find({cStatus: "Active"}).sort({ _id: -1 }).limit(5);
     let RecentProducts= await productModel
         .find({})
         .populate("category")
@@ -21,30 +25,58 @@ router.get('/',async (req,res) => {
     let Sponsors = await sponsorModel.find({}).sort({ _id: -1 });
     let sliders = await customizeModel.find({});
     let user = req.cookies.autOken
-    res.render("frontend/index.ejs", {products: Products, categories: Categories,recentproducts:RecentProducts, sponsors:Sponsors, user:user, sliders:sliders});
+    let userid = req.cookies.userid
+    let Info = await infoModel.find({});
+    res.render("frontend/index.ejs", {info: Info[0],navCats: navCats,userid: userid,products: Products, categories: Categories,recentproducts:RecentProducts, sponsors:Sponsors, user:user, sliders:sliders});
 })
 
 router.get("/cart",async (req,res)=>{
     let user=req.cookies.autOken
-    res.render("frontend/cart.ejs",{user:user})
+    let userid = req.cookies.userid
+    let navCats = await categoryModel.find({cStatus: "Active"}).sort({ _id: -1 }).limit(5);
+    let Info = await infoModel.find({});
+    let errmsg = ""
+    let errid = ""
+    res.render("frontend/cart.ejs",{errmsg: errmsg, errid: errid,user:user, userid: userid, navCats: navCats, info:Info[0]})
 })
 
 router.get("/dashboard",async (req,res)=>{
     let user=req.cookies.autOken
     let userid = req.cookies.userid
+    if(!user){
+        res.redirect("/");
+    }
     let userAddress = await addressModel.find({user: userid})
-    res.render("frontend/dashboard.ejs",{user:user, addresses: userAddress, userid:userid})
+    let navCats = await categoryModel.find({cStatus: "Active"}).sort({ _id: -1 }).limit(5);
+    let Info = await infoModel.find({});
+    let verify = await userModel.find({_id: userid})
+    let orders = await orderModel.find({user: userid}).populate("allProduct.id", "name image price")
+    .populate("address", "aaddress aphone aname acity apincode")
+    .sort({ _id: -1 });
+    res.render("frontend/dashboard.ejs",{orders: orders,verify: verify[0],user:user, addresses: userAddress, userid:userid, navCats: navCats, info: Info[0]})
 })
 
 router.get("/track",async (req,res)=>{
     let user=req.cookies.autOken
-    res.render("frontend/track.ejs",{user:user})
+    let userid = req.cookies.userid
+    let navCats = await categoryModel.find({cStatus: "Active"}).sort({ _id: -1 }).limit(5);
+    let Info = await infoModel.find({});
+    let order = []
+    if(req.query.of){
+        try{
+            order = await orderModel.find({_id: req.query.of}).populate("allProduct.id", "name image price")
+            .populate("address", "aaddress aphone aname acity apincode")
+        }catch(r){
+            res.redirect("/dashboard");
+        }
+    }else{
+        res.redirect("/dashboard");
+    }
+    res.render("frontend/track.ejs",{order:order[0],user:user, userid: userid, navCats:navCats, info: Info[0]})
 })
 
 router.get("/checkout",async (req,res)=>{
-    // res.redirect("/cart");
-    let user=req.cookies.autOken
-    res.render("frontend/checkout.ejs",{user:user});
+    res.redirect("/cart");
 })
 
 router.post("/checkout",async (req,res)=>{
@@ -52,6 +84,8 @@ router.post("/checkout",async (req,res)=>{
     let ids = req.body.productids
     let quantity = req.body.quantity
     let userid = req.cookies.userid
+    let navCats = await categoryModel.find({cStatus: "Active"}).sort({ _id: -1 }).limit(5);
+    let Info = await infoModel.find({});
     let cartProducts = await productModel.find({
         _id: { $in: ids },
     });
@@ -59,7 +93,9 @@ router.post("/checkout",async (req,res)=>{
     if(cartProducts.length === 1){
         for(let i=0; i<cartProducts.length; i++){
             if(cartProducts[i].quantity < quantity[i]){
-                res.redirect("/cart")
+                let errmsg = "Quantity of this product remaining is " +cartProducts[i].quantity;
+                let errid = cartProducts[i]._id                
+                res.render("frontend/cart.ejs",{errmsg: errmsg, errid: errid, user:user, userid: userid, navCats: navCats, info:Info[0]})
             }else{
             cartProducts[i].quantity = quantity[i]
             }
@@ -70,14 +106,20 @@ router.post("/checkout",async (req,res)=>{
         }else{
             for(let i=0; i<cartProducts.length; i++){
                 if(cartProducts[i].quantity < quantity[i]){
-                    res.redirect("/cart") 
+                    let err = {
+                        "msg":"Quantity of this product remaining is " + cartProducts[i].quantity,
+                        "id": cartProducts[i]._id
+                    }
+                    
+                    res.render("frontend/cart.ejs",{err: err, user:user, userid: userid, navCats: navCats, info:Info[0]})
                 }else{
                 cartProducts[i].quantity = quantity[i]
                 }
             }
         }
     }
-    res.render("frontend/checkout.ejs",{user:user, products: cartProducts, addresses: userAddress})
+
+    res.render("frontend/checkout.ejs",{user:user, userid: userid, quantity: quantity, products: cartProducts, addresses: userAddress, navCats: navCats, info:Info[0]})
 })
 
 router.get("/view/:id",async (req,res) => {
@@ -87,7 +129,10 @@ router.get("/view/:id",async (req,res) => {
     .populate("category", "_id cName")
     let allProds = await productModel.find({'_id': {$ne : id}}).populate("category", "_id cName")
     let user = req.cookies.autOken
-    res.render("frontend/single-product.ejs", {product: Product[0], allProds: allProds, user:user});
+    let userid = req.cookies.userid
+    let navCats = await categoryModel.find({cStatus: "Active"}).sort({ _id: -1 }).limit(5);
+    let Info = await infoModel.find({});
+    res.render("frontend/single-product.ejs", {info: Info[0],userid: userid,product: Product[0], allProds: allProds, user:user, navCats: navCats});
 })
 
 router.get("/shop",async (req,res) => {
@@ -129,9 +174,12 @@ router.get("/shop",async (req,res) => {
         allProds = await productModel.find({}).populate("category", "_id cName");
         title = "All Products"
     }
-    let Categories = await categoryModel.find({}).sort({ _id: -1 });
+    let Categories = await categoryModel.find({status: "Active"}).sort({ _id: -1 });
     let user = req.cookies.autOken
-    res.render("frontend/results.ejs", {allProds: allProds, cats: Categories, user:user, title: title});
+    let userid = req.cookies.userid
+    let navCats = await categoryModel.find({cStatus: "Active"}).sort({ _id: -1 }).limit(5);
+    let Info = await infoModel.find({});
+    res.render("frontend/results.ejs", {info: Info[0], userid: userid,allProds: allProds, cats: Categories, user:user, title: title, navCats: navCats});
 })
 
 router.get("/check-quantity/:id",async (req,res) => {

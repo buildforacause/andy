@@ -11,6 +11,14 @@ const addressSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    acity: {
+      type: String,
+      required: true,
+    },
+    apincode: {
+      type: Number,
+      required: true,
+  },
     aphone: {
         type: Number,
         required: true,

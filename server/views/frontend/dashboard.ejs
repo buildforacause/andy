@@ -62,9 +62,6 @@
 								        <a class="nav-link" id="tab-orders-link" data-toggle="tab" href="#tab-orders" role="tab" aria-controls="tab-orders" aria-selected="false">Orders</a>
 								    </li>
 								    <li class="nav-item">
-								        <a class="nav-link" id="tab-downloads-link" data-toggle="tab" href="#tab-downloads" role="tab" aria-controls="tab-downloads" aria-selected="false">Downloads</a>
-								    </li>
-								    <li class="nav-item">
 								        <a class="nav-link" id="tab-address-link" data-toggle="tab" href="#tab-address" role="tab" aria-controls="tab-address" aria-selected="false">Adresses</a>
 								    </li>
 								    <li class="nav-item">
@@ -79,18 +76,21 @@
 	                		<div class="col-md-8 col-lg-9">
 	                			<div class="tab-content">
 								    <div class="tab-pane fade show active" id="tab-dashboard" role="tabpanel" aria-labelledby="tab-dashboard-link">
-								    	<p>Hello <span class="font-weight-normal text-dark">User</span> (not <span class="font-weight-normal text-dark">User</span>? <a href="#">Log out</a>) 
+								    	<p>Hello <span class="font-weight-normal text-dark"><%= verify.name %></span> (not <span class="font-weight-normal text-dark"><%= verify.name %></span>? <a href="/logout">Log out</a>) 
 								    	<br>
 								    	From your account dashboard you can view your <a href="#tab-orders" class="tab-trigger-link link-underline">recent orders</a>, manage your <a href="#tab-address" class="tab-trigger-link">shipping and billing addresses</a>, and <a href="#tab-account" class="tab-trigger-link">edit your password and account details</a>.</p>
 								    </div><!-- .End .tab-pane -->
 
 								    <div class="tab-pane fade" id="tab-orders" role="tabpanel" aria-labelledby="tab-orders-link">
+										<% orders.forEach(order => { %>
+										 
 								    	<article style="border: 1px solid #e4e4e4;padding: 1rem 2rem;margin-bottom: 2rem;" class="entry entry-list">
-                                            <div class="row align-items-center">
+                                            
+											<div class="row align-items-center">
                                                 <div class="col-md-3">
                                                     <figure class="entry-media">
-                                                        <a href="single.html">
-                                                            <img src="/frontend/assets/images/about/about-2/img-1.jpg" alt="image desc">
+                                                        <a href="">
+                                                            <img src="<%= order.allProduct[0].id.image[0] %>" alt="image desc">
                                                         </a>
                                                     </figure><!-- End .entry-media -->
                                                 </div><!-- End .col-md-4 -->
@@ -100,97 +100,59 @@
                                                         <div class="entry-meta">
                                                             
                                                             <!-- <span class="meta-separator">|</span> -->
-                                                            <a href="#">Nov 22, 2018</a>
+                                                            <a href="#"> <%= order.allProduct.length > 1 ? "+ " + order.allProduct.length - 1 + " more" : "" %></a>
                                                             
 
                                                         </div><!-- End .entry-meta -->
                     
                                                         <h2 class="entry-title">
-                                                            <a href="single.html">Lux Cozi.</a>
+                                                            <a href=""><%= order.allProduct[0].id.name %></a>
                                                         </h2><!-- End .entry-title -->
                     
                                                         <div class="entry-cats" style="margin-bottom: 0;">
-                                                            <a href="#" >₹1349</a>
+                                                            <a href="#" >Total: ₹<%= order.amount %></a>
                                                         </div><!-- End .entry-cats -->
-                                                        
+														<span class="position-absolute text-white badge rounded-pill bg-danger">
+															Total <%= order.allProduct.length %> product(s)
+														  </span>
                                                     </div><!-- End .entry-body -->
-                                                    <div style="margin-left: auto;color:#cc9966;align-self: last baseline;"><a href="/track" class="read-more">Track this order</a></div>
+
+                                                    <div style="margin-left: auto;color:#cc9966;align-self: last baseline;"><a href="/track?of=<%= order._id %>" class="read-more">Track this order</a></div>
 
                                                 </div><!-- End .col-md-8 -->
                                             </div><!-- End .row -->
                                         </article><!-- End .entry -->
-
-                                        <article style="border: 1px solid #e4e4e4;padding: 1rem 2rem;" class="entry entry-list">
-                                            <div class="row align-items-center">
-                                                <div class="col-md-3">
-                                                    <figure class="entry-media">
-                                                        <a href="single.html">
-                                                            <img src="/frontend/assets/images/about/about-2/img-1.jpg" alt="image desc">
-                                                        </a>
-                                                    </figure><!-- End .entry-media -->
-                                                </div><!-- End .col-md-4 -->
-                    
-                                                <div class="col-md-9 d-flex" >
-                                                    <div class="entry-body" style="padding-left: 0;">
-                                                        <div class="entry-meta">
-                                                            
-                                                            <!-- <span class="meta-separator">|</span> -->
-                                                            <a href="#">Nov 22, 2018</a>
-                                                            
-
-                                                        </div><!-- End .entry-meta -->
-                    
-                                                        <h2 class="entry-title">
-                                                            <a href="single.html">Lux Cozi.</a>
-                                                        </h2><!-- End .entry-title -->
-                    
-                                                        <div class="entry-cats" style="margin-bottom: 0;">
-                                                            <a href="#" >₹1349</a>
-                                                        </div><!-- End .entry-cats -->
-                                                        
-                                                    </div><!-- End .entry-body -->
-                                                    <div style="margin-left: auto;color:#cc9966;align-self: last baseline;"><a href="/track" class="read-more">Track this order</a></div>
-
-                                                </div><!-- End .col-md-8 -->
-                                            </div><!-- End .row -->
-                                        </article><!-- End .entry -->
-								    </div><!-- .End .tab-pane -->
-
-								    <div class="tab-pane fade" id="tab-downloads" role="tabpanel" aria-labelledby="tab-downloads-link">
-								    	<p>No downloads available yet.</p>
-								    	<a href="category.html" class="btn btn-outline-primary-2"><span>GO SHOP</span><i class="icon-long-arrow-right"></i></a>
+										<% }) %>
 								    </div><!-- .End .tab-pane -->
 
 								    <div class="tab-pane fade" id="tab-address" role="tabpanel" aria-labelledby="tab-address-link">
-								    	<p>The following addresses will be used on the checkout page by default.</p>
 
+								    	<p>The following addresses will be used on the checkout page.</p>
+										<p><a href="#address-modal" data-toggle="modal">Add New Address</a></p>
+										<% if (addresses.length < 1) { %>
+										 <h5>No addresses found!</h5>
+										<% } %>
 								    	<div class="row">
-								    		<div class="col-lg-6">
-								    			<div class="card card-dashboard">
-								    				<div class="card-body">
-								    					<h3 class="card-title">Billing Address</h3><!-- End .card-title -->
-
-														<p>User Name<br>
-														User Company<br>
-														John str<br>
-														New York, NY 10001<br>
-														1-234-987-6543<br>
-														yourmail@mail.com<br>
-														<a href="#">Edit <i class="icon-edit"></i></a></p>
-								    				</div><!-- End .card-body -->
-								    			</div><!-- End .card-dashboard -->
-								    		</div><!-- End .col-lg-6 -->
-
+											<% addresses.forEach(address => { %>
+											 
+											
 								    		<div class="col-lg-6">
 								    			<div class="card card-dashboard">
 								    				<div class="card-body">
 								    					<h3 class="card-title">Shipping Address</h3><!-- End .card-title -->
 
-														<p>You have not set up this type of address yet.<br>
-														<a href="#">Edit <i class="icon-edit"></i></a></p>
+														<p><%= address.aname %><br>
+														<%= address.aaddress %><br>
+														<%= address.aphone %><br>
+														<form action="/api/address/delete" method="POST" >
+															<input type="hidden" name="_id" value="<%= address._id %>" >
+														<button type="submit" class="btn btn-danger">Delete</button>
+													</form>
+														
 								    				</div><!-- End .card-body -->
 								    			</div><!-- End .card-dashboard -->
 								    		</div><!-- End .col-lg-6 -->
+											<% }) %>
 								    	</div><!-- End .row -->
 								    </div><!-- .End .tab-pane -->
 
@@ -238,8 +200,93 @@
             </div><!-- End .page-content -->
         </main><!-- End .main -->
 
+		<div class="modal fade" id="address-modal" tabindex="-1" role="dialog" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered" role="document">
+				<div class="modal-content">
+					<div class="modal-body">
+						<button type="button" id="modal-close-now" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true"><i class="icon-close"></i></span>
+						</button>
+			
+						<div class="form-box">
+							<div class="form-tab">
+								<div class="tab-content" id="tab-content-5">
+									<div class="tab-pane fade show active" id="address" role="tabpanel" aria-labelledby="address-tab">
+										<form id="address-form">
+											<center><span id="adresponse" class="text-danger"></span></center>
+											<input type="hidden" name="user" value="<%= userid %>" >
+											<div class="form-group">
+												<label for="singin-email">Name *</label>
+												<input type="text" class="form-control" id="singin-email" name="aname" required>
+											</div><!-- End .form-group -->
+			
+											<div class="form-group">
+												<label for="singin-password">Phone Number *</label>
+												<input type="number" class="form-control" id="singin-password" name="aphone" required>
+											</div><!-- End .form-group -->
+
+											<div class="form-group">
+												<label for="a-password">Address *</label>
+												<textarea type="number" class="form-control" id="a-password" name="aaddress" required></textarea>
+											</div><!-- End .form-group -->
+											<div class="row">
+												<div class="form-group col-md-6">
+													<label for="aa-email">City *</label>
+													<input type="text" class="form-control" id="aa-email" name="acity" required>
+												</div><!-- End .form-group -->
+
+												<div class="form-group col-md-6">
+													<label for="aaa-email">Pincode *</label>
+													<input type="number" class="form-control" id="aaa-email" name="apincode" required>
+												</div><!-- End .form-group -->
+											</div>
+											<div class="form-footer">
+												
+												<button type="submit" form="address-form" class="btn btn-outline-primary-2">
+													
+													<span>Add New Address</span>
+													<i class="icon-long-arrow-right"></i>
+												</button>
+			
+												<!-- <a href="#" class="forgot-link">Forgot Your Password?</a> -->
+											</div>
+											<!-- End .form-footer -->
+										</form>
+
+									</div><!-- .End .tab-pane -->
+								</div><!-- End .tab-content -->
+							</div><!-- End .form-tab -->
+						</div><!-- End .form-box -->
+					</div><!-- End .modal-body -->
+				</div><!-- End .modal-content -->
+			</div><!-- End .modal-dialog -->
+			</div><!-- End .modal -->
+
         <%- include("./footer.ejs") %>
-    <script>$('#cart-total-text').hide();</script>    
+
+    <script>
+	$('#cart-total-text').hide();
+	const $form3 = $('#address-form')
+    $form3.on('submit', submitHandler3)
+
+    function submitHandler3 (e) {
+        e.preventDefault()
+        $.ajax({
+            url: '/api/address/add',
+            type:'POST',
+            data: $form3.serialize()
+        }).done(response => {
+            response = JSON.stringify(response)
+            response = JSON.parse(response);
+			if(response.error){
+				$("#adresponse").text(response.error)
+			}else{
+				$("#modal-close-now").click()
+				location.reload();
+			}
+        })
+    }
+	</script>    
 </body>
     
 

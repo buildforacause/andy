@@ -7,7 +7,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Molla - Bootstrap eCommerce Template</title>
+    <title>Track Order</title>
     <meta name="keywords" content="HTML5 Template">
     <meta name="description" content="Molla - Bootstrap eCommerce Template">
     <meta name="author" content="p-themes">
@@ -91,7 +91,15 @@
   .status:before {
     left: -8%;
     top: 30%;
-    transition: all 200ms ease-in; } }
+    transition: all 200ms ease-in; } 
+  .li.complete .status{
+    border-top: 0px;
+  }
+  .li .status{
+    border-top: 0px;
+  }
+  
+  }
 
     </style>
 </head>
@@ -105,7 +113,6 @@
                 <div class="container d-flex align-items-center">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="/index">Home</a></li>
-                        <li class="breadcrumb-item"><a href="/dashboard">Dashboard</a></li>
                         <li class="breadcrumb-item"><a href="/dashboard">Orders</a></li>
                         <li class="breadcrumb-item active" aria-current="page">Track Order</li>
                     </ol>
@@ -119,48 +126,30 @@
                         <div class="row align-items-center">
                             <div class="col-md-12" style="align-self: flex-start;">
                                 <center><h2 class="title title-lg mt-1">Track order</h2></center>
-                                <div style="display: flex;">
+                                <div class="row" style="display: flex;">
                                   
                                   <div class="col-md-6" style="border:1px solid #e7e7e7;text-align:center;align-self: self-start;padding: 1rem;text-align: center;align-self: stretch;margin-bottom: 1rem;" >
-                                    <!-- <figure class="entry-media">
-                                        <a href="single.html">
-                                            <img src="/frontend/assets/images/products/single/gallery/1.jpg" alt="image desc">
-                                        </a>
-                                    </figure>End .entry-media -->
+                                    <% order.allProduct.forEach(element => { %>
+                                     
+                                    
                                     <div class="d-flex">
                                       <h4 style="font-weight: 500;margin-bottom: 1rem;" class="widget-title">
-                                        Lux Cozi
+                                        <%= element.id.name %>
                                       </h4>
-                                      <p style="margin-left: auto;margin-bottom: 0;font-weight: 500;">₹200<span style="font-weight: 400;"> x1</span></p>
+                                      <p style="margin-left: auto;margin-bottom: 0;font-weight: 500;">₹<%= element.id.price %><span style="font-weight: 400;"> x <%= element.quantity %></span></p>
                                   </div>
-                                  <div class="d-flex">
-                                    <h4 style="font-weight: 500;margin-bottom: 1rem;" class="widget-title">
-                                      Lux Cozi
-                                    </h4>
-                                    <!-- <p style="margin-left: auto;margin-bottom: 0;">₹200</p> -->
-                                    <p style="margin-left: auto;margin-bottom: 0;font-weight: 500;">₹200<span style="font-weight: 400;"> x1</span></p>
-
-                                </div>
-                                <div class="d-flex">
-                                  <h4 style="font-weight: 500;margin-bottom: 1rem;" class="widget-title">
-                                    Lux Cozi
-                                  </h4>
-                                  <!-- <p style="margin-left: auto;margin-bottom: 0;">₹200</p> -->
-                                  <p style="margin-left: auto;margin-bottom: 0;font-weight: 500;">₹200<span style="font-weight: 400;"> x1</span></p>
-
-                              </div>
+                                  <% }) %>
                             </div><!-- End .col-md-4 -->
 
                                   <div class="entry-body col-md-6" style="text-align: end;">
                                     <h4 style="font-weight: 500;margin-bottom: 1rem;" class="widget-title">
                                         Delivery address
                                     </h4><!-- End .entry-content -->
-                                    <p style="font-weight: 500;margin-bottom: 0rem;">Siddharth Singh</p>
-                                    <p style="margin-bottom: 1rem;">Taximen colony Kurla
-                                    Taximen colony Kurla
-                                    Maharashtra 400070</p>
+                                    <p style="font-weight: 500;margin-bottom: 0rem;"><%= order.address.aname %></p>
+                                    <p style="margin-bottom: 1rem;"><%= order.address.aaddress %> <br>
+                                      <%= order.address.acity %> - <%= order.address.apincode %></p>
                                     <p style="font-weight: 500;margin-bottom: 0rem;">Phone number</p>
-                                    <p>9967775891</p>
+                                    <p><%= order.address.aphone %></p>
                                 </div><!-- End .entry-body -->
 
                                 
@@ -168,10 +157,10 @@
                               </div>
 
                                 <div class="p-5" style="border:1px solid #e7e7e7;text-align:center;">
-                                  <p class="mb-2"><span style="font-weight: 500;margin-bottom: 0rem;">Tracking number: </span>9967775891</p>
+                                  <p class="mb-2"><span style="font-weight: 500;margin-bottom: 0rem;">Tracking Phone number: </span><%= order.address.aphone %></p>
                                 
                                 <ul class="timeline" id="timeline">
-                                    <li class="li complete">
+                                    <li class="li">
                                       <div class="timestamp">
                                         
                                         <p>Not processed</p>
@@ -181,7 +170,7 @@
                                         
                                       </div>
                                     </li>
-                                    <li class="li complete">
+                                    <li class="li">
                                       <div class="timestamp">
                                         
                                         <p>Processing</p>
@@ -191,7 +180,7 @@
                                         
                                       </div>
                                     </li>
-                                    <li class="li complete">
+                                    <li class="li">
                                       <div class="timestamp">
                                         
                                         <p>Shipped</p>
@@ -225,6 +214,24 @@
     <%- include('./footer.ejs') %>
         <script>
           $('#cart-total-text').hide();
+
+          var status = '<%= order.status %>';
+          let ts = document.getElementsByClassName("li");
+          let j = {
+            "Not processed" : 0,
+            "Processing": 1,
+            "Shipped": 2,
+            "Delivered": 3
+          }
+          
+          let v = j[status];
+          console.log(status)
+          for(let i = 0; i < ts.length; i++){
+            ts[i].classList.add("complete")
+            if(i === v){
+              break;
+            }
+          }
         </script>
   </body>
 

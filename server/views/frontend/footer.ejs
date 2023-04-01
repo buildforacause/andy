@@ -5,64 +5,39 @@
                 <div class="col-sm-12 col-lg-6">
                     <div class="widget widget-about">
                         <img src="/frontend/assets/images/demos/demo-8/logo-footer.png" class="footer-logo" alt="Footer Logo" width="82" height="25">
-                        <p>Praesent dapibus, neque id cursus ucibus, tortor neque egestas augue, eu vulputate magna eros eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus. </p>
-                        
+                        <p><%= info.about %></p>
                         <div class="widget-about-info">
                             <div class="row">
                                 <div class="col-sm-6 col-md-4">
                                     <span class="widget-about-title">Got Question? Call us 24/7</span>
-                                    <a href="tel:123456789">+0123 456 789</a>
-                                </div><!-- End .col-sm-6 -->
-                                <div class="col-sm-6 col-md-8">
-                                    <span class="widget-about-title">Payment Method</span>
-                                    <figure class="footer-payments">
-                                        <img src="/frontend/assets/images/payments.png" alt="Payment methods" width="272" height="20">
-                                    </figure><!-- End .footer-payments -->
+                                    <a href="tel:<%= info.phone %>"><%= info.phone %></a>
                                 </div><!-- End .col-sm-6 -->
                             </div><!-- End .row -->
                         </div><!-- End .widget-about-info -->
                     </div><!-- End .widget about-widget -->
                 </div><!-- End .col-sm-12 col-lg-3 -->
 
-                <div class="col-sm-4 col-lg-2">
-                    <div class="widget">
-                        <h4 class="widget-title">Information</h4><!-- End .widget-title -->
-
-                        <ul class="widget-list">
-                            <li><a href="about.html">About Molla</a></li>
-                            <li><a href="#">How to shop on Molla</a></li>
-                            <li><a href="faq.html">FAQ</a></li>
-                            <li><a href="contact.html">Contact us</a></li>
-                            <li><a href="login.html">Log in</a></li>
-                        </ul><!-- End .widget-list -->
-                    </div><!-- End .widget -->
-                </div><!-- End .col-sm-4 col-lg-3 -->
-
-                <div class="col-sm-4 col-lg-2">
+                <div class="col-sm-6 col-lg-2">
                     <div class="widget">
                         <h4 class="widget-title">Customer Service</h4><!-- End .widget-title -->
 
                         <ul class="widget-list">
-                            <li><a href="#">Payment Methods</a></li>
-                            <li><a href="#">Money-back guarantee!</a></li>
-                            <li><a href="#">Returns</a></li>
-                            <li><a href="#">Shipping</a></li>
-                            <li><a href="#">Terms and conditions</a></li>
-                            <li><a href="#">Privacy Policy</a></li>
+                            <li><a href="#about">About Us</a></li>
+                            <li><a href="/shop">All Products</a></li>
                         </ul><!-- End .widget-list -->
                     </div><!-- End .widget -->
                 </div><!-- End .col-sm-4 col-lg-3 -->
 
-                <div class="col-sm-4 col-lg-2">
+                <div class="col-sm-6 col-lg-2">
                     <div class="widget">
                         <h4 class="widget-title">My Account</h4><!-- End .widget-title -->
 
                         <ul class="widget-list">
-                            <li><a href="#">Sign In</a></li>
-                            <li><a href="cart.html">View Cart</a></li>
-                            <li><a href="#">My Wishlist</a></li>
-                            <li><a href="#">Track My Order</a></li>
-                            <li><a href="#">Help</a></li>
+                            <li><a href="#signin-modal" data-toggle="modal">Sign In</a></li>
+                            <li><a href="/cart">View Cart</a></li>
+                            <% if (user) { %>
+                                <li><a href="/dashboard">My Account</a></li>
+                            <% } %>
                         </ul><!-- End .widget-list -->
                     </div><!-- End .widget -->
                 </div><!-- End .col-sm-64 col-lg-3 -->
@@ -72,11 +47,7 @@
 
     <div class="footer-bottom">
         <div class="container">
-            <p class="footer-copyright">Copyright © 2019 Molla Store. All Rights Reserved.</p><!-- End .footer-copyright -->
-            <ul class="footer-menu">
-                <li><a href="#">Terms Of Use</a></li>
-                <li><a href="#">Privacy Policy</a></li>
-            </ul><!-- End .footer-menu -->
+            <p class="footer-copyright">Copyright © <%= new Date().getFullYear();%> Mayur Sports. All Rights Reserved.</p><!-- End .footer-copyright -->
 
             <div class="social-icons social-icons-color">
                 <span class="social-label">Social Media</span>
@@ -114,10 +85,7 @@
                 <a href="/shop">Shop</a>
             </li>
             <li>
-                <a href="#" class="sf-with-ul">About Us</a>
-            </li>
-            <li>
-                <a href="#">Contact</a>
+                <a href="/#about" class="sf-with-ul">About Us</a>
             </li>
             <li>
                 <% if(!user){ %>
@@ -143,7 +111,7 @@
 <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
         <div class="modal-body">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <button type="button" id="btn-btn0close" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true"><i class="icon-close"></i></span>
             </button>
 
@@ -243,6 +211,31 @@
 </div><!-- End .modal-dialog -->
 </div><!-- End .modal -->
 <!-- Plugins JS File -->
+<script>
+    function setCookie(name, value, path, options = {}) {
+        options = {
+            path: path,
+            ...options
+        }; if (options.expires instanceof Date) {
+            options.expires = options.expires.toUTCString();
+        } let updatedCookie = encodeURIComponent(name) + "=" + encodeURIComponent(value)
+        for (let optionKey in options) {
+            updatedCookie += "; " + optionKey
+            let optionValue = options[optionKey]
+            if (optionValue !== true) {
+                updatedCookie += "=" + optionValue
+            }
+        }
+        document.cookie = updatedCookie;
+    }
+
+    function getCookie(name) {
+        let matches = document.cookie.match(new RegExp(
+            "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+            ))
+        return matches ? decodeURIComponent(matches[1]) : undefined
+    }
+</script>
 <script src="/frontend/assets/js/jquery.min.js"></script>
 <script src="/frontend/assets/js/bootstrap.bundle.min.js"></script>
 <script src="/frontend/assets/js/jquery.hoverIntent.min.js"></script>
@@ -299,7 +292,8 @@
                 $("#showloginerr").hide()
                 setCookie("autOken", response.token, '/')
                 setCookie("userid", response.userid, '/')
-                window.location = "/";
+                $("#btn-btn0close").click()
+                location.reload();
             }
         })
     }

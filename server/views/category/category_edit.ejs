@@ -71,8 +71,8 @@
                             <div class="col-md-8 col-lg-9">
                                 <select class="form-select" id="status" name="cStatus" aria-label="Default select example">
                                     <!-- <option selected>Open this select menu</option> -->
-                                    <option selected>Active</option>
-                                    <option >Disabled</option>
+                                    <option <%= cat.cStatus === "Active" ? "selected" : "" %>>Active</option>
+                                    <option <%= cat.cStatus !== "Active" ? "selected" : "" %>>Disabled</option>
                                     <!-- <option value="3">Three</option> -->
                                   </select>
                             </div>

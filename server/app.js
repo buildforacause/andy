@@ -93,7 +93,7 @@ app.get('/logout', function(req, res){
       }    
       res.cookie(prop, '', {expires: new Date(0)});
   }
-  res.redirect('/');
+  res.redirect(req.get('referer'));
 });
 
 // Run Server

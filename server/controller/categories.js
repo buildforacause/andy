@@ -40,14 +40,15 @@ class Category {
   }
 
   async postEditCategory(req, res) {
-    let { cId, cDescription, cStatus } = req.body;
-    if (!cId || !cDescription || !cStatus) {
+    let { cId, cName, cDescription, cStatus } = req.body;
+    if (!cId | !cName | !cDescription | !cStatus) {
       return res.json({ error: "All fields are required" });
     }
     try {
       let editCategory = categoryModel.findByIdAndUpdate(cId, {
-        cDescription,
-        cStatus,
+        cDescription:cDescription,
+        cName : cName,
+        cStatus:cStatus,
         updatedAt: Date.now(),
       });
       let edit = await editCategory.exec();

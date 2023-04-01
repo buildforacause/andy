@@ -3,13 +3,15 @@ const addressModel = require("../models/address");
 class Address {
 
   async postAddress(req, res) {
-    let { aname, aadress, aphone, user } =
+    let { aname, aaddress, aphone, user, acity, apincode } =
       req.body;
     if (
       !aname |
       !aphone |
-      !aadress |
-      !user
+      !aaddress |
+      !user |
+      !acity |
+      !apincode
     ) {
       return res.json({ error: "All fields are required" });
     }
@@ -18,13 +20,15 @@ class Address {
         let newAddress = new addressModel({
           aname: aname,
           aphone: aphone,
-          aadress: aadress,
+          aaddress: aaddress,
+          acity: acity,
+          apincode: apincode,
           user: user
         });
         let save = await newAddress.save();
         if (save) {
-          return res.redirect("/")
-          // return res.json({ success: "Product created successfully" });
+          
+          return res.redirect("/dashboard#tab-address")
         }
       } catch (err) {
         console.log(err);
@@ -38,9 +42,9 @@ class Address {
       return res.json({ error: "All fields must be required" });
     } else {
       try {
-        let deleteProduct = await productModel.findByIdAndDelete(_id);
+        let deleteProduct = await addressModel.findByIdAndDelete(_id);
         if (deleteProduct) {
-          return res.redirect("/");
+          return res.redirect("/dashboard#tab-address");
         }
       } catch (err) {
         console.log(err);

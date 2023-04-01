@@ -32,31 +32,6 @@
     <link rel="stylesheet" href="frontend/assets/css/style.css">
     <link rel="stylesheet" href="frontend/assets/css/skins/skin-demo-8.css">
     <link rel="stylesheet" href="frontend/assets/css/demos/demo-8.css">
-    <script>
-        function setCookie(name, value, path, options = {}) {
-            options = {
-                path: path,
-                ...options
-            }; if (options.expires instanceof Date) {
-                options.expires = options.expires.toUTCString();
-            } let updatedCookie = encodeURIComponent(name) + "=" + encodeURIComponent(value)
-            for (let optionKey in options) {
-                updatedCookie += "; " + optionKey
-                let optionValue = options[optionKey]
-                if (optionValue !== true) {
-                    updatedCookie += "=" + optionValue
-                }
-            }
-            document.cookie = updatedCookie;
-        }
-
-        function getCookie(name) {
-            let matches = document.cookie.match(new RegExp(
-                "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
-                ))
-            return matches ? decodeURIComponent(matches[1]) : undefined
-        }
-    </script>
 </head>
 
 <body>
@@ -104,7 +79,7 @@
                             "nav": false, 
                             "dots": true,
                             "margin": 20,
-                            "loop": false,
+                            "loop": true,
                             "responsive": {
                                 "0": {
                                     "items":1
@@ -483,6 +458,18 @@
                 <div class="more-container text-center mt-3 mb-3">
                     <a href="/shop" class="btn btn-outline-dark-3 btn-more"><span>View More</span><i class="icon-long-arrow-right"></i></a>
                 </div><!-- End .more-container -->
+            </div><!-- End .container -->
+
+            <div class="container" id="about">
+                <div class="row">
+                    <div class="col-lg-10 offset-lg-1">
+                        <div class="about-text text-center mt-3">
+                            <h2 class="title text-center mb-2">About Us</h2><!-- End .title text-center mb-2 -->
+                            <p> <%= info.about %> </p>
+                            <img src="<%= info.image %>" alt="image" class="mx-auto mt-3 mb-6" style="height: 400px!important;" width="100%">
+                        </div><!-- End .about-text -->
+                    </div><!-- End .col-lg-10 offset-1 -->
+                </div><!-- End .row -->
             </div><!-- End .container -->
 
             <div class="mb-7"></div><!-- End .mb-5 -->

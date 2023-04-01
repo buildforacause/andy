@@ -37,32 +37,33 @@ class Order {
   }
 
   async postCreateOrder(req, res) {
-    let { allProduct, user, amount, transactionId, address, phone } = req.body;
+    let { allProduct, user, amount, transactionId, address, notes } = req.body;
     if (
       !allProduct ||
       !user ||
       !amount ||
       !transactionId ||
-      !address ||
-      !phone
+      !address 
     ) {
-      return res.json({ message: "All filled must be required" });
+      return res.json({ msg: "All fields must be required" });
     } else {
       try {
+        allProduct = JSON.parse(allProduct);
         let newOrder = new orderModel({
-          allProduct,
-          user,
-          amount,
-          transactionId,
-          address,
-          phone,
+          allProduct: allProduct,
+          user: user,
+          amount: amount,
+          transactionId: transactionId,
+          address:address,
+          notes: notes
+          
         });
         let save = await newOrder.save();
         if (save) {
-          return res.json({ success: "Order created successfully" });
+          return res.json({success: "DONE"})
         }
       } catch (err) {
-        return res.json({ error: error });
+        return res.json({ msg: err });
       }
     }
   }

@@ -6,7 +6,7 @@ const orderSchema = new mongoose.Schema(
     allProduct: [
       {
         id: { type: ObjectId, ref: "products" },
-        quantitiy: Number,
+        quantity: Number,
       },
     ],
     user: {
@@ -18,25 +18,13 @@ const orderSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    name: {
-      type: String,
-      required: true,
-    },
     address: {
-      type: String,
-      required: true,
-    },
-    phone: {
-      type: Number,
-      required: true,
-    },
-    email: {
-      type: String,
-      required: true,
+      type: ObjectId,
+      ref: "address",
     },
     notes: {
       type: String,
-      required: true,
+      required: false,
     },
     amount: {
       type: Number,

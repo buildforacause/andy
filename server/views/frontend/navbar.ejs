@@ -28,33 +28,24 @@
                                                 <div class="col-md-6">
                                                     <div class="menu-title">Categories</div><!-- End .menu-title -->
                                                     <ul>
-                                                        <li><a href="category-list.html">Shop List</a></li>
-                                                        <li><a href="category-2cols.html">Shop Grid 2 Columns</a></li>
-                                                        <li><a href="category.html">Shop Grid 3 Columns</a></li>
-                                                        <li><a href="category-4cols.html">Shop Grid 4 Columns</a></li>
-                                                        <li><a href="category-market.html"><span>Shop Market<span class="tip tip-new">New</span></span></a></li>
-                                                    </ul>
-
-                                                    <div class="menu-title">Shop no sidebar</div><!-- End .menu-title -->
-                                                    <ul>
-                                                        <li><a href="category-boxed.html"><span>Shop Boxed No Sidebar<span class="tip tip-hot">Hot</span></span></a></li>
-                                                        <li><a href="category-fullwidth.html">Shop Fullwidth No Sidebar</a></li>
+                                                        <% navCats.forEach(element => { %>
+                                                         
+                                                        <li><a href="/shop?filterby=<%= element._id %>"><%= element.cName %></a></li>
+                                                        
+                                                        <% }) %>
                                                     </ul>
                                                 </div><!-- End .col-md-6 -->
 
                                                 <div class="col-md-6">
-                                                    <div class="menu-title">Product Category</div><!-- End .menu-title -->
-                                                    <ul>
-                                                        <li><a href="product-category-boxed.html">Product Category Boxed</a></li>
-                                                        <li><a href="product-category-fullwidth.html"><span>Product Category Fullwidth<span class="tip tip-new">New</span></span></a></li>
-                                                    </ul>
                                                     <div class="menu-title">Shop Pages</div><!-- End .menu-title -->
                                                     <ul>
                                                         <li><a href="/cart">Cart</a></li>
-                                                        <li><a href="/checkout">Checkout</a></li>
-                                                        <li><a href="wishlist.html">Wishlist</a></li>
-                                                        <li><a href="dashboard.html">My Account</a></li>
-                                                        <li><a href="#">Lookbook</a></li>
+                                                        <li><a href="/#about">About Us</a></li>
+                                                        <% if (user) { %>
+                                                            <li><a href="/dashboard">My Account</a></li>
+                                                        <% } %>
+                                                        
+                                                        
                                                     </ul>
                                                 </div><!-- End .col-md-6 -->
                                             </div><!-- End .row -->
@@ -65,10 +56,7 @@
                             </div><!-- End .megamenu megamenu-md -->
                         </li>
                         <li>
-                            <a href="" class="">About Us</a>
-                        </li>
-                        <li>
-                            <a href="#" class="">Contact</a>
+                            <a href="/#about" class="">About Us</a>
                         </li>
                         <li>
                           <% if(!user){ %>
