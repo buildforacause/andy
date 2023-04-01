@@ -5,6 +5,9 @@ const productModel = require("../models/products");
 const sponsorModel = require("../models/sponsor");
 const addressModel = require("../models/address");
 const customizeModel = require("../models/customize");
+const usersModel = require("../models/users");
+const bcrypt = require("bcryptjs");
+
 
 router.get('/',async (req,res) => {
     let Products = await productModel
@@ -27,6 +30,13 @@ router.get('/',async (req,res) => {
 router.get("/cart",async (req,res)=>{
     let user=req.cookies.autOken
     res.render("frontend/cart.ejs",{user:user})
+})
+
+router.post("/dashboard",async (req,res)=>{
+    let user=req.cookies.autOken;
+    let userid = req.cookies.userid;
+    let userAddress = await addressModel.find({user: userid});
+    res.render("frontend/dashboard.ejs",{user:user, addresses: userAddress, userid:userid})
 })
 
 router.get("/dashboard",async (req,res)=>{
