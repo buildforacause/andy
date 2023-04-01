@@ -48,6 +48,7 @@
                     </ol>
                 </div><!-- End .container -->
             </nav><!-- End .breadcrumb-nav -->
+			<center> <span id="myspan"> </span></center>
 
             <div class="page-content">
             	<div class="dashboard">
@@ -65,7 +66,7 @@
 								        <a class="nav-link" id="tab-address-link" data-toggle="tab" href="#tab-address" role="tab" aria-controls="tab-address" aria-selected="false">Adresses</a>
 								    </li>
 								    <li class="nav-item">
-								        <a class="nav-link" id="tab-account-link" data-toggle="tab" href="#tab-account" role="tab" aria-controls="tab-account" aria-selected="false">Account Details</a>
+								        <a class="nav-link" id="tab-account-link" data-toggle="tab" href="#tab-account" role="tab" aria-controls="tab-account" aria-selected="false">Change Password</a>
 								    </li>
 								    <li class="nav-item">
 								        <a class="nav-link" href="#">Sign Out</a>
@@ -157,35 +158,17 @@
 								    </div><!-- .End .tab-pane -->
 
 								    <div class="tab-pane fade" id="tab-account" role="tabpanel" aria-labelledby="tab-account-link">
-								    	<form action="#">
+								    	<form id="myform">
 			                				<div class="row">
-			                					<div class="col-sm-6">
-			                						<label>First Name *</label>
-			                						<input type="text" class="form-control" required>
-			                					</div><!-- End .col-sm-6 -->
 
-			                					<div class="col-sm-6">
-			                						<label>Last Name *</label>
-			                						<input type="text" class="form-control" required>
-			                					</div><!-- End .col-sm-6 -->
-			                				</div><!-- End .row -->
+		            						<label>Current password</label>
+		            						<input type="password" name="oldPassword" class="form-control" required>
 
-		            						<label>Display Name *</label>
-		            						<input type="text" class="form-control" required>
-		            						<small class="form-text">This will be how your name will be displayed in the account section and in reviews</small>
+		            						<label>New password</label>
+		            						<input type="password" name="newPassword" class="form-control" required>
 
-		                					<label>Email address *</label>
-		        							<input type="email" class="form-control" required>
-
-		            						<label>Current password (leave blank to leave unchanged)</label>
-		            						<input type="password" class="form-control">
-
-		            						<label>New password (leave blank to leave unchanged)</label>
-		            						<input type="password" class="form-control">
-
-		            						<label>Confirm new password</label>
-		            						<input type="password" class="form-control mb-2">
-
+											<input type="hidden" name="uId" value="641f5f9a2b6c7d598c631a77">
+											
 		                					<button type="submit" class="btn btn-outline-primary-2">
 			                					<span>SAVE CHANGES</span>
 			            						<i class="icon-long-arrow-right"></i>
@@ -286,7 +269,30 @@
 			}
         })
     }
+
+		const $form5 = $('#myform')
+		$form5.on('submit', submitHandler5)
+		function submitHandler5 (e) {
+			e.preventDefault()
+			console.log($form5.serialize());
+
+			// console.log(document.getElementsByName('prods[]'))
+			$.ajax({
+			    url: '/api/user/change-password',
+			    type:'POST',
+			    data: $form5.serialize()
+			}).done(response => {
+			    response = JSON.stringify(response)
+			    response = JSON.parse(response);
+			    if(response.error){
+			        $("#myspan").text(response.error);
+			    }else{
+			        $("#myspan").text(response.success);
+			    }
+			})
+		}
 	</script>    
+
 </body>
     
 

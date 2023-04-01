@@ -40,6 +40,13 @@ router.get("/cart",async (req,res)=>{
     res.render("frontend/cart.ejs",{errmsg: errmsg, errid: errid,user:user, userid: userid, navCats: navCats, info:Info[0]})
 })
 
+router.post("/dashboard",async (req,res)=>{
+    let user=req.cookies.autOken;
+    let userid = req.cookies.userid;
+    let userAddress = await addressModel.find({user: userid});
+    res.render("frontend/dashboard.ejs",{user:user, addresses: userAddress, userid:userid})
+})
+
 router.get("/dashboard",async (req,res)=>{
     let user=req.cookies.autOken
     let userid = req.cookies.userid

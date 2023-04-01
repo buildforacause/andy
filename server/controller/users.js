@@ -102,9 +102,10 @@ class User {
   async changePassword(req, res) {
     let { uId, oldPassword, newPassword } = req.body;
     if (!uId || !oldPassword || !newPassword) {
-      return res.json({ message: "All filled must be required" });
+      return res.json({ error: "All fields must be required" });
     } else {
-      const data = await userModel.findOne({ _id: uId });
+      const data = await userModel.findById(uId);
+      console.log(uId)
       if (!data) {
         return res.json({
           error: "Invalid user",
