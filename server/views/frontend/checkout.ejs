@@ -207,7 +207,9 @@
 		                					</thead>
 
 		                					<tbody>
+												<% var totalcost=0 %>
 												<% for( let index = 0; index < products.length; index++ ) { %>
+													<% totalcost=totalcost+(Number(products[index].price - (products[index].offer * (products[index].price/100)))*Number(quantity[index])); %>
 		                						<tr>
 		                							<td><a href="#"><%= products[index].name %></a></td>
 		                							<td><span class="pricesabka" ><%= products[index].price - (products[index].offer * (products[index].price/100)) %></span> x <%= quantity[index] %></td>
@@ -216,7 +218,8 @@
 
 		                						<tr class="summary-total">
 		                							<td>Total:</td>
-		                							<td id="total"></td>
+													
+		                							<td id="total">₹<%= totalcost %></td>
 		                						</tr><!-- End .summary-total -->
 
 		                					</tbody>
@@ -263,20 +266,6 @@
 			}
         })
     }
-
-			function returnID()
-			{
-			var elements = document.getElementsByClassName('pricesabka');
-			var out = 0;
-			
-			for(var i =0; i < elements.length; i++)
-			{ 
-				out = out + (Number(elements[i].innerText));
-			}
-			
-			return out;
-			}
-			$("#total").text("Rs. " +returnID());
             $("#cart-dropdown").hide();
 			$("#pincode").on("input", function (event) {
 				// console.log(1);
@@ -318,7 +307,8 @@
 			allProduct.push(j)
 		}
 		allProduct = JSON.stringify(allProduct)
-		let amount = Number(returnID());
+		let amount = '<%= totalcost %>';
+		amount=Number(amount);
 		var data = $form5.serializeArray();
 		data.push({name: "allProduct", value: allProduct});
 		data.push({name: "amount", value: amount});
