@@ -359,8 +359,9 @@
 			let j = {}
 			j["id"] = prods[i].value;
 			j["quantity"] = Number(quant[i].value);
-			allProduct.push(JSON.stringify(j))
+			allProduct.push(j)
 		}
+		allProduct = JSON.stringify(allProduct)
 		let amount = Number(returnID());
 		var data = $form5.serializeArray();
 		data.push({name: "allProduct", value: allProduct});

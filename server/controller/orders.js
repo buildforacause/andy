@@ -58,6 +58,7 @@ class Order {
           notes: notes
           
         });
+        
         let save = await newOrder.save();
         if (save) {
           return res.json({success: "DONE"})
