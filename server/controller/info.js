@@ -55,16 +55,8 @@ class Info {
         editData = { ...editData, image: i };
         Info.deleteImages(previmage, "file");
       try {
-        let addInfo = new infoModel({
-            _id: _id,
-            about: about,
-            phone: phone,
-            address: address,
-            email: email,
-            name : name,
-            image: i
-        })
-        let save = await addInfo.save()
+        let editSponsor = await infoModel.findByIdAndUpdate(_id, editData);
+        let save = await editSponsor.save()
         if(save){
             return res.redirect("/admin");
         }else{

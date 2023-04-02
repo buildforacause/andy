@@ -53,6 +53,7 @@ router.get("/dashboard",async (req,res)=>{
     let orders = await orderModel.find({user: userid}).populate("allProduct.id", "name image price")
     .populate("address", "aaddress aphone aname acity apincode")
     .sort({ _id: -1 });
+    console.log(orders)
     res.render("frontend/dashboard.ejs",{orders: orders,verify: verify[0],user:user, addresses: userAddress, userid:userid, navCats: navCats, info: Info[0]})
 })
 

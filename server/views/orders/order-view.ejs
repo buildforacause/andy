@@ -82,7 +82,7 @@
                                             <td><%= order.user.name %></td>
                                             <td><%= order.address.aphone %></td>
                                             <td><%= order.amount %></td>
-                                            <td>HEHE</td>
+                                            <td><a href="/track?of=<%= order._id %>">View</a></td>
                                             <td>
                                                 <form id="update-order">
                                                     <input type="hidden" name="oId" value="<%= order._id %>" >
