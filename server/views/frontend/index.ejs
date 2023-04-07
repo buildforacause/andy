@@ -463,10 +463,16 @@
             <div class="container" id="about">
                 <div class="row">
                     <div class="col-lg-10 offset-lg-1">
-                        <div class="about-text text-center mt-3">
-                            <h2 class="title text-center mb-2">About Us</h2><!-- End .title text-center mb-2 -->
-                            <p> <%= info.about %> </p>
-                            <img src="<%= info.image %>" alt="image" class="mx-auto mt-3 mb-6" style="height: 400px!important;" width="100%">
+                        <h2 class="title mb-2 text-center mt-5">About Us</h2><!-- End .title text-center mb-2 -->
+
+                        <div class="about-text text-center mt-3" style="display: flex;gap:2rem">
+                            <div class="aboutimage" style="flex:1;">
+                                <img src="<%= info.image %>" style="height:100%;margin:0;" alt="image">
+                            </div>
+                            <div class="abouttext" style="flex:1;text-align: start;">
+                                <p> <%= info.about %> </p>
+                            </div>
+                            
                         </div><!-- End .about-text -->
                     </div><!-- End .col-lg-10 offset-1 -->
                 </div><!-- End .row -->

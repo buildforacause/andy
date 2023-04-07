@@ -5681,7 +5681,12 @@ p {
     font-weight: 300;
     font-size: 1.4rem;
     color: #777;
-    background-color: #fff
+    background-color: #222;
+    
+}
+
+.footer h4{
+    color: #fff!important;
 }
 
 .footer a {

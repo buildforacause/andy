@@ -83,7 +83,7 @@
                                     <% products.forEach(prod => { %>
                                         <tr>
                                             <td><%= prod.name %></td>
-                                            <td><%= prod.description %></td>
+                                            <td><%= prod.description.substring(0, 50) %>...</td>
                                             <td><%= prod.category.cName %></td>
                                             <td><%= prod.price %></td>
                                             <td><%= prod.SKU %></td>
@@ -136,7 +136,7 @@
                             <script>
                                 $(document).ready(function() {
                                     $('#tblUser').DataTable(
-                                      
+                                        {responsive: true}
                                     );
                                 });
 

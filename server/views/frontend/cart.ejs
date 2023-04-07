@@ -214,10 +214,12 @@
                                 <img src="${item.productImage}" alt="Product image">
                             </a>
                         </figure>
-
-                        <h3 class="product-title">
-                            <a href="#">${item.productName}</a>
-                        </h3><!-- End .product-title -->
+                        <div>
+                          <h3 class="product-title">
+                              <a href="/view/${item.productId}">${item.productName.split("-")[0]}</a>
+                          </h3><!-- End .product-title -->
+                          <p>${item.productName.split("-")[1]}</p>
+                        </div>
                     </div><!-- End .product -->
                 </td>
                 <td class="price-col">₹${item.productPrice}</td>

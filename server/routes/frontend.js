@@ -112,7 +112,7 @@ router.post("/checkout",async (req,res)=>{
                         "id": cartProducts[i]._id
                     }
                     
-                    res.render("frontend/cart.ejs",{err: err, user:user, userid: userid, navCats: navCats, info:Info[0]})
+                    res.render("frontend/cart.ejs",{errmsg: err.msg,errid: err.id, user:user, userid: userid, navCats: navCats, info:Info[0]})
                 }else{
                 cartProducts[i].quantity = quantity[i]
                 }
@@ -128,12 +128,16 @@ router.get("/view/:id",async (req,res) => {
     let Product = await productModel
     .find({_id: id})
     .populate("category", "_id cName")
+    let SKU=Product[0].SKU;
+    let ProductSize=await productModel
+    .find({SKU: SKU})
+    .populate("category", "_id cName");
     let allProds = await productModel.find({'_id': {$ne : id}}).populate("category", "_id cName")
     let user = req.cookies.autOken
     let userid = req.cookies.userid
     let navCats = await categoryModel.find({cStatus: "Active"}).sort({ _id: -1 }).limit(5);
     let Info = await infoModel.find({});
-    res.render("frontend/single-product.ejs", {info: Info[0],userid: userid,product: Product[0], allProds: allProds, user:user, navCats: navCats});
+    res.render("frontend/single-product.ejs", {info: Info[0],userid: userid,product: Product[0],productsizes:ProductSize, allProds: allProds, user:user, navCats: navCats});
 })
 
 router.get("/shop",async (req,res) => {
