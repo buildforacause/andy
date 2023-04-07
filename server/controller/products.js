@@ -42,7 +42,7 @@ class Product {
   }
 
   async postAddProduct(req, res) {
-    let { name, description, price, quantity, category, offer, status, colors, company, featured, shipping } =
+    let { name, description, price, quantity, category, offer, status, SKU, company, featured, shipping, sizes } =
       req.body;
     let images = req.files;
     // Validation
@@ -54,7 +54,7 @@ class Product {
       !category |
       !offer |
       !status |
-      !colors |
+      !SKU |
       !company
     ) {
       Product.deleteImages(images, "file");
@@ -79,6 +79,7 @@ class Product {
         }
         let featured_n = (featured == 0 ? false : true);
         let shipping_n = (shipping == 0 ? false : true);
+        name = name + "-" + sizes;
         let newProduct = new productModel({
           image: allImages,
           name: name,
@@ -88,7 +89,7 @@ class Product {
           category: category,
           offer: offer,
           status: status,
-          colors: colors,
+          SKU: SKU,
           company: company,
           featured: featured_n,
           shipping: shipping_n
@@ -116,7 +117,7 @@ class Product {
       status,
       images,
       company,
-      colors, featured, shipping
+      featured, shipping
     } = req.body;
     let editImages = req.files;
 
@@ -130,8 +131,7 @@ class Product {
       !category |
       !offer |
       !status |
-      !company |
-      !colors
+      !company
     ) {
       return res.json({ error: "All fields must be required" });
     }
@@ -155,7 +155,6 @@ class Product {
         offer: offer,
         status: status,
         company: company,
-        colors: colors,
         featured: featured_n,
         shipping: shipping_n
       };

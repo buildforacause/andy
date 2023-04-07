@@ -54,6 +54,13 @@
                     <form method="POST" action="/api/product/add-product" enctype="multipart/form-data">
 
                         <div class="row mb-3">
+                            <label for="SKU" class="col-md-4 col-lg-3 col-form-label">Product SKU</label>
+                            <div class="col-md-8 col-lg-9">
+                                <input name="SKU" class="form-control" id="SKU" required>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
                             <label for="formFileMultiple" class="col-md-4 col-lg-3 form-label">Product Images</label>
                             <div class=" col-md-8 col-lg-9">
                                 <input name="image" class="form-control" type="file" id="formFileMultiple" multiple>
@@ -63,26 +70,26 @@
                         <div class="row mb-3">
                             <label for="name" class="col-md-4 col-lg-3 col-form-label">Product Name</label>
                             <div class="col-md-8 col-lg-9">
-                                <input name="name" class="form-control" id="name"></input>
+                                <input name="name" class="form-control" id="name" required></input>
                             </div>
                         </div>
                         <div class="row mb-3">
                             <label for="description" class="col-md-4 col-lg-3 col-form-label">Description</label>
                             <div class="col-md-8 col-lg-9">
-                                <textarea name="description" class="form-control" rows="10" id="description"></textarea>
+                                <textarea name="description" class="form-control" rows="10" id="description" required></textarea>
                             </div>
                         </div>
                         <div class="row mb-3">
                             <label for="material" class="col-md-4 col-lg-3 col-form-label">Material</label>
                             <div class="col-md-8 col-lg-9">
-                                <input name="company" class="form-control" id="material"></input>
+                                <input name="company" class="form-control" id="material" required></input>
                             </div>
                         </div>
 
                         <div class="row mb-3">
                             <label for="category" class="col-md-4 col-lg-3 col-form-label">Category</label>
                             <div class="col-md-8 col-lg-9">
-                                <select class="form-select" id="category" name="category" aria-label="Default select example">
+                                <select class="form-select" id="category" name="category" aria-label="Default select example" required>
                                     <% categories.forEach(element => { %>
                                         <option value="<%= element._id %>"><%= element.cName %></option>
                                     <% }) %>
@@ -95,7 +102,7 @@
                           <div class="row mb-3">
                             <label for="status" class="col-md-4 col-lg-3 col-form-label">Status</label>
                             <div class="col-md-8 col-lg-9">
-                                <select class="form-select" id="status" name="status" aria-label="Default select example">
+                                <select class="form-select" id="status" name="status" aria-label="Default select example" required>
                                     <!-- <option selected>Open this select menu</option> -->
                                     <option selected>Active</option>
                                     <option >Disabled</option>
@@ -104,33 +111,38 @@
                             </div>
                         </div>
 
+
                         <div class="row mb-3">
-                            <label for="color" class="col-md-3 col-lg-3 col-form-label">Primary Color</label>
-                            <div class="col-md-3 col-lg-3">
-                                <input type="color" name="colors[]" class="form-control form-control-color" id="color" value="#563d7c" title="Choose your color">
-                            </div>
-                        
-                            <label for="color" class="col-md-3 col-lg-3 col-form-label">Secondary Color</label>
-                            <div class="col-md-3 col-lg-3">
-                                <input type="color" name="colors[]" class="form-control form-control-color" id="secondarycolor" value="#563d7c" title="Choose your color">
+                            <label for="sizes" class="col-md-4 col-lg-3 col-form-label">Sizes</label>
+                            <div class="col-md-8 col-lg-9">
+                                <select class="form-select" id="sizes" name="sizes" required>
+                                    <option selected>XS</option>
+                                    <option >S</option>
+                                    <option >M</option>
+                                    <option >L</option>
+                                    <option >XL</option>
+                                    <option >XXL</option>
+                                  </select>
                             </div>
                         </div>
+
+
                         <div class="row mb-3">
                             <label for="price" class="col-md-4 col-lg-3 col-form-label">Price</label>
                             <div class="col-md-8 col-lg-9">
-                                <input name="price" type="number" class="form-control" id="price"></input>
+                                <input name="price" type="number" class="form-control" id="price" required></input>
                             </div>
                         </div>
                         <div class="row mb-3">
                             <label for="offer" class="col-md-4 col-lg-3 col-form-label">Offer in %</label>
                             <div class="col-md-8 col-lg-9">
-                                <input name="offer" type="number" class="form-control" id="offer"></input>
+                                <input name="offer" type="number" class="form-control" id="offer" required></input>
                             </div>
                         </div>
                         <div class="row mb-3">
                             <label for="quantity" class="col-md-4 col-lg-3 col-form-label">Quantity</label>
                             <div class="col-md-8 col-lg-9">
-                                <input name="quantity" type="number" class="form-control" id="quantity"></input>
+                                <input name="quantity" type="number" class="form-control" id="quantity" required></input>
                             </div>
                         </div>
                         <div class="row mb-3">

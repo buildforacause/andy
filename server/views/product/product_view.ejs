@@ -73,7 +73,7 @@
                                         <th>Description</th>
                                         <th>Category</th>
                                         <th>Price</th>
-                                        <th>Main Color</th>
+                                        <th>SKU</th>
                                         <th>Status</th>
                                         <th>Action</th>
                                     </tr>
@@ -86,7 +86,7 @@
                                             <td><%= prod.description %></td>
                                             <td><%= prod.category.cName %></td>
                                             <td><%= prod.price %></td>
-                                            <td><input type="color" value="<%= prod.colors[0] %>" class="form-control form-control-color" readonly></td>
+                                            <td><%= prod.SKU %></td>
                                             <td><%= prod.status %></td>
                                             <td><a href="/admin/product-edit/<%= prod._id %>" class="btn btn-secondary">Edit</a></td>
                                         </tr>

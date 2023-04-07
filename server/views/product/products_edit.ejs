@@ -52,6 +52,15 @@
                 <div class="col-lg-12">
                     <!-- Profile Edit Form -->
                     <form method="POST" action="/api/product/edit-product" enctype="multipart/form-data">
+
+                        
+                        <div class="row mb-3">
+                            <label for="SKU" class="col-md-4 col-lg-3 col-form-label">Product SKU</label>
+                            <div class="col-md-8 col-lg-9">
+                                <input name="SKU" value="<%= prod.SKU %>" class="form-control" id="SKU" disabled>
+                            </div>
+                        </div>
+
                         <input type="hidden" value="<%= prod._id %>" name="_id">
                         <% prod.image.forEach(img => { %>
                             <input type="hidden" value="<%= img %>" name="images[]">
@@ -100,18 +109,6 @@
                                     <option >Disabled</option>
                                     <!-- <option value="3">Three</option> -->
                                   </select>
-                            </div>
-                        </div>
-
-                        <div class="row mb-3">
-                            <label for="color" class="col-md-3 col-lg-3 col-form-label">Primary Color</label>
-                            <div class="col-md-3 col-lg-3">
-                                <input type="color" value="<%= prod.colors[0] %>" name="colors[]" class="form-control form-control-color" id="color" value="#563d7c" title="Choose your color">
-                            </div>
-                        
-                            <label for="color" class="col-md-3 col-lg-3 col-form-label">Secondary Color</label>
-                            <div class="col-md-3 col-lg-3">
-                                <input type="color" name="colors[]" value="<%= prod.colors[1] %>" class="form-control form-control-color" id="secondarycolor" value="#563d7c" title="Choose your color">
                             </div>
                         </div>
                         <div class="row mb-3">
