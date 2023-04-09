@@ -79,6 +79,7 @@ class Product {
         }
         let featured_n = (featured == 0 ? false : true);
         let shipping_n = (shipping == 0 ? false : true);
+        name = name.replace(/-/g, ' ');
         name = name + "-" + sizes;
         let newProduct = new productModel({
           image: allImages,
@@ -231,6 +232,24 @@ class Product {
         }
       } catch (err) {
         return res.json({ error: "Search product wrong" });
+      }
+    }
+  }
+
+  async getProductBySKU(req, res) {
+    let { SKU } = req.body;
+    if (!SKU) {
+      return res.json({ error: "All fields must be required" });
+    } else {
+      try {
+        let products = await productModel
+          .find({ SKU: SKU })
+          .populate("category", "cName");
+        if (products) {
+          return res.json({ prod : products[0] });
+        }
+      } catch (err) {
+        return res.json({ error: "No Product" });
       }
     }
   }

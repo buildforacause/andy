@@ -1,4 +1,5 @@
 const orderModel = require("../models/orders");
+const productModel = require("../models/products");
 
 class Order {
   async getAllOrders(req, res) {
@@ -49,6 +50,7 @@ class Order {
     } else {
       try {
         allProduct = JSON.parse(allProduct);
+        console.log(allProduct)
         let newOrder = new orderModel({
           allProduct: allProduct,
           user: user,
@@ -61,9 +63,19 @@ class Order {
         
         let save = await newOrder.save();
         if (save) {
+          allProduct.forEach(async (prod) => {
+            let p = await productModel.find({_id: prod.id});
+            let quant = p[0].quantity;
+            let remain = quant - prod.quantity;
+            let q = await productModel.findByIdAndUpdate(prod.id, {
+              quantity: remain,
+              updatedAt: Date.now(),
+            });
+          });
           return res.json({success: "DONE"})
         }
       } catch (err) {
+        console.log(err)
         return res.json({ msg: err });
       }
     }

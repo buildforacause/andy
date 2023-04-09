@@ -15,6 +15,11 @@ router.get('/',async (req,res) => {
         .populate("category", "_id cName")
         .sort({ _id: -1 })
         .limit(5);
+    Products = Products.filter((value, index, self) =>
+        index === self.findIndex((t) => (
+            t.SKU === value.SKU
+        ))
+    )
     let Categories = await categoryModel.find({cStatus: "Active"}).sort({ _id: -1 });
     let navCats = await categoryModel.find({cStatus: "Active"}).sort({ _id: -1 }).limit(5);
     let RecentProducts= await productModel
@@ -22,6 +27,12 @@ router.get('/',async (req,res) => {
         .populate("category")
         .sort({"createdAt":-1})
         .limit(10);
+
+    RecentProducts = RecentProducts.filter((value, index, self) =>
+        index === self.findIndex((t) => (
+            t.SKU === value.SKU
+        ))
+    )
     let Sponsors = await sponsorModel.find({}).sort({ _id: -1 });
     let sliders = await customizeModel.find({});
     let user = req.cookies.autOken
@@ -53,7 +64,6 @@ router.get("/dashboard",async (req,res)=>{
     let orders = await orderModel.find({user: userid}).populate("allProduct.id", "name image price")
     .populate("address", "aaddress aphone aname acity apincode")
     .sort({ _id: -1 });
-    console.log(orders)
     res.render("frontend/dashboard.ejs",{orders: orders,verify: verify[0],user:user, addresses: userAddress, userid:userid, navCats: navCats, info: Info[0]})
 })
 
@@ -94,7 +104,7 @@ router.post("/checkout",async (req,res)=>{
     if(cartProducts.length === 1){
         for(let i=0; i<cartProducts.length; i++){
             if(cartProducts[i].quantity < quantity[i]){
-                let errmsg = "Quantity of this product remaining is " +cartProducts[i].quantity;
+                let errmsg = "Only " +cartProducts[i].quantity + " remaining.";
                 let errid = cartProducts[i]._id                
                 res.render("frontend/cart.ejs",{errmsg: errmsg, errid: errid, user:user, userid: userid, navCats: navCats, info:Info[0]})
             }else{
@@ -108,7 +118,7 @@ router.post("/checkout",async (req,res)=>{
             for(let i=0; i<cartProducts.length; i++){
                 if(cartProducts[i].quantity < quantity[i]){
                     let err = {
-                        "msg":"Quantity of this product remaining is " + cartProducts[i].quantity,
+                        "msg":"Only " + cartProducts[i].quantity + " remaining.",
                         "id": cartProducts[i]._id
                     }
                     
@@ -182,6 +192,11 @@ router.get("/shop",async (req,res) => {
     let Categories = await categoryModel.find({status: "Active"}).sort({ _id: -1 });
     let user = req.cookies.autOken
     let userid = req.cookies.userid
+    allProds = allProds.filter((value, index, self) =>
+        index === self.findIndex((t) => (
+            t.SKU === value.SKU
+        ))
+    )
     let navCats = await categoryModel.find({cStatus: "Active"}).sort({ _id: -1 }).limit(5);
     let Info = await infoModel.find({});
     res.render("frontend/results.ejs", {info: Info[0], userid: userid,allProds: allProds, cats: Categories, user:user, title: title, navCats: navCats});
