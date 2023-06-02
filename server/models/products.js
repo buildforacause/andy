@@ -50,6 +50,7 @@ const productSchema = new mongoose.Schema(
     ratings: [
       {
         review: String,
+        image: Array,
         user: { type: ObjectId, ref: "users" },
         rating: String,
         createdAt: {

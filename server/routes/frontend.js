@@ -138,7 +138,13 @@ router.get("/view/:id",async (req,res) => {
     let Product = await productModel
     .find({_id: id})
     .populate("category", "_id cName")
+    .populate("ratings.user")
     let SKU=Product[0].SKU;
+    let total = 0;
+    Product[0].ratings.map((rating) => {
+        total = total + Number(rating.rating)
+    })
+    total = total / Product[0].ratings.length;
     let ProductSize=await productModel
     .find({SKU: SKU})
     .populate("category", "_id cName");
@@ -147,7 +153,7 @@ router.get("/view/:id",async (req,res) => {
     let userid = req.cookies.userid
     let navCats = await categoryModel.find({cStatus: "Active"}).sort({ _id: -1 }).limit(5);
     let Info = await infoModel.find({});
-    res.render("frontend/single-product.ejs", {info: Info[0],userid: userid,product: Product[0],productsizes:ProductSize, allProds: allProds, user:user, navCats: navCats});
+    res.render("frontend/single-product.ejs", {total: total,info: Info[0],userid: userid,product: Product[0],productsizes:ProductSize, allProds: allProds, user:user, userid:userid, navCats: navCats});
 })
 
 router.get("/shop",async (req,res) => {

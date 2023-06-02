@@ -30,6 +30,55 @@
     <!-- Main CSS File -->
     <link rel="stylesheet" href="/frontend/assets/css/style.css">
     <link rel="stylesheet" href="/frontend/assets/css/plugins/nouislider/nouislider.css">
+
+    <style>
+        .txt-center {
+  text-align: center;
+}
+.hide {
+  display: none;
+}
+
+.clear {
+  float: none;
+  clear: both;
+}
+
+.rating {
+    width: 90px;
+    unicode-bidi: bidi-override;
+    direction: rtl;
+    text-align: center;
+    position: relative;
+}
+
+.rating > label {
+    float: right;
+    display: inline;
+    padding: 0;
+    margin: 0;
+    position: relative;
+    width: 1.1em;
+    cursor: pointer;
+    color: #000;
+}
+
+.rating > label:hover,
+.rating > label:hover ~ label,
+.rating > input.radio-btn:checked ~ label {
+    color: transparent;
+}
+
+.rating > label:hover::before,
+.rating > label:hover ~ label::before,
+.rating > input.radio-btn:checked ~ label::before {
+    content: "\2605";
+    position: absolute;
+    left: 0;
+    color: #FFD700;
+}
+
+    </style>
 </head>
 
 <body>
@@ -66,7 +115,7 @@
                                         <div id="product-zoom-gallery" class="product-image-gallery">
                                             <% product.image.forEach(image => { %>
                                                 <a class="product-gallery-item" href="#" data-image="<%= image %>" data-zoom-image="<%= image %>">
-                                                    <img src="<%= image %>" alt="product cross">
+                                                    <img src="<%= image %>">
                                                 </a>
                                             <% }) %>
 
@@ -87,14 +136,21 @@
                             <div class="col-md-6">
                                 <div class="product-details">
                                     <h1 class="product-title"><%= product.name %></h1><!-- End .product-title -->
-
-                                    <!-- <div class="ratings-container">
+                                <% if (product.ratings.length > 0) { %>
+                                 
+                                
+                                    <div class="ratings-container">
                                         <div class="ratings">
-                                            <div class="ratings-val" style="width: 80%;"></div>
+                                            <div class="ratings-val" style="width: <%= total %>%;"></div>
                                         </div>
                                         
-                                        <a class="ratings-text" href="#product-review-link" id="review-link">( 2 Reviews )</a>
-                                    </div> -->
+                                        <a class="ratings-text" href="#product-review-link" id="review-link">( <%= product.ratings.length %> Reviews )</a>
+                                    </div>
+                                    <% } else {%>
+                                        <div class="ratings-container">                                            
+                                            <a class="ratings-text" href="#product-review-link" id="review-link">( No Reviews )</a>
+                                        </div>
+                                    <% } %>
                                     <!-- End .rating-container -->
 
                                     <div class="product-price">
@@ -161,6 +217,9 @@
                             <li class="nav-item">
                                 <a class="nav-link" id="product-info-link" data-toggle="tab" href="#product-info-tab" role="tab" aria-controls="product-info-tab" aria-selected="false">Additional information</a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="product-review-link" data-toggle="tab" href="#product-review-tab" role="tab" aria-controls="product-review-tab" aria-selected="false">Reviews (<%= product.ratings.length %>)</a>
+                            </li>
                         </ul>
                         <div class="tab-content">
                             <div class="tab-pane fade show active" id="product-desc-tab" role="tabpanel" aria-labelledby="product-desc-link">
@@ -179,6 +238,113 @@
                                     </ul>
                                 </div><!-- End .product-desc-content -->
                             </div><!-- .End .tab-pane -->
+                            <div class="tab-pane fade" id="product-review-tab" role="tabpanel" aria-labelledby="product-review-link">
+                                <div class="reviews">
+                                    <h3>Reviews</h3>
+                                    <% product.ratings.forEach(rating => { %>
+                                     
+                                    
+                                    <div class="review">
+                                        <div class="row no-gutters">
+                                            <div class="col-auto">
+                                                <h4><a href="#"><%= rating.user.name %></a></h4>
+                                                <div class="ratings-container">
+                                                    <div class="ratings">
+                                                        <div class="ratings-val" style="width: <%= rating.rating %>%;"></div><!-- End .ratings-val -->
+                                                    </div><!-- End .ratings -->
+                                                </div><!-- End .rating-container -->
+                                                <% let d = new Date(rating.createdAt.toISOString()); %>
+                                                <% let day = d.getDate(); %>
+                                                <% let m = ["January", "February", "March", "April", "May", "June", "July", 
+                                                "August", "September", "October", "November", "December"]; %>
+                                                <% let month = m[d.getMonth()]; %>
+                                                <% let year = d.getFullYear(); %>
+                                                <% let newdate = day + " " + month + ", " + year; %>
+
+                                                <span class="review-date"><%= newdate %></span>
+                                            </div><!-- End .col -->
+                                            <div class="col">
+                                                <div class="review-content">
+                                                    <p><%= rating.review %></p>
+                                                </div><!-- End .review-content -->
+                                                <div id="product-zoom-gallery" class="product-image-gallery">
+                                                    <% rating.image.forEach(image => { %>
+                                                        <!-- <a class="product-gallery-item" href="#" data-image="<%= image %>" data-zoom-image="<%= image %>"> -->
+                                                            <img src="<%= image %>" width="50px" height="50px">&nbsp;
+                                                        <!-- </a> -->
+                                                    <% }) %>
+                                                </div><!-- End .product-image-gallery -->
+                                            </div><!-- End .col-auto -->
+                                            <% if (rating.user._id.toString() === userid) { %>
+                                                <a href="#delreview<%= rating._id %>" data-toggle="modal">Delete</a>
+                                            <% } %>
+
+                                            <div class="modal fade" id="delreview<%= rating._id %>" tabindex="-1" role="dialog" aria-hidden="true">
+                                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-body">
+                                                            <button type="button" id="btn-btnclose" class="close" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true"><i class="icon-close"></i></span>
+                                                            </button>
+                                                            <div class="form-box">
+                                                                <div class="form-tab">
+                                                                    <ul class="nav nav-pills nav-fill nav-border-anim" role="tablist">
+                                                                        <li class="nav-item">
+                                                                            <a class="nav-link active" id="signin-tab" data-toggle="tab" href="#addreview" role="tab" aria-controls="signin" aria-selected="true">Are You Sure?</a>
+                                                                        </li>
+                                                                    </ul>
+                                                                    <div class="tab-content" id="tab-content-5">
+                                                                        <div class="tab-pane fade show active" id="addreview" role="tabpanel" >
+                                                                            <form method="POST" action="/api/product/delete-review">
+                                                                                <input type="hidden" name="rId" value="<%= rating._id %>" >
+                                                                                <input type="hidden" name="_id" value="<%= product._id %>" >
+                                                                                <label for="rat">Rating</label>
+                                                                                <div class="ratings-container">
+                                                                                    <div class="ratings">
+                                                                                        
+                                                                                        <div id="rat" class="ratings-val" style="width: <%= rating.rating %>%;"></div><!-- End .ratings-val -->
+                                                                                    </div><!-- End .ratings -->
+                                                                                </div><!-- End .rating-container -->
+                                                
+                                                                                <div class="form-group">
+                                                                                    <label for="review">Review</label>
+                                                                                    <textarea class="form-control" id="review" readonly><%= rating.review %></textarea>
+                                                                                </div><!-- End .form-group -->
+                                
+                                                                                <div class="form-footer">
+                                                                                    
+                                                                                    <button type="submit" class="btn btn-outline-primary-2 w-100">
+                                                                                        <span>Delete Review</span>
+                                                                                        <i class="icon-long-arrow-right"></i>
+                                                                                    </button>
+                                                
+                                                                                    <!-- <a href="#" class="forgot-link">Forgot Your Password?</a> -->
+                                                                                </div>
+                                                                                <!-- End .form-footer -->
+                                                                            </form>
+                                
+                                                                        </div><!-- .End .tab-pane -->
+                                
+                                                                    </div><!-- End .tab-content -->
+                                                                </div><!-- End .form-tab -->
+                                                            </div><!-- End .form-box -->
+                                                        </div><!-- End .modal-body -->
+                                                    </div><!-- End .modal-content -->
+                                                </div><!-- End .modal-dialog -->
+                                                </div><!-- End .modal -->
+                                            
+                                        </div><!-- End .row -->
+                                    </div><!-- End .review -->
+
+                                    <% }) %>
+                                    <% if (user) { %>
+                                        <center><a href="#addreviewmodal" data-toggle="modal">Add Review</a></center>
+                                    <% }else{ %>
+                                        <center><a href="#signin-modal" data-toggle="modal">Login To Add Review</a></center>
+                                    <% } %>
+                                </div><!-- End .reviews -->
+                            </div><!-- .End .tab-pane -->
+
                         </div><!-- End .tab-content -->
                     </div><!-- End .product-details-tab -->
 
@@ -264,6 +430,81 @@
                        <% } %>
                 </div><!-- End .container -->
             </div><!-- End .page-content -->
+
+
+            <div class="modal fade" id="addreviewmodal" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <button type="button" id="btn-btn01close" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true"><i class="icon-close"></i></span>
+                            </button>
+                
+                            <div class="form-box">
+                                <div class="form-tab">
+                                    <ul class="nav nav-pills nav-fill nav-border-anim" role="tablist">
+                                        <li class="nav-item">
+                                            <a class="nav-link active" id="signin-tab" data-toggle="tab" href="#addreview" role="tab" aria-controls="signin" aria-selected="true">Add Review</a>
+                                        </li>
+                                    </ul>
+                                    <div class="tab-content" id="tab-content-5">
+                                        <div class="tab-pane fade show active" id="addreview" role="tabpanel" >
+                                            <form id="addReviewForm" enctype="multipart/form-data">
+                                                <input type="hidden" name="uId" value="<%= userid %>" >
+                                                <input type="hidden" name="_id" value="<%= product._id %>" >
+                                                <center><span class="mb-2 text-danger" id="showreview"></span></center>
+                                                <div class="form-group row mb-3">
+                                                    <label for="formFileMultiple" class="col-md-4 col-lg-3 form-label">Review Images (if any)</label>
+                                                    <div class=" col-md-8 col-lg-9">
+                                                        <input name="image" class="form-control" type="file" id="formFileMultiple" multiple>
+                                                    </div>
+                                                  </div>
+                                                <div class="form-group">
+                                                    <label for="rating">Rating *</label>
+                                                    <div class="rating" id="rating">
+                                                        <input id="star5" name="rating" type="radio" value="100" class="radio-btn hide" required/>
+                                                        <label for="star5" >☆</label>
+                                                        <input id="star4" name="rating" type="radio" value="80" class="radio-btn hide" required/>
+                                                        <label for="star4" >☆</label>
+                                                        <input id="star3" name="rating" type="radio" value="60" class="radio-btn hide" required/>
+                                                        <label for="star3" >☆</label>
+                                                        <input id="star2" name="rating" type="radio" value="40" class="radio-btn hide" required/>
+                                                        <label for="star2" >☆</label>
+                                                        <input id="star1" name="rating" type="radio" value="20" class="radio-btn hide" required/>
+                                                        <label for="star1" >☆</label>
+                                                        <div class="clear"></div>
+                                                    </div>
+                                                </div><!-- End .form-group -->
+                
+                                                <div class="form-group">
+                                                    <label for="review">Review *</label>
+                                                    <textarea class="form-control" id="review" name="review" required></textarea>
+                                                </div><!-- End .form-group -->
+
+                                                <div class="form-footer">
+                                                    
+                                                    <button type="submit" class="btn btn-outline-primary-2">
+                                                        
+                                                        <span>Add Review</span>
+                                                        <i class="icon-long-arrow-right"></i>
+                                                    </button>
+                
+                                                    <!-- <a href="#" class="forgot-link">Forgot Your Password?</a> -->
+                                                </div>
+                                                <!-- End .form-footer -->
+                                            </form>
+
+                                        </div><!-- .End .tab-pane -->
+
+                                    </div><!-- End .tab-content -->
+                                </div><!-- End .form-tab -->
+                            </div><!-- End .form-box -->
+                        </div><!-- End .modal-body -->
+                    </div><!-- End .modal-content -->
+                </div><!-- End .modal-dialog -->
+                </div><!-- End .modal -->
+
+
         </main><!-- End .main -->
 
 
@@ -271,6 +512,29 @@
 
 <script>
 	$("#cart-total-text").hide();
+    $('#addReviewForm').on('submit', function (e) {
+        e.preventDefault()
+        var formData = new FormData($(this)[0]);
+        $.ajax({
+            url: '/api/product/add-review',
+            type:'POST',
+            data: formData,
+            processData: false,
+            enctype: "multipart/form-data",
+            cache: false,
+            contentType: false
+        }).done(response => {
+            if(response.error){
+                $("#showreview").text(response.error)
+            }else{
+                $("#showreview").text(response.success)
+                $("#btn-btn01close").click()
+                location.reload();
+            }
+        })
+    })
+
+    
 </script>
 </body>
 

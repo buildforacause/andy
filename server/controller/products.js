@@ -208,7 +208,7 @@ class Product {
         let singleProduct = await productModel
           .findById(_id)
           .populate("category", "cName")
-          .populate("pRatingsReviews.user", "name email userImage");
+          .populate("ratings.user", "name email userImage");
         if (singleProduct) {
           return res.json({ Product: singleProduct });
         }
@@ -311,22 +311,34 @@ class Product {
 
   async postAddReview(req, res) {
     let { _id, uId, rating, review } = req.body;
+    let images = req.files;
+    console.log(images);
+    let allImages = [];
+    if(images){
+      for (const img of images) {
+        allImages.push("/uploads/products/" +img.filename);
+      }
+    }
+    console.log(allImages);
     if (!_id || !rating || !review || !uId) {
-      return res.json({ error: "All fields must be required" });
+      // Product.deleteImages(images, "file");
+      return res.json({ error: "All fields are required" });
     } else {
       let checkReviewRatingExists = await productModel.findOne({ _id: _id });
-      if (checkReviewRatingExists.pRatingsReviews.length > 0) {
-        checkReviewRatingExists.pRatingsReviews.map((item) => {
-          if (item.user === uId) {
-            return res.json({ error: "Your already reviewd the product" });
-          } else {
+      if (checkReviewRatingExists.ratings.length > 0) {
+        checkReviewRatingExists.ratings.map((item) => {
+          if (item.user.toString() === uId) {
+            // Product.deleteImages(images, "file");
+            return res.json({ error: "Your already reviewed the product" });
+          } else {  
             try {
               let newRatingReview = productModel.findByIdAndUpdate(_id, {
                 $push: {
-                  pRatingsReviews: {
+                  ratings: {
                     review: review,
                     user: uId,
                     rating: rating,
+                    image: allImages
                   },
                 },
               });
@@ -337,6 +349,7 @@ class Product {
                 return res.json({ success: "Thanks for your review" });
               });
             } catch (err) {
+              // Product.deleteImages(images, "file");
               return res.json({ error: "Cart product wrong" });
             }
           }
@@ -345,7 +358,7 @@ class Product {
         try {
           let newRatingReview = productModel.findByIdAndUpdate(_id, {
             $push: {
-              pRatingsReviews: { review: review, user: uId, rating: rating },
+              ratings: { review: review, user: uId, rating: rating , image: allImages},
             },
           });
           newRatingReview.exec((err, result) => {
@@ -355,6 +368,7 @@ class Product {
             return res.json({ success: "Thanks for your review" });
           });
         } catch (err) {
+          Product.deleteImages(images, "file");
           return res.json({ error: "Cart product wrong" });
         }
       }
@@ -368,13 +382,13 @@ class Product {
     } else {
       try {
         let reviewDelete = productModel.findByIdAndUpdate(_id, {
-          $pull: { pRatingsReviews: { _id: rId } },
+          $pull: { ratings: { _id: rId } },
         });
         reviewDelete.exec((err, result) => {
           if (err) {
             console.log(err);
           }
-          return res.json({ success: "Your review is deleted" });
+          return res.redirect("back");
         });
       } catch (err) {
         console.log(err);

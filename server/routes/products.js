@@ -26,7 +26,7 @@ router.post("/edit-product", upload.any(), productController.postEditProduct);
 router.post("/delete-product", productController.getDeleteProduct);
 router.post("/single-product", productController.getSingleProduct);
 
-router.post("/add-review", productController.postAddReview);
+router.post("/add-review", upload.any(),productController.postAddReview);
 router.post("/delete-review", productController.deleteReview);
 
 module.exports = router;

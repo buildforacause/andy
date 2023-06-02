@@ -52,7 +52,7 @@
                     }'>
                     <% sliders.forEach(slider => { %>
                      
-                    <div class="intro-slide" style="background-image: url(<%= slider.slideImage %>);">
+                    <div class="intro-slide" style="background-image: url('<%= slider.slideImage %>');">
                         <div class="container intro-content text-left">
                             <!-- <h3 class="intro-subtitle">Limited time only *</h3> -->
                             <!-- <h1 class="intro-title">Summer<br><strong>sale</strong></h1> -->
@@ -461,21 +461,21 @@
             </div><!-- End .container -->
 
             <div class="container" id="about">
-                <div class="row">
-                    <div class="col-lg-10 offset-lg-1">
+                
                         <h2 class="title mb-2 text-center mt-5">About Us</h2><!-- End .title text-center mb-2 -->
+                        <div class="row">
+                            <div class="col-lg-6 col-xs-12 about-text text-center mt-3">
+                                <div class="aboutimage" style="flex:1;">
+                                    <img src="<%= info.image %>" style="height:100%;margin:0;" alt="image">
+                                </div>
+                            </div><!-- End .col-md-6 about-text -->
 
-                        <div class="about-text text-center mt-3" style="display: flex;gap:2rem">
-                            <div class="aboutimage" style="flex:1;">
-                                <img src="<%= info.image %>" style="height:100%;margin:0;" alt="image">
-                            </div>
-                            <div class="abouttext" style="flex:1;text-align: start;">
-                                <p> <%= info.about %> </p>
-                            </div>
-                            
-                        </div><!-- End .about-text -->
-                    </div><!-- End .col-lg-10 offset-1 -->
-                </div><!-- End .row -->
+                            <div class="col-lg-6 col-xs-12 about-text text-center mt-3">    
+                                <div class="abouttext" style="flex:1;text-align: start;">
+                                    <p> <%= info.about %> </p>
+                                </div>
+                            </div><!-- End .col-md-6 about-text -->
+                         </div><!-- End .row -->
             </div><!-- End .container -->
 
             <div class="mb-7"></div><!-- End .mb-5 -->
