@@ -82,8 +82,8 @@
               <!-- <input type="text" class="form-control" id="singin-email"  required> -->
               <select class="form-select form-control" id="reason" name="reason" aria-label=".form-select-sm example" required>
                 <!-- <option selected>Open this select menu</option> -->
-                <option value="Manufacturing defect">Manufacturing defect</option>
-                <option value="Wrong Product/Size recieved">Wrong Product/Size recieved</option>
+                <option value="Manufacturing defect" <% if (order.refund.reason=="Manufacturing defect") { %>selected<% } %>>Manufacturing defect</option>
+                <option value="Wrong Product/Size recieved" <% if (order.refund.reason=="Wrong Product/Size recieved") { %>selected<% } %>>Wrong Product/Size recieved</option>
               </select>
             </div><!-- End .form-group -->
 

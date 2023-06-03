@@ -96,9 +96,9 @@
                                                 </form>
                                             </td>
                                             <% if (order.refund) { %>
-                                                <td><a href="/track?of=<%= order._id %>">Yes</a></td>
+                                                <td><a href="/admin/return-edit?of=<%= order._id %>">Requested</a></td>
                                             <% } else {%>
-                                                <td><a href="/track?of=<%= order._id %>">No</a></td>                                                
+                                                <td>No</td>                                                
                                             <% } %>
                                             
                                         </tr>

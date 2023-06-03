@@ -156,7 +156,7 @@
 
                               </div>
 
-                                <div class="p-5" style="border:1px solid #e7e7e7;text-align:center;">
+                                <div class="p-5" style="border:1px solid #e7e7e7;text-align:center;">                              
                                   <p class="mb-2"><span style="font-weight: 500;margin-bottom: 0rem;">Tracking Phone number: </span><%= order.address.aphone %></p>
                                 
                                 <ul class="timeline" id="timeline">
@@ -205,8 +205,13 @@
                                 </div>
 
                                 <div class="refundsection" style="padding:1rem;border:1px solid #e7e7e7;text-align:left;display:flex;align-items: center;justify-content:space-between;margin-top: 1rem;">
+                                  <% if (order.refund) { %>
+                                    <p style="margin: 0px;">View return details</p>    
+                                    <a href="/return?of=<%= order._id %>" class="btn btn-outline-primary-2">Return details</a>
+                                  <% } else { %>
                                   <p style="margin: 0px;">Not satisfied with your order?</p>
                                   <a href="/return?of=<%= order._id %>" class="btn btn-outline-primary-2">Return</a>
+                                  <% } %>
                                 </div>
                             </div><!-- End .col-md-8 -->
                         </div><!-- End .row -->
@@ -217,6 +222,7 @@
     
     
     <%- include('./footer.ejs') %>
+
         <script>
           $('#cart-total-text').hide();
 
