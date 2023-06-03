@@ -83,7 +83,23 @@ router.get("/track",async (req,res)=>{
     }else{
         res.redirect("/dashboard");
     }
+    console.log(order[0]._id);
     res.render("frontend/track.ejs",{order:order[0],user:user, userid: userid, navCats:navCats, info: Info[0]})
+})
+
+router.get("/return",async (req,res)=>{
+    if (!req.query.of){
+        res.redirect("/dashboard");
+    }
+    const Orderid=req.query.of;
+    let userid = req.cookies.userid;
+    console.log(Orderid);
+    let orders = await orderModel.find({_id: Orderid}).populate("allProduct.id", "name image price")
+    if(!orders[0]._id || orders[0].user!=userid){
+        res.redirect("/dashboard");
+    }
+    // console.log(!orders[0]._id || orders[0].user!=userid);
+    res.render("frontend/return.ejs",{})
 })
 
 router.get("/checkout",async (req,res)=>{

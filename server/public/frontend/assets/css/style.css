@@ -5800,12 +5800,14 @@ p {
     margin-bottom: 0
 }
 
+
+
 #scroll-top {
     width: 5rem;
     height: 5rem;
     position: fixed;
     right: 50px;
-    bottom: 128px;
+    bottom: 50px;
     z-index: 999;
     color: #cccccc;
     display: none;
