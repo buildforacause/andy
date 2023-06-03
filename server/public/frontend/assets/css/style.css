@@ -6107,6 +6107,18 @@ p {
     letter-spacing: 0
 }
 
+.bulk-order{
+    position: fixed;
+    z-index: 1000;
+    bottom:50px;
+    /* left:100px; */
+    background-color: #eea287;
+    gap:10px;
+    padding:10px 30px;
+    border-radius: 500px;
+    cursor:pointer;
+}
+
 @media screen and (min-width: 768px) {
     .page-header h1 {
         font-size: 3.6rem
