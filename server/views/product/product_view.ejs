@@ -55,6 +55,13 @@
             </nav>
         </div><!-- End Page Title -->
 
+        <% qtyalerts.forEach(qtyalert => { %>
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                <a style="color:#664D03;text-decoration: underline;" href="/admin/product-edit/<%= qtyalert._id %>"><strong><%= qtyalert.name %></strong> has low stock (<%= qtyalert.quantity %>) ↗</a>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        <% }) %>
+
         <a href="/admin/product-add" class="btn btn-primary w-100 mb-3">Add New Product</a>
 
         <section class="section profile">

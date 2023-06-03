@@ -29,6 +29,9 @@ router.get('/',async (req,res) => {
 })
 
 router.get('/product-view',async(req,res)=>{
+    let Qtyalert = await productModel
+        .find({quantity: {$lt:5}})
+    console.log(Qtyalert);
     let Products = await productModel
         .find({})
         .populate("category", "_id cName")
@@ -46,7 +49,7 @@ router.get('/product-view',async(req,res)=>{
     }else{
         res.redirect("/")
     }
-    res.render("product/product_view.ejs", {products: Products});
+    res.render("product/product_view.ejs", {products: Products,qtyalerts:Qtyalert});
 })
 
 router.get('/product-add',async(req,res)=>{
