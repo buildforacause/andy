@@ -102,18 +102,19 @@
                                                         </div><!-- End .entry-meta -->
                     
                                                         <h2 class="entry-title">
-                                                            <a href=""><%= order.allProduct[0].id.name %></a>
+                                                            <a href="/track?of=<%= order._id %>"><%= order.allProduct[0].id.name %></a>
                                                         </h2><!-- End .entry-title -->
                     
-                                                        <div class="entry-cats" style="margin-bottom: 0;">
-                                                            <a href="#" >Total: ₹<%= order.amount %></a>
+                                                        <div class="entry-cats" style="margin-bottom: 0;font-weight: 500;">
+                                                            <p style="margin-bottom: 0;font-weight: 500;">Total: ₹<%= order.amount %></p>
                                                         </div><!-- End .entry-cats -->
-														<span class="position-absolute text-white badge rounded-pill bg-danger">
+														
+														<p style="padding: 0;margin: 0;">
 															Total <%= order.allProduct.length %> product(s)
-														  </span>
+														</p>
                                                     </div><!-- End .entry-body -->
 
-                                                    <div style="margin-left: auto;color:#cc9966;align-self: last baseline;"><a href="/track?of=<%= order._id %>" class="read-more">Track this order</a></div>
+                                                    <div style="margin-left: auto;color:#cc9966;align-self: last baseline;"><a href="/track?of=<%= order._id %>" class="read-more">Order details</a></div>
 
                                                 </div><!-- End .col-md-8 -->
                                             </div><!-- End .row -->

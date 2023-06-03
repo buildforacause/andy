@@ -313,6 +313,84 @@ router.get("/order-view", async(req,res)=>{
     res.render("orders/order-view.ejs", {orders: Orders });
 })
 
+router.get("/return-view", async(req,res)=>{
+    let userid = req.cookies.userid;
+    if(userid){
+        let verify = await userModel.find({_id: userid})
+        if(verify.length > 0){
+            if(verify[0].userRole !== 0){
+                res.redirect("/")
+            }
+        }else{
+            res.redirect("/")
+        }
+    }else{
+        res.redirect("/")
+    }
+    let Orders = await orderModel
+        .find({"refund": { $exists: true }, "refund.status": { $exists: false }})
+        .populate("allProduct.id", "name image price")
+        .populate("user", "name")
+        .populate("address", "aaddress aphone aname acity apincode")
+        .sort({ _id: -1 });
+    res.render("returns/return-view.ejs", {orders: Orders });
+})
+
+router.get("/return-view-resolved", async(req,res)=>{
+    let userid = req.cookies.userid;
+    if(userid){
+        let verify = await userModel.find({_id: userid})
+        if(verify.length > 0){
+            if(verify[0].userRole !== 0){
+                res.redirect("/")
+            }
+        }else{
+            res.redirect("/")
+        }
+    }else{
+        res.redirect("/")
+    }
+    let Orders = await orderModel
+        .find({ "refund.status": { $ne: null } })
+        .populate("allProduct.id", "name image price")
+        .populate("user", "name")
+        .populate("address", "aaddress aphone aname acity apincode")
+        .sort({ _id: -1 });
+    res.render("returns/return-view-resolved.ejs", {orders: Orders });
+})
+
+router.get("/return-edit", async(req,res)=>{
+    let userid = req.cookies.userid;
+    if(userid){
+        let verify = await userModel.find({_id: userid})
+        if(verify.length > 0){
+            if(verify[0].userRole !== 0){
+                res.redirect("/")
+            }
+        }else{
+            res.redirect("/")
+        }
+    }else{
+        res.redirect("/")
+    }
+
+    const Orderid=req.query.of;
+    let Orders = await orderModel
+        .find({_id:Orderid})
+        .populate("allProduct.id", "name image price")
+        .populate("user", "name email")
+        .populate("address", "aaddress aphone aname acity apincode")
+        .sort({ _id: -1 });
+    
+    if(!Orders[0].refund){
+        res.redirect("/admin");
+    }
+   
+    res.render("returns/return-edit.ejs", {order: Orders[0] });
+})
+
+
+
 
 
 module.exports = router;

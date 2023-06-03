@@ -41,6 +41,10 @@ const orderSchema = new mongoose.Schema(
         "Cancelled",
       ],
     },
+    refund: {
+      type: Object,
+      required: false,
+    },
   },
   { timestamps: true }
 );

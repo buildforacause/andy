@@ -92,14 +92,20 @@ router.get("/return",async (req,res)=>{
         res.redirect("/dashboard");
     }
     const Orderid=req.query.of;
+    //required
     let userid = req.cookies.userid;
-    console.log(Orderid);
-    let orders = await orderModel.find({_id: Orderid}).populate("allProduct.id", "name image price")
+    let user=req.cookies.autOken;
+    let navCats = await categoryModel.find({cStatus: "Active"}).sort({ _id: -1 }).limit(5);
+    let Info = await infoModel.find({});
+    let errmsg = "";
+    let errid = "";
+    //order details
+    let orders = await orderModel.find({_id: Orderid}).populate("allProduct.id", "name image price").populate("address", "aaddress aphone aname acity apincode")
     if(!orders[0]._id || orders[0].user!=userid){
         res.redirect("/dashboard");
+        //if order id doesnt exist or if given order id's user isnt the same
     }
-    // console.log(!orders[0]._id || orders[0].user!=userid);
-    res.render("frontend/return.ejs",{})
+    res.render("frontend/return.ejs",{order:orders[0],errmsg: errmsg, errid: errid,user:user, userid: userid, navCats: navCats, info:Info[0]})
 })
 
 router.get("/checkout",async (req,res)=>{
