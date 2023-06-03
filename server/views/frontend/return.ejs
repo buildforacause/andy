@@ -122,12 +122,14 @@
                   </form>
                   <% } else { %>
                   <div style="display:flex;flex-direction:column;text-align: left;">
-                    <p>Your return request is being processed. Below are the details:</p>
+                    
                     <p style="margin-bottom: 0rem!important;"><span style="font-weight: 500;margin-bottom: 0rem!important;">Reason:</span> <%= order.refund.reason %></p>
                     <p style="margin-bottom: 0rem!important;"><span style="font-weight: 500;margin-bottom: 0rem;">Description:</span> <%= order.refund.description %></p>
                     <p style="margin-bottom: 0rem!important;"><span style="font-weight: 500;margin-bottom: 0rem;">Payment Details:</span> <%= order.refund.payment %></p>
                     <% if (order.refund.status) { %>
-                    <p style="margin-bottom: 0rem!important;color:#eea287;"><span style="font-weight: 500;margin-bottom: 0rem;">Status:</span> <%= order.refund.status %></p>
+                      <p style="margin-bottom: 0rem!important;color:#eea287;"><span style="font-weight: 500;margin-bottom: 0rem;">Status:</span> <%= order.refund.status %></p>
+                    <% } else {%>
+                      <p style="margin-bottom: 0rem!important;"><span style="font-weight: 500;margin-bottom: 0rem;">Status:</span> Your return request is being processed.</p>
                     <% } %>
                   </div>
                   <% } %>
