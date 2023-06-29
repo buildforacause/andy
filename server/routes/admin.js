@@ -7,6 +7,7 @@ const sponsorModel = require("../models/sponsor");
 const customizeModel = require("../models/customize");
 const infoModel = require("../models/info");
 const userModel = require("../models/users");
+const couponModel = require("../models/coupon");
 const orderModel = require("../models/orders");
 // const ordersController = require("../controller/orders");
 
@@ -144,6 +145,62 @@ router.get('/category-edit/:id',async(req,res)=>{
     let id = req.params.id
     let singleCat = await categoryModel.findById(id);
     res.render("category/category_edit.ejs", {cat: singleCat });
+})
+
+
+router.get("/coupon-view", async(req,res)=>{
+    let userid = req.cookies.userid;
+    if(userid){
+        let verify = await userModel.find({_id: userid})
+        if(verify.length > 0){
+            if(verify[0].userRole !== 0){
+                res.redirect("/")
+            }
+        }else{
+            res.redirect("/")
+        }
+    }else{
+        res.redirect("/")
+    }
+    let Coupons = await couponModel.find({}).sort({ _id: -1 });
+    res.render("coupon/coupon-view.ejs", {coupons: Coupons });
+})
+
+router.get('/coupon-add',async(req,res)=>{
+    let userid = req.cookies.userid;
+    if(userid){
+        let verify = await userModel.find({_id: userid})
+        if(verify.length > 0){
+            if(verify[0].userRole !== 0){
+                res.redirect("/")
+            }
+        }else{
+            res.redirect("/")
+        }
+    }else{
+        res.redirect("/")
+    }
+    res.render("coupon/coupon-add.ejs");
+})
+
+router.get('/coupon-edit/:id',async(req,res)=>{
+    let userid = req.cookies.userid;
+    if(userid){
+        let verify = await userModel.find({_id: userid})
+        if(verify.length > 0){
+            if(verify[0].userRole !== 0){
+                res.redirect("/")
+            }
+        }else{
+            res.redirect("/")
+        }
+    }else{
+        res.redirect("/")
+    }
+    let id = req.params.id
+    let coupon = await couponModel.findById(id);
+    console.log(coupon)
+    res.render("coupon/coupon-edit.ejs", {coupon: coupon });
 })
 
 router.get("/pincode-view", async(req,res)=>{

@@ -85,9 +85,21 @@
         <div class="page-content">
           <div class="cart">
             <div class="container">
+              <form id="check-coupon">
+                <div class="row">
+                  <div class="col-md-4 col-xs-12">
+                    <input type="text" placeholder="Have a Coupon?" name="coupon" class="form-control">
+                  </div>
+                  <div class="col-md-1 col-xs-12">
+                    <button type="submit" class="btn btn-order btn-outline-primary-2 btn-block">Apply</button>
+                  </div>
+                </div>
+                <p id="couponresponse"></p>
+              </form>
               <div class="row">
                 <div class="col-lg-9">
                   <form id="form-checkout" action="/checkout" method="POST">
+                    <input type="hidden" name="couponcode" id="couponcode" value="">
                   <table class="table table-cart table-mobile">
                     <thead>
                       <tr>
@@ -310,6 +322,32 @@
         removeProduct($(this).attr("productid"));
         cartpageupdate();
     });
+
+    const $form999 = $('#check-coupon')
+    $form999.on('submit', submitHandler999)
+
+    function submitHandler999 (e) {
+        e.preventDefault()
+        $.ajax({
+            url: '/api/coupon/check',
+            type:'POST',
+            data: $form999.serialize()
+        }).done(response => {
+              $("#couponresponse").text(response.message)
+              $("#couponresponse").css("color", response.color)
+            if(response.success){
+              let pastprice = Number($("#totalofferprice").text().split("₹")[1])
+              let discount = (pastprice / 100) * Number(response.discount)
+              let newprice = pastprice - discount
+              $("#totalofferprice").text(`₹${newprice}`);
+
+              let pastdiscount = Number($("#totaloffer").text().split("₹")[1])
+              let newdiscount = pastdiscount + discount
+              $("#totaloffer").text(`₹${newdiscount}`)
+              $("#couponcode").attr("value", response.coupon)
+            }
+        })
+    }
     </script>
   </body>
 </html>

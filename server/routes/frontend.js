@@ -116,6 +116,7 @@ router.post("/checkout",async (req,res)=>{
     let user=req.cookies.autOken
     let ids = req.body.productids
     let quantity = req.body.quantity
+    let couponcode = req.body.couponcode
     let userid = req.cookies.userid
     let navCats = await categoryModel.find({cStatus: "Active"}).sort({ _id: -1 }).limit(5);
     let Info = await infoModel.find({});
@@ -152,7 +153,7 @@ router.post("/checkout",async (req,res)=>{
         }
     }
 
-    res.render("frontend/checkout.ejs",{user:user, userid: userid, quantity: quantity, products: cartProducts, addresses: userAddress, navCats: navCats, info:Info[0]})
+    res.render("frontend/checkout.ejs",{couponcode: couponcode, user:user, userid: userid, quantity: quantity, products: cartProducts, addresses: userAddress, navCats: navCats, info:Info[0]})
 })
 
 router.get("/view/:id",async (req,res) => {

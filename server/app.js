@@ -40,6 +40,7 @@ const adminRouter = require("./routes/admin");
 const frontendRouter = require("./routes/frontend");
 const sponsorRouter = require("./routes/sponsor");
 const infoRouter = require("./routes/info");
+const couponRouter = require("./routes/coupon");
 const addressRouter = require("./routes/address");
 // Import Auth middleware for check user login or not~
 const { loginCheck } = require("./middleware/auth");
@@ -79,6 +80,7 @@ app.use("/api/category", categoryRouter);
 app.use("/api/sponsor", sponsorRouter);
 app.use("/api/product", productRouter);
 app.use("/api/pincode", pincodeRouter);
+app.use("/api/coupon", couponRouter);
 app.use("/api", brainTreeRouter);
 app.use("/api/order", orderRouter);
 app.use("/api/customize", customizeRouter);

@@ -217,7 +217,7 @@
 												<% } %>	
 
 		                						<tr class="summary-total">
-		                							<td>Total:</td>
+		                							<td>Grand Total:</td>
 													
 		                							<td id="total">₹<%= totalcost %></td>
 		                						</tr><!-- End .summary-total -->
@@ -242,6 +242,24 @@
 
         <%- include("./footer.ejs") %>
         <script>
+			let couponcodepost = '<%= couponcode %>';
+			var price = 0;
+			$.ajax({
+				url: '/api/coupon/check',
+				type:'POST',
+				data: {coupon: couponcodepost}
+			}).done(response => {
+				if(response.success){
+				let pastprice = Number($("#total").text().split("₹")[1])
+				let discount = (pastprice / 100) * Number(response.discount)
+				let newprice = pastprice - discount
+				price = newprice
+				$("#total").text(`₹${newprice}`)
+				}
+			})
+		
+
+
 	const $form4 = $('#postaddress')
     $form4.on('submit', submitHandler4)
 
@@ -307,7 +325,7 @@
 			allProduct.push(j)
 		}
 		allProduct = JSON.stringify(allProduct)
-		let amount = '<%= totalcost %>';
+		let amount = price;
 		amount=Number(amount);
 		var data = $form5.serializeArray();
 		data.push({name: "allProduct", value: allProduct});
