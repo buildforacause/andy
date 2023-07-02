@@ -88,13 +88,19 @@
               <form id="check-coupon">
                 <div class="row">
                   <div class="col-md-4 col-xs-12">
-                    <input type="text" placeholder="Have a Coupon?" name="coupon" class="form-control">
+                    <input type="text" placeholder="Have a Coupon?" name="coupon" id="couponid" class="form-control m-0">
                   </div>
                   <div class="col-md-1 col-xs-12">
-                    <button type="submit" class="btn btn-order btn-outline-primary-2 btn-block">Apply</button>
+                    <button type="submit" class="btn btn-order btn-outline-primary-2 btn-block" id="cmutton">Apply</button>
+                    
                   </div>
+                  
                 </div>
-                <p id="couponresponse"></p>
+                <div class="d-flex mt-2">
+                  <p id="couponresponse" class="mr-3"></p>
+                  <a id="cremove" style="cursor: pointer;color:#c96;display: none;"><i class="icon-close"></i> Remove coupon</a>
+                </div>
+              
               </form>
               <div class="row">
                 <div class="col-lg-9">
@@ -322,10 +328,24 @@
         removeProduct($(this).attr("productid"));
         cartpageupdate();
     });
-
+    var pastprice = 0,
+        discount = 0,
+        newprice = 0,
+        pastdiscount = 0,
+        newdiscount = 0;
     const $form999 = $('#check-coupon')
     $form999.on('submit', submitHandler999)
+    $("#cremove").on("click",()=>{
+      $("#cmutton").html("Apply")
+      $("#cmutton").attr("type","submit")
+      $("#cremove").hide()
+      $("#couponid").val("")
+      $("#couponresponse").text("")
 
+      $("#totalofferprice").text(`₹${pastprice}`);
+      $("#totaloffer").text(`₹${pastdiscount}`);
+      $("#couponcode").attr("value", "");
+    })
     function submitHandler999 (e) {
         e.preventDefault()
         $.ajax({
@@ -336,13 +356,15 @@
               $("#couponresponse").text(response.message)
               $("#couponresponse").css("color", response.color)
             if(response.success){
-              let pastprice = Number($("#totalofferprice").text().split("₹")[1])
-              let discount = (pastprice / 100) * Number(response.discount)
-              let newprice = pastprice - discount
+              pastprice = Number($("#totalofferprice").text().split("₹")[1])
+              discount = (pastprice / 100) * Number(response.discount)
+              newprice = pastprice - discount
               $("#totalofferprice").text(`₹${newprice}`);
-
-              let pastdiscount = Number($("#totaloffer").text().split("₹")[1])
-              let newdiscount = pastdiscount + discount
+              $("#cmutton").html("Applied")
+              $("#cmutton").attr("type","button")
+              $("#cremove").show()
+              pastdiscount = Number($("#totaloffer").text().split("₹")[1])
+              newdiscount = pastdiscount + discount
               $("#totaloffer").text(`₹${newdiscount}`)
               $("#couponcode").attr("value", response.coupon)
             }

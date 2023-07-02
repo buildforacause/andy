@@ -152,7 +152,7 @@ router.post("/checkout",async (req,res)=>{
             }
         }
     }
-
+    
     res.render("frontend/checkout.ejs",{couponcode: couponcode, user:user, userid: userid, quantity: quantity, products: cartProducts, addresses: userAddress, navCats: navCats, info:Info[0]})
 })
 
@@ -237,5 +237,6 @@ router.get("/check-quantity/:id",async (req,res) => {
     let quantity = prod[0].quantity;
     res.json({quantity: quantity});
 })
+
 
 module.exports = router;

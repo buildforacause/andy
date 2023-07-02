@@ -1,5 +1,6 @@
 const orderModel = require("../models/orders");
 const productModel = require("../models/products");
+const couponModel = require("../models/coupon");
 
 class Order {
   async getAllOrders(req, res) {
@@ -38,13 +39,39 @@ class Order {
   }
 
   async postCreateOrder(req, res) {
-    let { allProduct, user, amount, transactionId, address, notes } = req.body;
-    if (!allProduct || !user || !amount || !transactionId || !address) {
+    let { allProduct, user, coupon, transactionId, address, notes } = req.body;
+    if (!allProduct || !user || !transactionId || !address) {
       return res.json({ msg: "All fields must be required" });
     } else {
       try {
         allProduct = JSON.parse(allProduct);
-        console.log(allProduct);
+        var couponValue=0;
+        var totalValue=0;
+        if(coupon){
+          let couponName = await couponModel.find({coupon:coupon})
+          if (couponName){
+            couponValue=couponName[0].discount;
+          }
+        }
+        
+        
+        
+        await Promise.all(
+          
+          allProduct.map(async (prod) => {
+            let p = await productModel.find({ _id: prod.id });
+        
+            let quantity = Number(prod.quantity);
+            let price = Number(p[0].price);
+            let offer= p[0].offer;
+            price=price-((price/100)*offer)
+            let total = price * quantity;
+        
+            totalValue += total;
+          })
+        );
+   
+        let amount=totalValue-((totalValue/100)*couponValue);
         let newOrder = new orderModel({
           allProduct: allProduct,
           user: user,

@@ -329,8 +329,8 @@
 		amount=Number(amount);
 		var data = $form5.serializeArray();
 		data.push({name: "allProduct", value: allProduct});
-		data.push({name: "amount", value: amount});
-		data.push({name: "transactionId", value: "hue"})
+		data.push({name: "coupon", value: couponcodepost});
+		data.push({name: "transactionId", value: "hue"});
 		console.log(data)
         $.ajax({
             url: '/api/order/create-order',
