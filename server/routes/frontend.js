@@ -8,6 +8,8 @@ const customizeModel = require("../models/customize");
 const infoModel = require("../models/info");
 const userModel = require("../models/users");
 const orderModel = require("../models/orders");
+const couponModel = require("../models/coupon");
+const secondarybannerModel = require("../models/secondarybanner");
 
 router.get('/',async (req,res) => {
     let Products = await productModel
@@ -22,6 +24,7 @@ router.get('/',async (req,res) => {
     )
     let Categories = await categoryModel.find({cStatus: "Active"}).sort({ _id: -1 });
     let navCats = await categoryModel.find({cStatus: "Active"}).sort({ _id: -1 }).limit(5);
+    let banner = await secondarybannerModel.find({});
     let RecentProducts= await productModel
         .find({})
         .populate("category")
@@ -38,7 +41,7 @@ router.get('/',async (req,res) => {
     let user = req.cookies.autOken
     let userid = req.cookies.userid
     let Info = await infoModel.find({});
-    res.render("frontend/index.ejs", {info: Info[0],navCats: navCats,userid: userid,products: Products, categories: Categories,recentproducts:RecentProducts, sponsors:Sponsors, user:user, sliders:sliders});
+    res.render("frontend/index.ejs", {banner: banner[0], info: Info[0],navCats: navCats,userid: userid,products: Products, categories: Categories,recentproducts:RecentProducts, sponsors:Sponsors, user:user, sliders:sliders});
 })
 
 router.get("/cart",async (req,res)=>{
@@ -83,8 +86,75 @@ router.get("/track",async (req,res)=>{
     }else{
         res.redirect("/dashboard");
     }
-    console.log(order[0]._id);
     res.render("frontend/track.ejs",{order:order[0],user:user, userid: userid, navCats:navCats, info: Info[0]})
+})
+
+router.post("/upload",async (req,res)=>{
+    let user=req.body.user
+    let userid = req.cookies.userid
+    let allProduct = req.body.allProduct
+    let coupon = req.body.coupon
+    let transactionId = req.body.transactionId
+    let notes = req.body.notes
+    let address = req.body.address
+    let prods = req.body.prods
+    let quant = req.body.quant
+    allProduct = JSON.parse(allProduct);
+        var couponValue=0;
+        var totalValue=0;
+        if(coupon){
+          let couponName = await couponModel.find({coupon:coupon})
+          if (couponName){
+            couponValue=couponName[0].discount;
+          }
+        }
+        await Promise.all(
+          
+          allProduct.map(async (prod) => {
+            let p = await productModel.find({ _id: prod.id });
+        
+            let quantity = Number(prod.quantity);
+            let price = Number(p[0].price);
+            let offer= p[0].offer;
+            price=price-((price/100)*offer)
+            let total = price * quantity;
+        
+            totalValue += total;
+          })
+        );
+   
+    let amount=totalValue-((totalValue/100)*couponValue);
+    let navCats = await categoryModel.find({cStatus: "Active"}).sort({ _id: -1 }).limit(5);
+    let Info = await infoModel.find({});
+    let data = {
+        amount: amount,
+        allProduct : JSON.stringify(allProduct),
+        coupon: coupon,
+        user: user,
+        transactionId: transactionId,
+        notes: notes,
+        address: address,
+        prods: prods,
+        quant: quant
+    }
+    // let order = []
+    // if(req.query.order){
+    //     try{
+    //         order = await orderModel.find({_id: req.query.order}).populate("allProduct.id", "name image price")
+    //         .populate("address", "aaddress aphone aname acity apincode")
+    //     }catch(r){
+    //         res.redirect("/dashboard");
+    //     }
+    // }else{
+    //     res.redirect("/dashboard");
+    // }
+    // order = order[0];
+    // if(order.transactionScreenShot === "Not Uploaded"){
+    //     res.render("frontend/upload.ejs",{order:order,user:user, userid: userid, navCats:navCats, info: Info[0]})
+    // }else{
+    //     res.redirect("/dashboard");
+    // }
+    return res.render("frontend/upload.ejs",{data: data, user:user, userid: userid, navCats:navCats, info: Info[0]})
 })
 
 router.get("/return",async (req,res)=>{

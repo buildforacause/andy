@@ -229,7 +229,7 @@
 										<center><span id="showerr"></span></center>
 		                				<button type="submit" form="myform" class="btn btn-outline-primary-2 btn-order btn-block">
 		                					<span class="btn-text">Place Order</span>
-		                					<span class="btn-hover-text">Proceed to Checkout</span>
+		                					<span class="btn-hover-text">Proceed to Payment</span>
 		                				</button>
 		                			</div><!-- End .summary -->
 		                		</aside><!-- End .col-lg-3 -->
@@ -330,24 +330,45 @@
 		var data = $form5.serializeArray();
 		data.push({name: "allProduct", value: allProduct});
 		data.push({name: "coupon", value: couponcodepost});
-		data.push({name: "transactionId", value: "hue"});
-		console.log(data)
-        $.ajax({
-            url: '/api/order/create-order',
-            type:'POST',
-            data: data
-        }).done(response => {
-            response = JSON.stringify(response)
-			response = JSON.parse(response)
-            console.log(response)
-			if(response.msg){
-				$("#showerr").text(response.msg)
+		data.push({name: "transactionId", value: "mayursports"});
+		
+		$.extend(
+		{
+			redirectPost: function(location, args)
+			{
+				var form = $('<form></form>');
+				form.attr("method", "post");
+				form.attr("action", location);
+				args.forEach(arg => {
+					var field = $('<input></input>');
+
+					field.attr("type", "hidden");
+					field.attr("name", arg.name);
+					field.attr("value", arg.value);
+
+					form.append(field);
+				});
+				$(form).appendTo('body').submit();
 			}
-			if(response.success){
-				localStorage.removeItem("products");
-				window.location = "/dashboard";
-			}
-        })
+		});
+		$.redirectPost("/upload", data);
+        // $.ajax({
+        //     url: '/upload',
+        //     type:'POST',
+        //     data: data
+        // })
+		// .done(response => {
+        //     response = JSON.stringify(response)
+		// 	response = JSON.parse(response)
+        //     console.log(response)
+		// 	if(response.msg){
+		// 		$("#showerr").text(response.msg)
+		// 	}
+		// 	if(response.success){
+		// 		localStorage.removeItem("products");
+		// 		window.location = "/dashboard";
+		// 	}
+        // })
     }
 			// console.log($('input[type="radio"]:checked').val());	
 

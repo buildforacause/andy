@@ -1,18 +1,14 @@
 {
-  "name": "Hayroo",
+  "name": "Mayur Sports",
   "version": "1.0.0",
-  "description": "A E-commerce website.",
+  "description": "An E-commerce merchandise website.",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start:dev": "nodemon app.js"
   },
-  "author": "Hasan | https://hasan-py.github.io",
+  "author": "Harmit & Siddharth",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/hasan-py/MERN_Stack_Project_Hayroo_Ecommerce/issues"
-  },
-  "homepage": "https://github.com/hasan-py/MERN_Stack_Project_Hayroo_Ecommerce#readme",
   "dependencies": {
     "api": "^6.0.0",
     "bcryptjs": "^2.4.3",

@@ -155,7 +155,12 @@
                                 
 
                               </div>
-
+                                <% if (order.approval == "Not approved") { %>
+                                 <center>
+                                  <h4>Waiting for the order to be approved!</h4>
+                                  <p>Let our team approve the payment of this order!</p>
+                                </center>
+                                <% } else { %>
                                 <div class="p-5" style="border:1px solid #e7e7e7;text-align:center;">                              
                                   <p class="mb-2"><span style="font-weight: 500;margin-bottom: 0rem;">Tracking Phone number: </span><%= order.address.aphone %></p>
                                 
@@ -213,6 +218,7 @@
                                   <a href="/return?of=<%= order._id %>" class="btn btn-outline-primary-2">Return</a>
                                   <% } %>
                                 </div>
+                                <% } %>
                             </div><!-- End .col-md-8 -->
                         </div><!-- End .row -->
                     </article><!-- End .entry -->

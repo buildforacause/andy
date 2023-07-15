@@ -1,8 +1,23 @@
 const orderModel = require("../models/orders");
 const productModel = require("../models/products");
 const couponModel = require("../models/coupon");
+const fs = require("fs");
+const path = require("path");
 
 class Order {
+  static deleteImages(images, mode) {
+    var basePath =
+      path.resolve(__dirname + "../../") + "/public";
+      let filePath = "";
+      if (mode == "file") {
+        filePath = basePath + `${images}`;
+      fs.unlink(filePath, (err) => {
+        if (err) {
+          return err;
+        }
+      });
+      }
+  }
   async getAllOrders(req, res) {
     try {
       let Orders = await orderModel
@@ -40,11 +55,14 @@ class Order {
 
   async postCreateOrder(req, res) {
     let { allProduct, user, coupon, transactionId, address, notes } = req.body;
+    let images = req.files;
     if (!allProduct || !user || !transactionId || !address) {
-      return res.json({ msg: "All fields must be required" });
+        Order.deleteImages(images[0], "file");
+        return res.json({ error: "All fields are required" });
     } else {
       try {
-        allProduct = JSON.parse(allProduct);
+        allProduct = JSON.parse(allProduct)
+        let transactionScreenShot = "/uploads/customer/" +images[0].filename;
         var couponValue=0;
         var totalValue=0;
         if(coupon){
@@ -53,8 +71,7 @@ class Order {
             couponValue=couponName[0].discount;
           }
         }
-        
-        
+        console.log(allProduct)
         
         await Promise.all(
           
@@ -77,6 +94,7 @@ class Order {
           user: user,
           amount: amount,
           transactionId: transactionId,
+          transactionScreenShot: transactionScreenShot,
           address: address,
           notes: notes,
         });
@@ -92,9 +110,10 @@ class Order {
               updatedAt: Date.now(),
             });
           });
-          return res.json({ success: "DONE" });
+          return res.redirect("/dashboard")
         }
       } catch (err) {
+        Order.deleteImages(images[0], "file");
         console.log(err);
         return res.json({ msg: err });
       }
@@ -108,6 +127,22 @@ class Order {
     } else {
       let currentOrder = orderModel.findByIdAndUpdate(oId, {
         status: status,
+        updatedAt: Date.now(),
+      });
+      currentOrder.exec((err, result) => {
+        if (err) console.log(err);
+        return res.json({ success: "Order updated successfully" });
+      });
+    }
+  }
+
+  async postUpdateOrder2(req, res) {
+    let { oId, approval } = req.body;
+    if (!oId || !approval) {
+      return res.json({ message: "All filled must be required" });
+    } else {
+      let currentOrder = orderModel.findByIdAndUpdate(oId, {
+        approval: approval,
         updatedAt: Date.now(),
       });
       currentOrder.exec((err, result) => {

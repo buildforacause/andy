@@ -205,16 +205,15 @@
             <div class="mb-3 mb-xl-2"></div><!-- End .mb-3 -->
 
             <div class="trending">
-                <a href="#">
-                    <img src="frontend/assets/images/demos/demo-8/banners/banner-4.jpg" alt="Banner">
+                <a >
+                    <img src="<%= banner.image %>" style="height: 400px !important; width: 100% !important;" alt="Banner">
                 </a>
                 <div class="banner banner-big d-md-block">
                     <div class="banner-content text-center">
                         <h4 class="banner-subtitle text-white">Trending</h4><!-- End .banner-subtitle -->
-                        <h3 class="banner-title text-white">Cricket Bats</h3><!-- End .banner-title -->
-                        <p class="d-none d-lg-block text-white">Buy high quality kashmir/english willow bats <br>from us. </p> 
-
-                        <a href="/shop?filterby=6427ed04b62aee1a0078e88c" class="btn btn-primary-white"><span>Shop Now</span><i class="icon-long-arrow-right"></i></a>
+                        <h3 class="banner-title text-white"><%= banner.title %></h3><!-- End .banner-title -->
+                        <p class="d-none d-lg-block text-white"><%= banner.description %></p> 
+                        <a href="/shop?filterby=<%= banner.link %>" class="btn btn-primary-white"><span>Shop Now</span><i class="icon-long-arrow-right"></i></a>
                     </div><!-- End .banner-content -->
                 </div><!-- End .banner -->
             </div>

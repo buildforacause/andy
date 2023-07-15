@@ -9,6 +9,7 @@ const infoModel = require("../models/info");
 const userModel = require("../models/users");
 const couponModel = require("../models/coupon");
 const orderModel = require("../models/orders");
+const secondarybannerModel = require("../models/secondarybanner");
 // const ordersController = require("../controller/orders");
 
 router.get('/',async (req,res) => {
@@ -311,6 +312,63 @@ router.get('/sponsor-edit/:id',async(req,res)=>{
     res.render("sponsor/sponsor-edit.ejs", {sponsor: sponsor });
 })
 
+
+router.get("/banner-view", async(req,res)=>{
+    let userid = req.cookies.userid;
+    if(userid){
+        let verify = await userModel.find({_id: userid})
+        if(verify.length > 0){
+            if(verify[0].userRole !== 0){
+                res.redirect("/")
+            }
+        }else{
+            res.redirect("/")
+        }
+    }else{
+        res.redirect("/")
+    }
+    let banner = await secondarybannerModel.find({});
+    res.render("secondarybanner/banner-view.ejs", {banner: banner[0] });
+})
+
+router.get('/banner-add',async(req,res)=>{
+    let userid = req.cookies.userid;
+    if(userid){
+        let verify = await userModel.find({_id: userid})
+        if(verify.length > 0){
+            if(verify[0].userRole !== 0){
+                res.redirect("/")
+            }
+        }else{
+            res.redirect("/")
+        }
+    }else{
+        res.redirect("/")
+    }
+    let cats = await categoryModel.find({});
+    res.render("secondarybanner/banner-add.ejs", {cats: cats });
+})
+
+router.get('/banner-edit/:id',async(req,res)=>{
+    let userid = req.cookies.userid;
+    if(userid){
+        let verify = await userModel.find({_id: userid})
+        if(verify.length > 0){
+            if(verify[0].userRole !== 0){
+                res.redirect("/")
+            }
+        }else{
+            res.redirect("/")
+        }
+    }else{
+        res.redirect("/")
+    }
+    let cats = await categoryModel.find({});
+    let id = req.params.id
+    let banner = await secondarybannerModel.findById(id);
+    res.render("secondarybanner/banner-edit.ejs", {banner: banner, cats: cats });
+})
+
 router.get("/slider-view", async(req,res)=>{
     let userid = req.cookies.userid;
     if(userid){
@@ -368,6 +426,29 @@ router.get("/order-view", async(req,res)=>{
         .populate("address", "aaddress aphone aname acity apincode")
         .sort({ _id: -1 });
     res.render("orders/order-view.ejs", {orders: Orders });
+})
+
+router.get("/order-filtered-view", async(req,res)=>{
+    let userid = req.cookies.userid;
+    if(userid){
+        let verify = await userModel.find({_id: userid})
+        if(verify.length > 0){
+            if(verify[0].userRole !== 0){
+                res.redirect("/")
+            }
+        }else{
+            res.redirect("/")
+        }
+    }else{
+        res.redirect("/")
+    }
+    let Orders = await orderModel
+        .find({approval: "Not approved"})
+        .populate("allProduct.id", "name image price")
+        .populate("user", "name")
+        .populate("address", "aaddress aphone aname acity apincode")
+        .sort({ _id: -1 });
+    res.render("orders/order-filtered-view.ejs", {orders: Orders });
 })
 
 router.get("/return-view", async(req,res)=>{

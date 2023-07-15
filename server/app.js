@@ -42,6 +42,7 @@ const sponsorRouter = require("./routes/sponsor");
 const infoRouter = require("./routes/info");
 const couponRouter = require("./routes/coupon");
 const addressRouter = require("./routes/address");
+const bannerRouter = require("./routes/secondarybanner");
 // Import Auth middleware for check user login or not~
 const { loginCheck } = require("./middleware/auth");
 const CreateAllFolder = require("./config/uploadFolderCreateScript");
@@ -74,6 +75,7 @@ app.use(express.urlencoded({limit: "50mb", extended: true, parameterLimit:50000}
 // Routes
 app.use("/admin", adminRouter);
 app.use("/api", authRouter);
+app.use("/api/banner", bannerRouter)
 app.use("/api/user", usersRouter);
 app.use("/api/address", addressRouter);
 app.use("/api/category", categoryRouter);

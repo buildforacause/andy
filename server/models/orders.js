@@ -18,6 +18,10 @@ const orderSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    transactionScreenShot: { //temporary payment gw
+      type: String,
+      default: "Not Uploaded",
+    },
     address: {
       type: ObjectId,
       ref: "address",
@@ -29,6 +33,14 @@ const orderSchema = new mongoose.Schema(
     amount: {
       type: Number,
       required: true,
+    },
+    approval: {
+      type: String,
+      default: "Not approved",
+      enum: [
+        "Not approved",
+        "Approved",
+      ],
     },
     status: {
       type: String,
