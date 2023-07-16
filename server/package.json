@@ -4,11 +4,15 @@
   "description": "An E-commerce merchandise website.",
   "main": "app.js",
   "scripts": {
+    "build":"cd server && npm install",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start:dev": "nodemon app.js",
     "start": "node app.js"
   },
   "author": "Harmit & Siddharth",
+   "engines": {
+    "node": ">=17 <19"
+  },
   "license": "ISC",
   "dependencies": {
     "api": "^6.0.0",
